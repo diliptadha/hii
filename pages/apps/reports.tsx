@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Loader from "@/components/Layouts/Loader";
 import React from 'react'
 
-export default function Reports() {
+export default function Benefits() {
     const [loading, setLoading] = useState(true);
   
   
@@ -15,13 +15,11 @@ export default function Reports() {
       return () => clearTimeout(timer);
     }, []);
   
-  
-  
     return loading ? (
       <div>
         <Loader/>
       </div>
     ) :(
-        <div className="">report page</div>
+        <div><h1 className="text-xl font-bold ">Reports</h1></div>
   )
 }

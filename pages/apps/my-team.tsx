@@ -8,7 +8,7 @@ import { Images } from "@/constants";
 import Link from "next/link";
 import Loader from "@/components/Layouts/Loader";
 import { ReactSortable } from "react-sortablejs";
-import Select from 'react-select';
+import Select from "react-select";
 import { Tab } from "@headlessui/react";
 
 export default function Payout() {
@@ -26,6 +26,8 @@ export default function Payout() {
       <Loader />
     </div>
   ) : (
-  <div>pay out page</div>
+    <div>
+      <h1 className="text-xl font-bold ">My Team</h1>
+    </div>
   );
 }
