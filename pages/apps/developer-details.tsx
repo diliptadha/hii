@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import Loader from "@/components/Layouts/Loader";
 import React from "react";
 import { useRouter } from "next/router";
-import { Strings } from "@/constants";
+import { Images, Strings } from "@/constants";
 import { Fragment } from "react";
 import { Tab } from "@headlessui/react";
 import { Bar } from "react-chartjs-2";
+import Select from "react-select";
+
 import {
   ArcElement,
   BarElement,
@@ -29,11 +31,14 @@ ChartJS.register(
   ArcElement,
   Legend
 );
+import { Switch } from "antd";
+import { GiveBounsModal } from "@/components/Give-Bouns-Modal";
 
 export default function DeveloperDetails() {
   const router = useRouter();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showBouns, setShowBouns] = useState(true);
 
   useEffect(() => {
     console.log(router?.query, "queryyy");
@@ -45,6 +50,69 @@ export default function DeveloperDetails() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const onChange = (checked: boolean) => {
+    console.log(`switch to ${checked}`);
+  };
+
+  const BounsHistoryData = [
+    { id: 0, amount: "$1", sent_on: "Apr 2,2023" },
+    { id: 0, amount: "$100", sent_on: "Feb 9,2023" },
+    { id: 0, amount: "$20", sent_on: "Feb 4,2023" },
+    { id: 0, amount: "$100", sent_on: "Dec 17,2023" },
+    { id: 0, amount: "$20", sent_on: "Dec 15,2023" },
+  ];
+
+  const Benefits = [
+    "15 days PTO",
+    "coding chair",
+    "laptop credit",
+    "Fast speed wifi",
+    "1 week pay covered",
+    "Healthcare incurance",
+    "Bonus points",
+  ];
+  const BenefitsData = [
+    {
+      id: 1,
+      title: "15 days PTO",
+      img: Images.TREE,
+    },
+    {
+      id: 2,
+      title: "coding chair",
+      img: Images.CHAIR,
+    },
+    {
+      id: 3,
+      title: "laptop credit",
+      img: Images.LAPTOP,
+    },
+    {
+      id: 4,
+      title: "Fast speed wifi",
+      img: Images.WORLD,
+    },
+    {
+      id: 5,
+      title: "1 week pay covered",
+      img: Images.MONEY_BAG,
+    },
+    {
+      id: 6,
+      title: "Healthcare incurance",
+      img: Images.MED_CAR,
+    },
+    {
+      id: 7,
+      title: "Bonus points",
+      img: Images.STAR,
+    },
+  ];
+  const RaiseHistory = [
+    { id: 0, amount: "$4/hour", effective_on: "Mar 11,2023" },
+    { id: 1, amount: "$4/hour", effective_on: "Feb 6,2023" },
+  ];
 
   const weeklywork = [
     { id: 0, work: "41.3 hours worked", status: "test", time: "Mar 27-Apr 2" },
@@ -123,6 +191,11 @@ export default function DeveloperDetails() {
     ],
   };
 
+  const options = [
+    { value: "This Month", label: "This Month" },
+    { value: "Previous Month", label: "Previous Month" },
+  ];
+
   const ChartOptions = {
     plugins: {
       legend: {
@@ -193,7 +266,10 @@ export default function DeveloperDetails() {
               {Strings.REPLACMENT_REQUSET}
             </text>
           </button>
-          <button className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]">
+          <button
+            className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]"
+            onClick={() => setShowBouns(!showBouns)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -235,6 +311,13 @@ export default function DeveloperDetails() {
           </button>
         </div>
       </div>
+
+      {showBouns && (
+        <GiveBounsModal
+          onCloseModal={() => setShowBouns(!showBouns)}
+          showmodal={showBouns}
+        />
+      )}
 
       {/** < profile header > */}
       <button className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md  hover:border dark:bg-[#8D3F42]/40 dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42] ">
@@ -479,22 +562,28 @@ export default function DeveloperDetails() {
               </div>
               <div className="flex  justify-between xs:flex-col md:flex-row">
                 <div className="mt-8 justify-between  rounded border border-white-light   bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-sm ">
-                  <div className="flex items-center mt-2 mb-4">
-                    <h1 className="font-bold mr-2">PERFORMANCE</h1>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                      />
-                    </svg>
+                  <div className="flex items-center justify-between">
+                    <div className="mb-4 mt-2 flex items-center">
+                      <h1 className="mr-2 font-bold">PERFORMANCE</h1>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                        />
+                      </svg>
+                    </div>
+                    <select className="rounded-lg bg-transparent py-1.5">
+                      <option value="This Month">This Month</option>
+                      <option value="Next Month">Next Month</option>
+                    </select>
                   </div>
                   <Bar
                     data={chartData}
@@ -536,7 +625,154 @@ export default function DeveloperDetails() {
 
           {/* < Bouns tab section > */}
           <Tab.Panel>
-            <text>saas</text>
+            <table className="table-hover mt-3">
+              <thead className="sticky top-0">
+                <tr>
+                  <th>Developer</th>
+                  <th>Role</th>
+                  <th>Amount</th>
+                  <th>Sent On</th>
+                </tr>
+              </thead>
+              <tbody>
+                {BounsHistoryData?.length > 0 ? (
+                  BounsHistoryData?.map((data, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{userData?.name}</td>
+                        <td>{userData?.postion}</td>
+
+                        <td>{data?.amount}</td>
+
+                        <td>{data?.sent_on}</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <div className="absolute  flex w-full items-center justify-center">
+                    <h1 className="my-4">No data available</h1>
+                  </div>
+                )}
+              </tbody>
+            </table>
+          </Tab.Panel>
+
+          {/* < Raise history tab section > */}
+
+          <Tab.Panel>
+            <table className="table-hover mt-3">
+              <thead className="sticky top-0">
+                <tr>
+                  <th>Developer</th>
+                  <th>Role</th>
+                  <th>Raise</th>
+                  <th>Effective On</th>
+                </tr>
+              </thead>
+              <tbody>
+                {RaiseHistory?.length > 0 ? (
+                  RaiseHistory?.map((data, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{userData?.name}</td>
+                        <td>{userData?.postion}</td>
+
+                        <td>{data?.amount}</td>
+
+                        <td>{data?.effective_on}</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <div className="absolute  flex w-full items-center justify-center">
+                    <h1 className="my-4">No data available</h1>
+                  </div>
+                )}
+              </tbody>
+            </table>
+          </Tab.Panel>
+
+          {/* < Benefits tab section > */}
+
+          <Tab.Panel>
+            <div className="my-6 flex w-full flex-col  rounded-lg bg-white px-4 py-3 shadow-md  hover:border dark:bg-[#8D3F42]/40 dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42] ">
+              <h1 className="text-xl font-bold">Benefits Sakshi getting</h1>
+              <p className="my-1 text-sm font-normal">
+                We take care of the developer's benefits so you don't have to.
+                No extra fees for this.
+              </p>
+              <div className="flex flex-wrap">
+                {BenefitsData.map((items) => {
+                  return (
+                    <div className="mx-2 my-2 flex items-center space-x-2 rounded-full border px-2.5 py-2 shadow-md">
+                      <img src={items.img} className="h-10 w-10" />
+                      <text className="text-md font-bold">{items.title}</text>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                        />
+                      </svg>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <h1>sasbas</h1>
+          </Tab.Panel>
+          <Tab.Panel>
+            <div className="my-6 flex w-full flex-col items-center justify-center rounded-xl bg-white px-4 py-3 shadow-md  hover:border dark:bg-[#8D3F42]/40 dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42] ">
+              <div className="mx-2 my-2 flex  w-1/2 items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md">
+                <div className="flex items-center space-x-1">
+                  <text>Time Tracker</text>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                    />
+                  </svg>
+                </div>
+                <Switch defaultChecked onChange={onChange} />
+              </div>
+              <div className="mx-2 my-2 flex  w-1/2 items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md">
+                <div className="flex items-center space-x-1">
+                  <text>Weekly Summaries</text>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                    />
+                  </svg>
+                </div>
+                <Switch defaultChecked onChange={onChange} />
+              </div>
+            </div>
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

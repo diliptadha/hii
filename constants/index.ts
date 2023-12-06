@@ -11,6 +11,13 @@ export const Images = {
   MSG: "/Images/Letter.png",
   PHONE_WHITE: "/Images/Phone_white.png",
   MSG_WHITE: "/Images/Letter_white.png",
+  CHAIR: "/Images/chair.png",
+  FAVOURITE: "/Images/favourite.png",
+  LAPTOP: "/Images/laptop.png",
+  MED_CAR: "/Images/medcar.png",
+  MONEY_BAG: "/Images/money-bag.png",
+  TREE: "/Images/tree.png",
+  WORLD:"/Images/world.png"
 };
 export const Strings = {
   BACK: "Back",
