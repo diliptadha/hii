@@ -150,7 +150,7 @@ const Header = () => {
       }`}
     >
       <div className="shadow-sm">
-        <div className="relative flex w-full items-center bg-white- px-5 py-2.5 dark:bg-[#000]">
+        <div className="bg-white relative flex w-full items-center px-5 py-2.5 dark:bg-[#000]">
           <div className="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
             <Link href="/" className="main-logo flex shrink-0 items-center">
             {themeConfig.theme === "light" ? (
@@ -282,7 +282,7 @@ const Header = () => {
                     themeConfig.theme === "dark" &&
                     "flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
                   }`}
-                  onClick={() => dispatch(toggleTheme("system"))}
+                  onClick={() => dispatch(toggleTheme("light"))}
                 >
                   <svg
                     width="20"
@@ -298,7 +298,7 @@ const Header = () => {
                   </svg>
                 </button>
               )}
-              {themeConfig.theme === "system" && (
+              {/* {themeConfig.theme === "system" && (
                 <button
                   className={`${
                     themeConfig.theme === "system" &&
@@ -334,7 +334,7 @@ const Header = () => {
                     />
                   </svg>
                 </button>
-              )}
+              )} */}
             </div>
 
             <div className="dropdown flex shrink-0">
