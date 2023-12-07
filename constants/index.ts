@@ -19,4 +19,12 @@ export const Strings = {
   REPLACMENT_REQUSET: "Replacement requested",
   GIVE_BOUNS: "Give bonus",
   GIVE_RAISE: "Give Raise",
+  DASHBOARD: "Dashboard",
+  HIRE_NEW_TALENT: "Hire New Talent",
+  YOUR_ACCOUNT_MANAGER: "YOUR ACCOUNT MANAGER",
+  HAND_PICKED_RECOMMENDATIONS: "Hand picked recommendations",
+  HIRED_ENGINEERS: "HIRED ENGINEERS",
+  DEVELOPER_NAME: "Mihir Mistry",
+  EMAIL: "eremotehire@gmail.com",
+  CONTACT_NUMBER: "+91 99985 78704"
 };

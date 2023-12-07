@@ -6,6 +6,7 @@ import { Images } from "@/constants";
 import Loader from "@/components/Layouts/Loader";
 import React from "react";
 import { useRouter } from "next/router";
+import { Strings } from "@/constants";
 
 export default function Index() {
   const router = useRouter();
@@ -69,7 +70,7 @@ export default function Index() {
   ) : (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold dark:text-white select-none">Dashboard</h1>
+        <h1 className="text-xl font-bold dark:text-white select-none">{Strings.DASHBOARD}</h1>
         <a href="/apps/hire-new-talent" className="nav-item group flex items-center rounded-[45px] bg-white px-7 py-2 shadow-md dark:bg-[#000] text-black ltr:pl-3 rtl:pr-3 hover:text-blue-500 dark:text-[#fff] ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +88,7 @@ export default function Index() {
           </svg>
 
           <text className="text-black ltr:pl-3 rtl:pr-3 hover:text-[#8D3F42] hover:dark:text-[#8D3F42] dark:text-white">
-            Hire New Talent
+           { Strings.HIRE_NEW_TALENT }
           </text>
 
         </a>
@@ -99,7 +100,7 @@ export default function Index() {
             <div>
               <a href="#">
                 <button className=" dark:text-white mb-[15px] text-[14px] font-bold dark:text-white">
-                  HIRED ENGINEERS
+                  {Strings.HIRED_ENGINEERS}
                 </button>
                 <button className="dark:text-white"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 -1 24 18" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
@@ -114,7 +115,7 @@ export default function Index() {
             <div>
               <div>
                 <h2 className="dark:text-gray mb-[15px] text-[14px] font-bold select-none">
-                  YOUR ACCOUNT MANAGER
+                  {Strings.YOUR_ACCOUNT_MANAGER}
                 </h2>
               </div>
               <div className="flex w-full items-center">
@@ -128,7 +129,7 @@ export default function Index() {
                   <div>
                     <a href="#">
                       <h5 className="  text-[14px] font-bold tracking-tight text-gray-900 dark:text-white">
-                        Mihir Mistry
+                        {Strings.DEVELOPER_NAME}
                       </h5>
                     </a>
                     <div className="flex flex-col sm:flex-col lg:flex-row">
@@ -149,7 +150,7 @@ export default function Index() {
                             alt="logo"
                           />
                         )}
-                        eremotehire@gmail.com
+                       {Strings.EMAIL}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-[3px] mt-[3px] w-3.5 h-3.5">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
                         </svg>
@@ -177,7 +178,7 @@ export default function Index() {
                             alt="logo"
                           />
                         )}
-                        +91 99985 78704
+                      {Strings.CONTACT_NUMBER}
                       </a>
                     </div>
 
@@ -189,7 +190,7 @@ export default function Index() {
         </div>
       </div>
       <div>
-        <h3 className="text-l font-bold select-none dark:text-white ">Hand picked recommendations</h3>
+        <h3 className="text-l font-bold select-none dark:text-white ">{Strings.HAND_PICKED_RECOMMENDATIONS}</h3>
       </div>
       <div className="mt-5">
         {userdata.map((item, inedx) => {
