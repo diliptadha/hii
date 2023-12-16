@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import Loader from "@/components/Layouts/Loader";
+import Loader from "../../components/Layouts/Loader";
 import React from "react";
 
 export default function Reports() {

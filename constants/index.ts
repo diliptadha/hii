@@ -33,5 +33,22 @@ export const Strings = {
   HIRED_ENGINEERS: "HIRED ENGINEERS",
   DEVELOPER_NAME: "Mihir Mistry",
   EMAIL: "eremotehire@gmail.com",
-  CONTACT_NUMBER: "+91 99985 78704"
+  CONTACT_NUMBER: "+91 99985 78704",
+  DEVELOPERR:"Developer",
+  ROLE:"Role ",
+  AMOUNT:" Amount",
+  SENT_ON:"Sent On",
+  EFFECTIVE_ON:'Effective On',
+  HOURS_WORKED:"HOURS WORKED",
+  WORK_TYPE:"WORK TYPE",
+  BOUNS_GIVEN:'BOUNS GIVEN',
+  MONTHLY_SALARY:"MONTHLY SALARY",
+  PERFORMANCE:"PERFORMANCE",
+  WEEKLY_SUMMARIES:"WEEKLY SUMMARIES",
+  RAISE:" Raise",
+  BOUNS_HISTORY:"Bouns history",
+  RAISE_HISTORY:"Raise history",
+  BENEFITS:" Benefits",
+  SETTINGS:"Settings",
+  VETTING:"Vetting results"
 };

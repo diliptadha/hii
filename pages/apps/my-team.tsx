@@ -1,57 +1,158 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Dropdown from "@/components/Dropdown";
+import Dropdown from "../../components/Dropdown";
 import { Fragment } from "react";
 import Image from "next/image";
-import { Images } from "@/constants";
+import { Images } from "../../constants";
 import Link from "next/link";
-import Loader from "@/components/Layouts/Loader";
+import Loader from "../../components/Layouts/Loader";
 import { ReactSortable } from "react-sortablejs";
 import Select from "react-select";
 import { Tab } from "@headlessui/react";
 import { t } from "i18next";
 import { useRouter } from "next/router";
+import axios from "axios";
+import React from "react";
+
+interface UserData {
+  vettingResults: any;
+  id: number;
+  name: string;
+  profile_process: string;
+  postion: string;
+  country: string;
+  price: string;
+  hiring_status: string;
+  location: string;
+  designation: string;
+  rate: string;
+  overview?: {
+    workingHoursInDay: string;
+    workType: string;
+    monthlySalary: string;
+    bonusGiven: string;
+  };
+  bonusHistory?: {
+    developer: string;
+    role: string;
+    amount: string;
+  };
+  raiseHistory?: {
+    developer: string;
+    role_Software: string;
+    raise: string;
+  };
+}
 
 export default function Payout() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [userdata, setUserdata] = useState<UserData[]>([]);
+  const [userdataa, setUserdataa] = useState<UserData[]>([]);
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
-  const userdata = [
-    {
-      id: 0,
-      name: "Mihir",
-      profile_process: "verify",
-      postion: "Full Stack Developer",
-      country: "India",
-      price: "$10/hour",
-      hiring_status: "compliantly hired",
-    },
-    {
-      id: 1,
-      name: "Nirdosh",
-      profile_process: "verify",
-      postion: "Shopify Developer",
-      country: "United State",
-      price: "$20/hour",
-      hiring_status: "compliantly hired",
-    },
-    {
-      id: 2,
-      name: "Henish",
-      profile_process: "verify",
-      postion: "MERN Developer",
-      country: "India",
-      price: "$50/hour",
-      hiring_status: "Compliantly hired",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.eremotehire.com/myteam/getHiredData?userId=RH_0000001",
+          {
+            headers: { 
+              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDAzIiwiZW1haWxJZCI6Ik5pcmRvc2hQYXRpbEBnbWFpbC5jb20iLCJpYXQiOjE3MDI3MDYwNjMsImV4cCI6MTcwMjcwOTY2M30.g7m1lNC-pDlO0YhA-momU0UJqcMCXfQJQha3nQ96K3g'
+            },
+          }
+        );
+
+        if (response.data.hiredData) {
+          const dataToSet = Array.isArray(response.data.hiredData)
+            ? response.data.hiredData
+            : [response.data.hiredData];
+
+          setUserdata(dataToSet);
+          console.log("User Data:", dataToSet);
+        } else {
+          console.error(
+            "Data received is not in the expected format:",
+            response.data
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.eremotehire.com/myteam/getRecommendationData?userId=RH_0000001",
+          {
+            headers: { 
+              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDAzIiwiZW1haWxJZCI6Ik5pcmRvc2hQYXRpbEBnbWFpbC5jb20iLCJpYXQiOjE3MDI3MDYwNjMsImV4cCI6MTcwMjcwOTY2M30.g7m1lNC-pDlO0YhA-momU0UJqcMCXfQJQha3nQ96K3g'
+            },
+          }
+        );
+
+        if (response.data.recommendationData) {
+          const dataToSet = Array.isArray(response.data.recommendationData)
+            ? response.data.recommendationData
+            : [response.data.recommendationData];
+
+          setUserdataa(dataToSet);
+          console.log("User Data:", dataToSet);
+        } else {
+          console.error(
+            "Data received is not in the expected format:",
+            response.data
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // const userdataa = [
+  //   {
+  //     id: 0,
+  //     name: "Mihir",
+  //     profile_process: "verify",
+  //     postion: "Full Stack Developer",
+  //     country: "India",
+  //     price: "$10/hour",
+  //     hiring_status: "compliantly hired",
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "Nirdosh",
+  //     profile_process: "verify",
+  //     postion: "Shopify Developer",
+  //     country: "United State",
+  //     price: "$20/hour",
+  //     hiring_status: "compliantly hired",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Henish",
+  //     profile_process: "verify",
+  //     postion: "MERN Developer",
+  //     country: "India",
+  //     price: "$50/hour",
+  //     hiring_status: "Compliantly hired",
+  //   },
+  // ];
 
   return loading ? (
     <div>
@@ -119,10 +220,12 @@ export default function Payout() {
         </Tab.List>
         <Tab.Panels>
           {/* < Hired tab section > */}
-
+          {loading ? (
+          <Loader/>
+        ) : (
           <Tab.Panel>
             <div className="mt-5">
-              {userdata.map((item, inedx) => {
+              {userdata?.map((item, inedx) => {
                 return (
                   <button
                     onClick={() =>
@@ -131,16 +234,37 @@ export default function Payout() {
                           pathname: "/apps/developer-details",
                           query: {
                             name: item.name,
-                            country: item.country,
-                            postion: item.postion,
+                            country: item.location,
+                            postion: item.designation,
                             hiring_status: item.hiring_status,
-                            price: item.price,
+                            price: item.rate,
+                            workingHoursInDay: item.overview?.workingHoursInDay,
+                            workType: item.overview?.workType,
+                            monthlySalary: item.overview?.monthlySalary,
+                            bonusGiven: item.overview?.bonusGiven,
+                            developer: item.bonusHistory?.developer,
+                            role: item.bonusHistory?.role,
+                            amount: item.bonusHistory?.amount,
+                            sentOn:item.bonusHistory?.sentOn,
+                            developer: item.raiseHistory?.developer,
+                            role_Software: item.raiseHistory?.role,
+                            raise: item.raiseHistory?.raise,
+                            effectiveOn:item.raiseHistory?.effectiveOn,
+                            skill:item.vettingResults?.[0].skill,
+                            skill_two:item.vettingResults?.[1].skill,
+                            vettingResult:item.vettingResults?.[0].vettingResult,
+                            vettingResult_two:item.vettingResults?.[1].vettingResult,
+                            yearOfExperience:item.vettingResults?.[0].yearOfExperience,
+                            yearOfExperience_two:item.vettingResults?.[1].yearOfExperience
+
+                           
+                
                           },
                         },
                         "/apps/developer-details"
                       )
                     }
-                    className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md  hover:border dark:bg-[#8D3F42]/40 dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42]"
+                    className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md "
                   >
                     <div className="rounded-full bg-blue-300 p-2">
                       <svg
@@ -179,12 +303,12 @@ export default function Payout() {
                             )}
                           </div>
                           <text className="text-lg font-semibold text-black dark:text-white">
-                            {item.price}
+                            {item.rate}
                           </text>
                         </div>
                         <div className="my-2 rounded-full bg-gray-400 px-2 py-0.5">
                           <text className="text-sm  text-black">
-                            {item.postion}
+                            {item.designation}
                           </text>
                         </div>
                         <div className="flex  w-full items-center justify-between">
@@ -208,7 +332,7 @@ export default function Payout() {
                                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                               />
                             </svg>
-                            <text className="mx-1">{item.country}</text>
+                            <text className="mx-1">{item.location}</text>
                           </div>
                           <button className="flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
                             <svg
@@ -233,13 +357,47 @@ export default function Payout() {
               })}
             </div>
           </Tab.Panel>
+          )}
 
           {/* < Recommendtion tab section > */}
           <Tab.Panel>
             <div className="mt-5">
-              {userdata.map((item, inedx) => {
+              {userdataa.map((item, inedx) => {
                 return (
-                  <button className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md  hover:border dark:bg-[#8D3F42]/40 dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42]">
+                  <button
+                  onClick={() =>
+                    router.push(
+                      {
+                        pathname: "/apps/getRecommendation-details",
+                        query: {
+                          name: item.name,
+                          country: item.location,
+                          postion: item.designation,
+                          monthlySalary: item.monthlySalary,
+                          technicalInterviewNotes:item.technicalInterviewNotes,
+                          softSkillAssessment:item.softSkillAssessment,
+                          otherTechnicalSkills:item.otherTechnicalSkills,
+                          verifiedAiTools:item.verifiedAiTools,
+                          skill:item.vettingResults?.[0].skill,
+                          skill_two:item.vettingResults?.[1].skill,
+                          vettingResult:item.vettingResults?.[0].vettingResult,
+                          vettingResult_two:item.vettingResults?.[1].vettingResult,
+                          yearOfExperience:item.vettingResults?.[0].yearOfExperience,
+                          yearOfExperience_two:item.vettingResults?.[1].yearOfExperience
+
+                          
+
+                         
+              
+                        },
+                      },
+                      "getRecommendation-details"
+                    )
+                  }
+
+
+
+                   className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md ">
                     <div className="rounded-full bg-blue-300 p-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -277,12 +435,12 @@ export default function Payout() {
                             )}
                           </div>
                           <text className="text-lg font-semibold text-black dark:text-white">
-                            {item.price}
+                            {item.monthlySalary}
                           </text>
                         </div>
                         <div className="my-2 rounded-full bg-gray-400 px-2 py-0.5">
                           <text className="text-sm  text-black">
-                            {item.postion}
+                            {item.designation}
                           </text>
                         </div>
                         <div className="flex  w-full items-center justify-between">
@@ -306,7 +464,7 @@ export default function Payout() {
                                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                               />
                             </svg>
-                            <text className="mx-1">{item.country}</text>
+                            <text className="mx-1">{item.location}</text>
                           </div>
                           <button className="flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
                             <svg

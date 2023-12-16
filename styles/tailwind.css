@@ -505,7 +505,7 @@
 /* perfect scrollbar */
 .ps__rail-y > .ps__thumb-y,
 .ps__rail-y > .ps__thumb-y {
-  @apply !w-1.5 !bg-[#DDDDDD] dark:!bg-[#2d334c];
+  @apply !w-1.5 !bg-[red] dark:!bg-[red];
 }
 .ps .ps__rail-x:hover,
 .ps .ps__rail-y:hover,
@@ -803,3 +803,48 @@ select menu
   }
  
 }
+
+
+.react-datepicker-wrapper{
+  width: 100% !important;
+}
+
+
+
+input[type="range"]::-webkit-slider-thumb {
+  /*  ...  */
+  /*  slider progress trick  */
+  /* box-shadow: -407px 0 0 400px #8d3f42;
+  background-color: red !important;
+  border-radius: 50% !important;
+  border: 2px solid #f50 !important;
+  overflow: hidden !important;
+  z-index: 1;
+  overflow: visible !important; */
+  /* height: 29px !important;
+  width: 30px !important; */
+  /* z-index: 1; */
+  /* margin-left: -5px; */
+}
+
+/* Thumb: Firefox */
+
+
+
+
+
+/* Thumb styles */
+.slidecontainer input[type="range"]::-webkit-slider-thumb {
+  /* -webkit-appearance: none; */
+  appearance: none;
+  width: 30px; 
+  height: 30px;  
+  border-radius: 50%;
+  background:#8d3f42;
+  
+  /* box-shadow: -407px 0 0 400px #8d3f42; */
+  /* overflow: visible; */
+}
+
+
+  
