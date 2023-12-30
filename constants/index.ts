@@ -11,6 +11,7 @@ export const Images = {
   MSG: "/Images/Letter.png",
   PHONE_WHITE: "/Images/Phone_white.png",
   MSG_WHITE: "/Images/Letter_white.png",
+<<<<<<< HEAD
   CHAIR: "/Images/chair.png",
   FAVOURITE: "/Images/favourite.png",
   LAPTOP: "/Images/laptop.png",
@@ -18,6 +19,11 @@ export const Images = {
   MONEY_BAG: "/Images/money-bag.png",
   TREE: "/Images/tree.png",
   WORLD:"/Images/world.png"
+=======
+  VERIFY:"/Images/verified 1.svg",
+  PENCIL_LOGO:"/Images/pen-solid.svg",
+  BARS_FILTER:"/Images/bars-filter.svg"
+>>>>>>> 5e18bdd (created search  talent page ui)
 };
 export const Strings = {
   BACK: "Back",
@@ -34,6 +40,8 @@ export const Strings = {
   DEVELOPER_NAME: "Mihir Mistry",
   EMAIL: "eremotehire@gmail.com",
   CONTACT_NUMBER: "+91 99985 78704",
+<<<<<<< HEAD
+<<<<<<< HEAD
   DEVELOPERR:"Developer",
   ROLE:"Role ",
   AMOUNT:" Amount",
@@ -51,4 +59,27 @@ export const Strings = {
   BENEFITS:" Benefits",
   SETTINGS:"Settings",
   VETTING:"Vetting results"
+=======
+  SEARCH_TALENT: "Search Talent",
+<<<<<<< HEAD
+>>>>>>> bd77005 ( initial work for search talent page)
+=======
+=======
+  SEARCH_TALENT: "Search Talent",
+>>>>>>> 21d1586220bd8fcbec2fca623891fdb1ced8ab54
+  PARAGRAPH_SEARCH:"If you can't find the right profile, please click on 'get matched manually' and our team will match you with hand-picked profiles. The monthly rates you see are for full time (40h/week) hires.",
+  GET_MANUALLY:"Get matched manually",
+  SWITCH:"Switch to AI Search",
+  BETA:" Beta",
+  
+
+
+
+  EXAMPLE:"EXAMPLE QUESTION",
+  FIRST_EXAMPLE:"I am in search of a senior frontend developer with expertise in React and a knock for UI/UX design. Who in your talent pool fits this description?",
+  SECOND_EXAMPLE:"Looking for a full-stack engineer who is Passionate about startups and can hit the ground running. Any matches?"
+<<<<<<< HEAD
+>>>>>>> 21d1586 (created search  talent page ui)
+=======
+>>>>>>> 21d1586220bd8fcbec2fca623891fdb1ced8ab54
 };

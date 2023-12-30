@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@emotion/react": "^11.10.6",
+    "@fortawesome/fontawesome-free": "^6.5.1",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@next/font": "13.1.2",
@@ -17,7 +20,15 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+<<<<<<< HEAD
+<<<<<<< HEAD
     "antd": "^5.11.4",
+=======
+    "antd": "^5.11.1",
+>>>>>>> 21d1586 (created search  talent page ui)
+=======
+    "antd": "^5.11.1",
+>>>>>>> 21d1586220bd8fcbec2fca623891fdb1ced8ab54
     "axios": "^1.6.2",
     "chart.js": "^4.4.0",
     "eslint": "8.32.0",
