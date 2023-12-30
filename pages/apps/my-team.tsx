@@ -164,7 +164,7 @@ export default function Payout() {
 
       <div className="flex items-center justify-between ">
         <h1 className="text-xl font-bold ">My Team</h1>
-        <button className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]">
+        <button className="nav-item grou- flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

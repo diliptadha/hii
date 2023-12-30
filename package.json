@@ -20,15 +20,7 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
-<<<<<<< HEAD
-<<<<<<< HEAD
     "antd": "^5.11.4",
-=======
-    "antd": "^5.11.1",
->>>>>>> 21d1586 (created search  talent page ui)
-=======
-    "antd": "^5.11.1",
->>>>>>> 21d1586220bd8fcbec2fca623891fdb1ced8ab54
     "axios": "^1.6.2",
     "chart.js": "^4.4.0",
     "eslint": "8.32.0",
@@ -42,6 +34,7 @@
     "react-datepicker": "^4.24.0",
     "react-dom": "18.2.0",
     "react-i18next": "^13.3.1",
+    "react-images-uploading": "^3.1.7",
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",

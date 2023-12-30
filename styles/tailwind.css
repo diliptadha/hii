@@ -804,75 +804,25 @@ select menu
  
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 .react-datepicker-wrapper{
   width: 100% !important;
 }
 
 
-
-input[type="range"]::-webkit-slider-thumb {
-  /*  ...  */
-  /*  slider progress trick  */
-  /* box-shadow: -407px 0 0 400px #8d3f42;
-  background-color: red !important;
-  border-radius: 50% !important;
-  border: 2px solid #f50 !important;
-  overflow: hidden !important;
-  z-index: 1;
-  overflow: visible !important; */
-  /* height: 29px !important;
-  width: 30px !important; */
-  /* z-index: 1; */
-  /* margin-left: -5px; */
-}
-
-/* Thumb: Firefox */
-
-
-
-
-
-/* Thumb styles */
-.slidecontainer input[type="range"]::-webkit-slider-thumb {
-  /* -webkit-appearance: none; */
-  appearance: none;
-  width: 30px; 
-  height: 30px;  
-=======
-=======
->>>>>>> 21d1586220bd8fcbec2fca623891fdb1ced8ab54
 .slidecontainer input[type="range"]::-webkit-slider-thumb {
   /* -webkit-appearance: none; */
   appearance: none;
   width: 25px; 
   height: 25px;  
-<<<<<<< HEAD
->>>>>>> 21d1586 (created search  talent page ui)
-=======
->>>>>>> 21d1586220bd8fcbec2fca623891fdb1ced8ab54
   border-radius: 50%;
   background:#8d3f42;
   
   /* box-shadow: -407px 0 0 400px #8d3f42; */
   /* overflow: visible; */
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 
   
-=======
 .border_loader{
   border-color: #8d3f42 !important;
 
 }
->>>>>>> 21d1586 (created search  talent page ui)
-=======
-.border_loader{
-  border-color: #8d3f42 !important;
-
-}
->>>>>>> 21d1586220bd8fcbec2fca623891fdb1ced8ab54
