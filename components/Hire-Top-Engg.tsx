@@ -566,9 +566,9 @@ const Hiretopengineer = () => {
                   <p className="font-outfit font-bold text-gray-900 dark:text-white xs:text-xl md:text-2xl lg:text-[24px]">
                     {Strings.QUS_2}
                   </p>
-                  <p className="font-outfit font-semibold text-gray-900 dark:text-white xs:text-lg md:text-xl lg:text-[16px]">
+                  {/* <p className="font-outfit font-semibold text-gray-900 dark:text-white xs:text-lg md:text-xl lg:text-[16px]">
                     {Strings.QUS_2}
-                  </p>
+                  </p> */}
                 </div>
                 <p className="font-outfit my-5 text-sm font-medium text-gray-900 dark:text-white">
                   {Strings.CHOOSE_AS_MANY_AS_YOU_LIKE}

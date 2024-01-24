@@ -71,7 +71,7 @@ const AIjob = () => {
         "Dharmit is a senior UI/UX designer with ten years of professional experience specializing in designing applications for startups. Nick believes that design is not about deliverables and beautiful pixels but solving problems and achieving business and user goals.",
     },
     
-    
+
     {
       id: "1",
       img_logo: Images.RAHULSAHAI ? (
@@ -245,9 +245,9 @@ const AIjob = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center rounded-[10px] bg-white dark:bg-[#000]">
-        <div className="bg-red-900- bg-red-900- flex w-full items-center justify-between  px-[20px] ">
-          <div className="xs:mb-2px  w-[50%] ">
+      <div className=" flex w-full flex-col xs:items-center rounded-[10px] bg-white dark:bg-[#000]">
+        <div className="bg-red-900- flex w-full xl:flex-row md:flex-row xs:flex-col items-center justify-between  px-[20px] ">
+          <div className="bg-blue-200- xl:text-start md:text-start xs:text-center xs:mb-2px  xl:w-[50%] md:w-[50%] xs:w-full xl:mr-2 md:mr-2 ">
             <h1 className="text-[26px] font-bold leading-normal text-black dark:text-white">
               {Strings.SEARCH_TALENT}
             </h1>
@@ -255,8 +255,8 @@ const AIjob = () => {
               {Strings.PARAGRAPH_SEARCH}
             </p>
           </div>
-          <div className=" w-[50%]- flex text-right">
-            <div className="xs:item-center flex items-center rounded-full border-none dark:bg-white bg-[#8D3F42] bg-opacity-[0.3]   p-[20px] py-[10px]  transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px] ">
+          <div className=" flex xl:flex-row md:flex-row xs:flex-col">
+            <div className="flex items-center rounded-full border-none dark:bg-white bg-[#8D3F42] bg-opacity-[0.3] p-[20px] py-[10px] xl:m-0 md:m-0 xs:my-[8px]   transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px] ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -281,15 +281,15 @@ const AIjob = () => {
               />
             </div>
             <div>
-              <button className=" xs:item-center ml-[10px] rounded-full border-none bg-[#8D3F42] font-bold text-[14px] p-[20px] py-[12px] text-white transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px]">
+              <button className="flex items-center xl:ml-[10px] md:ml-[10px] xs:ml-[30px]  rounded-full border-none bg-[#8D3F42] font-bold text-[14px] p-[20px] py-[12px] text-white transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px]">
                 {Strings.GET_MANUALLY}
               </button>
             </div>
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <div className=" color-gray-500 my-[40px] mr-2 flex  w-[650px] flex-row items-center justify-between overflow-auto rounded-[10px] border bg-transparent py-[10px] ">
-            <div className="flex w-[80%] ">
+          <div className="color-gray-500 my-[40px] mr-2 flex  xl:w-[650px] md:w-[550px]  flex-row items-center justify-between overflow-auto rounded-[10px] border bg-transparent py-[10px] ">
+            <div className="flex w-[80%]  ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -304,8 +304,9 @@ const AIjob = () => {
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                 />
               </svg>
+             
               <input
-                className="w-full overflow-visible border-none bg-transparent text-[16px] text-[#000] outline-none dark:text-white "
+                className="w-full overflow-visible border-none bg-transparent text-[16px]   text-[#000] outline-none dark:text-white "
                 type="text"
                 placeholder="Tell us about your talent needs"
                 value={searchInput}
@@ -317,19 +318,19 @@ const AIjob = () => {
                 }}
               />
             </div>
-            <div className="mr-[10px]  flex items-center justify-center rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[20px] py-[10px] text-[#000] dark:text-[#fff]">
-              AI Search{" "}
+            <button className="mr-[10px] flex items-center justify-center rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[18px] py-[10px] text-[#000] dark:text-[#fff] text-center">
+               AI Search{" "}
               {loading && (
                 <div className="mr-2 inline-block">
-                  <Loaderr />
+                  <Loader />
                 </div>
               )}
-            </div>
+            </button>
           </div>
           <div className="ml-[10px]">
             {searchInput && (
               <button
-                className="ml-[10px] rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[20px] py-[10px] text-[#000] dark:text-[#fff]"
+                className="xl:ml-[10px] md:ml-[10px] xs:m-[5px] rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[18px] py-[10px] text-[#000] dark:text-[#fff]"
                 onClick={handleClearSearch}
               >
                 Clear Search
@@ -346,7 +347,7 @@ const AIjob = () => {
               {" "}
              {Strings.EXAMPLE}
             </h2>
-            <div className="flex w-[450px] flex-col items-center justify-center space-y-4 text-[16px]">
+            <div className="flex xl:w-[450px] md:w-[450px] xs:w-full  flex-col items-center justify-center space-y-4 text-[16px]">
               <div
                 className=" cursor-pointer rounded-[10px] bg-white- px-[10px] py-[20px] text-[#000] bg-[#8D3F42] bg-opacity-[0.3] dark:text-[#fff] dark:hover:bg-white dark:hover:text-[#000] "
                 onClick={() =>
@@ -358,7 +359,7 @@ const AIjob = () => {
                 {Strings.FIRST_EXAMPLE}
               </div>
               <div
-                className=" cursor-pointer rounded-[10px] bg-white- px-[10px] py-[20px] text-[#000] bg-[#8D3F42] bg-opacity-[0.3] dark:text-[#fff] dark:hover:bg-white dark:hover:text-[#000]"
+                className=" cursor-pointer rounded-[10px]  bg-white- px  -[10px] py-[20px] text-[#000] bg-[#8D3F42] bg-opacity-[0.3] dark:text-[#fff] dark:hover:bg-white dark:hover:text-[#000]"
                 onClick={() =>
                   handleExampleClick(
                     "Looking for a full-stack engineer who is Passionate about startups and can hit the ground running. Any matches?"
@@ -381,7 +382,7 @@ const AIjob = () => {
             TalentPagee.map((item, inedx) => {
               return (
                 <>
-                  <button className="my-2 flex w-[650px] flex-col items-center outline-none justify-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md">
+                  <button className="my-2 flex xl:w-[650px] md:w-[650px] xs:w-full flex-col items-center outline-none justify-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md">
                     <div className="flex w-full items-center justify-center  ">
                       <div className="rounded-full ">
                        {item.img_logo}
@@ -394,7 +395,7 @@ const AIjob = () => {
                               <div className="text-base font-semibold text-black dark:text-white">
                                 {item.name}
                               </div>
-                              <div className="text-[14px] font-semibold text-black dark:text-white">
+                              <div className="text-[14px] font-semibold text-black dark:text-white xl:block md:block xs:hidden">
                                 {item.interview}
                               </div>
                             </div>
@@ -435,9 +436,9 @@ const AIjob = () => {
               );
             })}
           {!loading && (
-            <div className="mb-[10px]- fixed  bottom-0 w-full dark:bg-[#000] bg-white">
+            <div className="mb-[10px]- fixed   bottom-0 w-full dark:bg-[#000] bg-white">
               <div className="flex justify-center items-center my-[20px]">
-                <div className="  mr-2 pl-[10px] flex  w-[650px] flex-row items-center justify-between overflow-auto rounded-[10px] border border-[#8D3F42] bg-transparent py-[5px] ">
+                <div className="  mr-2 pl-[10px] flex  xl:w-[650px] md:w-[650px] xs:w-full flex-row items-center justify-between overflow-auto rounded-[10px] border border-[#8D3F42] bg-transparent py-[5px] ">
                   <div className="flex w-[80%] ">
                     <input
                       className="w-full overflow-visible border-none bg-transparent text-[16px] text-[#000] outline-none dark:text-[#fff] "

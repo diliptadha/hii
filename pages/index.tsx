@@ -45,7 +45,7 @@ export default function Index() {
       name: "Nirdosh",
       profile_process: "verify",
       postion: "Shopify Developer",
-      country: "United State",
+      country: "USA",
       price: "$20K/month",
       status: "Decline",
       interview: "Request Interview",
@@ -55,7 +55,7 @@ export default function Index() {
       name: "Henish",
       profile_process: "verify",
       postion: "MERN Developer",
-      country: "India",
+      country: "UK",
       price: "$40K/month",
       status: "Decline",
       interview: "Request Interview",
@@ -65,7 +65,7 @@ export default function Index() {
 
   return loading ? (
     <div>
-      <Loader />
+      <Loader/>
     </div>
   ) : (
     <div>
@@ -96,7 +96,7 @@ export default function Index() {
       <div>
         <div className="flex w-full flex-wrap justify-between">
 
-          <div className=" dark:border-gray-700- mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000]  xs:w-[384px] sm:w-[320px] xl:w-[600px]">
+          <div className=" dark:border-gray-700 mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000]  xs:w-[384px] sm:w-[320px] lg:w-[450px] xl:w-[600px]">
             <div>
               <a href="#">
                 <button className=" dark:text-white mb-[15px] text-[14px] font-bold dark:text-white">
@@ -111,7 +111,7 @@ export default function Index() {
               </p>
             </div>
           </div>
-          <div className=" dark:border-gray-700- mb-[20px] space-x-2 rounded-lg border-none bg-white p-6  shadow outline-none dark:bg-[#000] xs:w-[384px] sm:w-[320px] xl:w-[600px]">
+          <div className=" dark:border-gray-700- mb-[20px] space-x-2 rounded-lg border-none bg-white p-6  shadow outline-none dark:bg-[#000] xs:w-[384px] sm:w-[320px] lg:w-[450px] xl:w-[600px]">
             <div>
               <div>
                 <h2 className="dark:text-gray mb-[15px] text-[14px] font-bold select-none">
@@ -132,7 +132,7 @@ export default function Index() {
                         {Strings.DEVELOPER_NAME}
                       </h5>
                     </a>
-                    <div className="flex flex-col sm:flex-col lg:flex-row">
+                    <div className="flex flex-col sm:flex-col sm:flex-col xl:flex-row">
                       <a
                         href="#"
                         className="mb-[5px] flex text-[16px] text-gray-500 dark:text-white"
@@ -157,7 +157,7 @@ export default function Index() {
 
                       </a>
 
-                      <strong className="mb-[5px] flex items-center px-[5px] dark:text-white xs:hidden sm:hidden lg:block">
+                      <strong className="mb-[5px] flex items-center px-[5px] dark:text-white xs:hidden sm:hidden lg:hidden xl:block">
                         |
                       </strong>
 
@@ -193,7 +193,7 @@ export default function Index() {
         <h3 className="text-l font-bold select-none dark:text-white ">{Strings.HAND_PICKED_RECOMMENDATIONS}</h3>
       </div>
       <div className="mt-5">
-        {userdata.map((item, inedx) => {
+        {userdata.map((item, index) => {
           return (
 
             <a
@@ -255,7 +255,7 @@ export default function Index() {
                       {item.price}
                     </text>
                   </div>
-                  <div className="my-2 rounded-full bg-[#8D3F42]  px-2 py-0.5">
+                  <div className="my-2 rounded-full bg-[#8D3F42] px-2 py-0.5">
                     <text className="text-[12px]  text-white">
                       {item.postion}
                     </text>
@@ -283,12 +283,11 @@ export default function Index() {
                       </svg>
                       <text className="mx-1">{item.country}</text>
                     </div>
-                    <button className="mr-2">{/* Your other button */}</button>
 
                     <div className="flex items-center ml-auto">
-                      <button className="mr-2 transition duration-300 ease-in-out">{item.status}</button>
-                      <button className="flex items-center rounded-full border-none px-2 py-1.5 transition duration-300 ease-in-out dark:shadow text-white bg-[#8D3F42] xs:text-sm">
-                        <text>{item.interview}</text>
+                      <button className="mr-1 transition duration-300 ease-in-out">{item.status}</button>
+                      <button className="flex items-center rounded-full border-none px-1 py-1.5 transition duration-300 ease-in-out dark:shadow text-white bg-[#8D3F42]">
+                        <text className="xs:text-[11px]">{item.interview}</text>
                       </button>
                     </div>
 

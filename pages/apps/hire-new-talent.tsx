@@ -37,7 +37,7 @@ const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     </div>
   ) : (
     <div className="">
-      <h1 className="text-[30px] font-bold dark:text-white text-black ">Hire New Talent</h1>
+      <h1 className="text-[30px] font-bold dark:text-white text-black">Hire New Talent</h1>
       <section className="bg-red-500- flex h-full flex-col items-center justify-center space-y-5 xs:mt-[20px] md:my-[150px]">
         <div className="  justify-between- dark:border-gray-700- m-auto flex items-center space-x-2      rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] md:w-[650px]">
           <div className="justify-between- flex w-full items-center">
@@ -61,13 +61,6 @@ const themeConfig = useSelector((state: IRootState) => state.themeConfig);
                   />
                   )}
 
-           
-
-                            
-
-                            
-                   
-              
             </div>
 
             <div className="xs:pl-[10px] xs:leading-none sm:pl-[10px] sm:leading-[25px] ">

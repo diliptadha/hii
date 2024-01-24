@@ -289,24 +289,24 @@ export default function SearchTalent() {
     </div>
   ) : (
     <div>
-      <div className="bg-red-900- flex w-full items-center justify-between  ">
-        <div className="xs:mb-2px  w-[50%] ">
-          <h1 className="text-[26px] font-bold leading-normal text-black dark:text-white">
+      <div className=" flex w-full items-center justify-between xs:flex-col md:flex-row xl:flex-row  ">
+        <div className="xs:mb-2px w-[100%]">
+          <h1 className="text-[26px] font-bold leading-normal text-black dark:text-white xs:text-center md:text-start xl:text-start">
             {Strings.SEARCH_TALENT}
           </h1>
-          <p className="text-[13px] leading-normal text-black dark:text-white">
+          <p className="text-[13px] leading-normal text-black dark:text-white xs:text-center md:text-start xl:text-start">
             {Strings.PARAGRAPH_SEARCH}
           </p>
         </div>
-        <div className="mr-[20px] w-[50%] text-right">
+        <div className="w-[50%] text-right xs:mt-[8px]">
           <button className="xs:item-center rounded-full border-none bg-[#8D3F42] px-[20px] py-[12px] text-white transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px]">
             {Strings.GET_MANUALLY}
           </button>
         </div>
       </div>
-      <div className="x-1 y-0.5 my-5  flex w-full flex-row items-center justify-between rounded bg-white p-[15px] dark:bg-[#000] ">
-        <div className="w-[50%]- flex items-center">
-          <div className="color-gray-500 mr-2 flex h-[40px] w-[200px] flex-row items-center rounded-[10px] border bg-transparent ">
+      <div className="x-1 y-0.5 my-5 flex w-full xl:flex-row md:flex-row xs:flex-col xs:items-center justify-between rounded bg-white p-[15px] dark:bg-[#000]">
+        <div className="flex xl:flex-row md:flex-col xs:flex-col">
+          <div className="color-gray-500 mr-2 flex h-[40px] xl:w-[200px] xs:w-full xs:items-center rounded-[10px] border bg-transparent ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -333,9 +333,9 @@ export default function SearchTalent() {
           <div>
             <Link
               href="/apps/ai-search-job"
-              className="flex w-[225px] items-center justify-between rounded-full bg-gradient-to-r  from-[#BC7666] to-[#8D3F42] p-[2px]  text-white transition duration-300 ease-in-out  dark:shadow xs:text-sm"
+              className="flex xl:w-[220px] h-[40px] xs:w-full xl:my-0 md:mb-[8px] xs:my-[8px]  items-center justify-between rounded-full bg-gradient-to-r  from-[#BC7666] to-[#8D3F42] p-[2px]  text-white transition duration-300 ease-in-out  dark:shadow xs:text-sm"
             >
-              <div className="flex w-full items-center justify-center rounded-full bg-[#000] py-[10px]">
+              <div className="flex w-full  items-center justify-center rounded-full">
                 <img
                   src={Images.PENCIL_LOGO}
                   alt="ai search"
@@ -352,7 +352,7 @@ export default function SearchTalent() {
         <div className="w-[50%]- bg-yellow-900- flex ">
           <div
             onClick={openModal}
-            className="ml-[10px] flex  items-center rounded-[10px] border bg-transparent p-3 text-white transition duration-300  ease-in-out dark:shadow xs:text-sm"
+            className="ml-[10px] xs:ml-[0] flex  items-center rounded-[10px] border bg-transparent p-3 text-white transition duration-300  ease-in-out dark:shadow xs:text-sm"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -369,18 +369,18 @@ export default function SearchTalent() {
               />
             </svg>
 
-            <button className=" pl-[5px] text-[16px] leading-normal text-black dark:text-white">
+            <button className="pl-[5px] text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
               Filters
             </button>
           </div>
           <div>
             <Filtermodal isOpen={isOpen} closeModal={closeModal} />
           </div>
-          <div className=" ml-[10px] flex items-center  rounded-[10px] border bg-transparent p-3 text-white transition duration-300 ease-in-out  dark:shadow xs:text-sm">
+          <div className=" ml-[10px] flex items-center  rounded-[10px] border bg-transparent p-3 xs:px-2 xs:py-1 text-white transition duration-300 ease-in-out  dark:shadow xs:text-sm">
             <img src={Images.BARS_FILTER} className="w-[20px]  text-white"/>
             
 
-            <button className=" px-[10px] text-[16px] leading-normal text-black dark:text-white">
+            <button className=" px-[10px] text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
               Sort by rate
             </button>
             <svg
@@ -398,8 +398,8 @@ export default function SearchTalent() {
               />
             </svg>
           </div>
-          <div className=" ml-[10px] flex items-center  rounded-[10px] border bg-transparent p-3 text-white transition duration-300 ease-in-out  dark:shadow xs:text-[14px]">
-            <button className="text-[16px] leading-normal text-black dark:text-white">
+          <div className=" ml-[10px] flex items-center  rounded-[10px] border bg-transparent p-3  xs:py-1 text-white transition duration-300 ease-in-out  dark:shadow xs:text-[14px]">
+            <button className="text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
               Interview requested only
             </button>
 
@@ -439,13 +439,15 @@ export default function SearchTalent() {
                   <div className="w-full pl-2.5">
                     <div className=" flex flex-col items-start">
                       <div className="flex  w-full justify-between pr-3">
-                        <div className="flex w-full items-center justify-between space-x-1">
+                        <div className="flex w-full xl:flex-row md:flex-row items-center justify-between   space-x-1">
                           <div className="text-base font-semibold text-black dark:text-white">
                             {item.name}
                           </div>
-                          <div className="text-[14px] font-semibold text-black dark:text-white flex justify-center items-center">
+                          <div className="flex ">
+                          <div className="xl:text-[14px] xs:text-[10px] font-semibold text-black dark:text-white flex justify-center items-center xl:block md:block xs:hidden">
                             {item.interview}
-                            <FireOutlined rev={undefined} className="text-[#E25822] ml-[5px]"  />
+                            <FireOutlined rev={undefined} className="text-[#E25822] ml-[5px]"/>
+                          </div>
                           </div>
                         </div>
                         {/* <text className="text-lg font-semibold text-black dark:text-white">
@@ -457,12 +459,12 @@ export default function SearchTalent() {
                           {item.position}
                         </text>
                       </div>
-                      <div className="flex  w-full items-center justify-between">
+                      <div className="flex w-full items-center justify-between">
                         <div className="flex items-center">
                           {item.skills.map((skill, index) => (
                             <button
                               key={index}
-                              className="w-[50px]- mr-1 flex items-center justify-center  rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-center text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
+                              className=" w-[50px]- mr-1 flex items-center justify-center  rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-center text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
                               //   onClick={() => handleSkillClick(skill)}
                             >
                               {skill}
