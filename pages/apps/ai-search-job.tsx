@@ -246,8 +246,8 @@ const AIjob = () => {
   return (
     <>
       <div className=" flex w-full flex-col xs:items-center rounded-[10px] bg-white dark:bg-[#000]">
-        <div className="bg-red-900- flex w-full xl:flex-row md:flex-row xs:flex-col items-center justify-between  px-[20px] ">
-          <div className="bg-blue-200- xl:text-start md:text-start xs:text-center xs:mb-2px  xl:w-[50%] md:w-[50%] xs:w-full xl:mr-2 md:mr-2 ">
+        <div className=" flex w-full md:flex-row xs:flex-col items-center justify-between  px-[20px] ">
+          <div className="md:text-start xs:text-center xs:mb-2px  xl:w-[50%] md:w-[50%] xs:w-full xl:mr-2 md:mr-2 ">
             <h1 className="text-[26px] font-bold leading-normal text-black dark:text-white">
               {Strings.SEARCH_TALENT}
             </h1>
@@ -255,8 +255,8 @@ const AIjob = () => {
               {Strings.PARAGRAPH_SEARCH}
             </p>
           </div>
-          <div className=" flex xl:flex-row md:flex-row xs:flex-col">
-            <div className="flex items-center rounded-full border-none dark:bg-white bg-[#8D3F42] bg-opacity-[0.3] p-[20px] py-[10px] xl:m-0 md:m-0 xs:my-[8px]   transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px] ">
+          <div className=" flex xs:flex-col md:flex-row ">
+            <div className="flex items-center rounded-full border-none dark:bg-white bg-[#8D3F42] bg-opacity-[0.3] p-[20px] py-[10px] xs:my-[8px] md:m-0    transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px] ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -281,7 +281,7 @@ const AIjob = () => {
               />
             </div>
             <div>
-              <button className="flex items-center xl:ml-[10px] md:ml-[10px] xs:ml-[30px]  rounded-full border-none bg-[#8D3F42] font-bold text-[14px] p-[20px] py-[12px] text-white transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px]">
+              <button className="flex items-center xs:ml-[30px] md:ml-[10px]  rounded-full border-none bg-[#8D3F42] font-bold text-[14px] p-[20px] py-[12px] text-white transition duration-300 ease-in-out dark:shadow xs:text-sm md:text-[14px]">
                 {Strings.GET_MANUALLY}
               </button>
             </div>
@@ -319,7 +319,7 @@ const AIjob = () => {
               />
             </div>
             <button className="mr-[10px] flex items-center justify-center rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[18px] py-[10px] text-[#000] dark:text-[#fff] text-center">
-               AI Search{" "}
+               {Strings.AI_SEARCH}{" "}
               {loading && (
                 <div className="mr-2 inline-block">
                   <Loader />
@@ -330,10 +330,10 @@ const AIjob = () => {
           <div className="ml-[10px]">
             {searchInput && (
               <button
-                className="xl:ml-[10px] md:ml-[10px] xs:m-[5px] rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[18px] py-[10px] text-[#000] dark:text-[#fff]"
+                className="xs:m-[5px] md:ml-[10px]  rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[18px] py-[10px] text-[#000] dark:text-[#fff]"
                 onClick={handleClearSearch}
               >
-                Clear Search
+                {Strings.CLEAR_SEARCH}
               </button>
             )}
           </div>
@@ -347,7 +347,7 @@ const AIjob = () => {
               {" "}
              {Strings.EXAMPLE}
             </h2>
-            <div className="flex xl:w-[450px] md:w-[450px] xs:w-full  flex-col items-center justify-center space-y-4 text-[16px]">
+            <div className="flex xs:w-full md:w-[450px]  flex-col items-center justify-center space-y-4 text-[16px]">
               <div
                 className=" cursor-pointer rounded-[10px] bg-white- px-[10px] py-[20px] text-[#000] bg-[#8D3F42] bg-opacity-[0.3] dark:text-[#fff] dark:hover:bg-white dark:hover:text-[#000] "
                 onClick={() =>
@@ -359,7 +359,7 @@ const AIjob = () => {
                 {Strings.FIRST_EXAMPLE}
               </div>
               <div
-                className=" cursor-pointer rounded-[10px]  bg-white- px  -[10px] py-[20px] text-[#000] bg-[#8D3F42] bg-opacity-[0.3] dark:text-[#fff] dark:hover:bg-white dark:hover:text-[#000]"
+                className=" cursor-pointer rounded-[10px]  bg-white- px-[10px] py-[20px] text-[#000] bg-[#8D3F42] bg-opacity-[0.3] dark:text-[#fff] dark:hover:bg-white dark:hover:text-[#000]"
                 onClick={() =>
                   handleExampleClick(
                     "Looking for a full-stack engineer who is Passionate about startups and can hit the ground running. Any matches?"
@@ -382,7 +382,7 @@ const AIjob = () => {
             TalentPagee.map((item, inedx) => {
               return (
                 <>
-                  <button className="my-2 flex xl:w-[650px] md:w-[650px] xs:w-full flex-col items-center outline-none justify-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md">
+                  <button className="my-2 flex xs:w-full md:w-[650px]  flex-col items-center outline-none justify-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md">
                     <div className="flex w-full items-center justify-center  ">
                       <div className="rounded-full ">
                        {item.img_logo}
@@ -395,7 +395,7 @@ const AIjob = () => {
                               <div className="text-base font-semibold text-black dark:text-white">
                                 {item.name}
                               </div>
-                              <div className="text-[14px] font-semibold text-black dark:text-white xl:block md:block xs:hidden">
+                              <div className="text-[14px] font-semibold text-black dark:text-white xs:hidden md:block ">
                                 {item.interview}
                               </div>
                             </div>
@@ -408,12 +408,12 @@ const AIjob = () => {
                               {item.position}
                             </text>
                           </div>
-                          <div className="flex  w-full items-center justify-between">
+                          <div className="flex w-full items-center justify-between">
                             <div className="flex items-center">
                               {item.skills.map((skill, index) => (
                                 <button
                                   key={index}
-                                  className="w-[50px]- mr-1 text-center flex justify-center  items-center rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
+                                  className=" mr-1 text-center flex justify-center  items-center rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
                                   //   onClick={() => handleSkillClick(skill)}
                                 >
                                   {skill}
@@ -428,7 +428,7 @@ const AIjob = () => {
                       </div>
                     </div>
                     <div className="mt-[20px]   bg-[#8D3F42] bg-opacity-[0.3] px-[10px] py-[10px] text-left text-[14px] outline-none dark:text-white">
-                      <strong>AI Summary:</strong>
+                      <strong>{Strings.AI_SUMMARY}</strong>
                       {item.summary}
                     </div>
                   </button>
@@ -438,7 +438,7 @@ const AIjob = () => {
           {!loading && (
             <div className="mb-[10px]- fixed   bottom-0 w-full dark:bg-[#000] bg-white">
               <div className="flex justify-center items-center my-[20px]">
-                <div className="  mr-2 pl-[10px] flex  xl:w-[650px] md:w-[650px] xs:w-full flex-row items-center justify-between overflow-auto rounded-[10px] border border-[#8D3F42] bg-transparent py-[5px] ">
+                <div className="  mr-2 pl-[10px] flex xs:w-full md:w-[650px]  flex-row items-center justify-between overflow-auto rounded-[10px] border border-[#8D3F42] bg-transparent py-[5px] ">
                   <div className="flex w-[80%] ">
                     <input
                       className="w-full overflow-visible border-none bg-transparent text-[16px] text-[#000] outline-none dark:text-[#fff] "
@@ -446,7 +446,7 @@ const AIjob = () => {
                       placeholder="Do you have any other questions or doubts? "
                     />
                   </div>
-                  <div className="mr-[10px] cursor-pointer  flex items-center justify-center  text-[#8D3F42] bg-opacity-[0.3] px-[12px] py-[10px] ">
+                  <div className="mr-[10px] cursor-pointer flex items-center justify-center  text-[#8D3F42] bg-opacity-[0.3] px-[12px] py-[10px] ">
                   <SendOutlined rotate={-45} rev={undefined} />
                   </div>
                 </div>

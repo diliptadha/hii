@@ -37,11 +37,11 @@ const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     </div>
   ) : (
     <div className="">
-      <h1 className="text-[30px] font-bold dark:text-white text-black">Hire New Talent</h1>
-      <section className="bg-red-500- flex h-full flex-col items-center justify-center space-y-5 xs:mt-[20px] md:my-[150px]">
-        <div className="  justify-between- dark:border-gray-700- m-auto flex items-center space-x-2      rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] md:w-[650px]">
+      <h1 className="text-[30px] font-bold dark:text-white text-black">{Strings.HIRE_NEW_TALENT}</h1>
+      <section className=" flex h-full flex-col items-center justify-center space-y-5 xs:mt-[20px] md:my-[150px]">
+        <div className="  justify-between- dark:border-gray-700- m-auto flex items-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] md:w-[650px]">
           <div className="justify-between- flex w-full items-center">
-            <div className='h-[80px] flex justify-center items-center bg-[#8D3F42]- rounded-full- w-[80px]- '>
+            <div className='h-[80px] flex justify-center items-center bg-[#8D3F42]- rounded-full- '>
             {themeConfig.theme === "light" ? (
                <Image
                src={Images.FAV_ICON_BROWAN}
@@ -101,7 +101,7 @@ const themeConfig = useSelector((state: IRootState) => state.themeConfig);
               </h5>
               <h5 className="  tracking-tight- font-semibold text-gray-900 dark:text-gray-500 xs:text-[10px] sm:text-[15px] leading-normal">
                 {Strings.TOP}
-                Any talent you've sourced yourself ,use <span>eremotehire COR </span> to handle complience, payroll,benifits and more at a fixed $490/month 
+                Any talent you've sourced yourself, use eremotehire COR to handle complience, payroll,benifits and more at a fixed $490/month.
               </h5>
             </div>
           </div>

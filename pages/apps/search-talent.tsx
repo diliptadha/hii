@@ -4,9 +4,11 @@ import Loader from "../../components/Layouts/Loader";
 import React from "react";
 import { Images, Strings } from "../../constants";
 import Search from "antd/es/input/Search";
-import Filtermodal from "../../components/filter-popup";
-import Link from "next/link";
-import  {FireOutlined} from  "@ant-design/icons";
+import Filtermodal  from "../../components/filter-popup";
+import Link  from "next/link";
+import  { FireOutlined } from  "@ant-design/icons";
+import Loaderr from "../../components/Layouts/Loader";
+import { string } from "yup/lib/locale";
 
 export default function SearchTalent() {
   const [loading, setLoading] = useState(true);
@@ -100,7 +102,7 @@ export default function SearchTalent() {
     },
     {
       id: "2",
-      img_logo: Images.RAHULSAHA ? (
+      img_logo: Images.RAHULSAHAI ? (
         // Render the image if Images.RAHULSAHAI is present
         <img
           src={Images.RAHULSAHAI}
@@ -289,12 +291,12 @@ export default function SearchTalent() {
     </div>
   ) : (
     <div>
-      <div className=" flex w-full items-center justify-between xs:flex-col md:flex-row xl:flex-row  ">
+      <div className=" flex w-full items-center justify-between xs:flex-col md:flex-row">
         <div className="xs:mb-2px w-[100%]">
-          <h1 className="text-[26px] font-bold leading-normal text-black dark:text-white xs:text-center md:text-start xl:text-start">
+          <h1 className="text-[26px] font-bold leading-normal text-black dark:text-white xs:text-center md:text-start">
             {Strings.SEARCH_TALENT}
           </h1>
-          <p className="text-[13px] leading-normal text-black dark:text-white xs:text-center md:text-start xl:text-start">
+          <p className="text-[13px] leading-normal text-black dark:text-white xs:text-center md:text-start">
             {Strings.PARAGRAPH_SEARCH}
           </p>
         </div>
@@ -304,8 +306,8 @@ export default function SearchTalent() {
           </button>
         </div>
       </div>
-      <div className="x-1 y-0.5 my-5 flex w-full xl:flex-row md:flex-row xs:flex-col xs:items-center justify-between rounded bg-white p-[15px] dark:bg-[#000]">
-        <div className="flex xl:flex-row md:flex-col xs:flex-col">
+      <div className="x-1 y-0.5 my-5 flex w-full xs:flex-col md:flex-row  xs:items-center justify-between rounded bg-white p-[15px] dark:bg-[#000]">
+        <div className="flex xs:flex-col xl:flex-row">
           <div className="color-gray-500 mr-2 flex h-[40px] xl:w-[200px] xs:w-full xs:items-center rounded-[10px] border bg-transparent ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -341,9 +343,9 @@ export default function SearchTalent() {
                   alt="ai search"
                   className="h-[20px] w-[20px] rotate-[270deg] mr-[8px] "
                 />
-                <text className="ml-[5px]- font-bold">Switch to AI Search </text>
+                <text className="ml-[5px]- font-bold">{Strings.SWITCH_TO_AI}</text>
                 <button className="ml-[8px] h-[20px] w-[40px] rounded-full bg-gradient-to-r from-[#BC7666] to-[#8D3F42]  ">
-                  Beta
+                  {Strings.BETA}
                 </button>
               </div>
             </Link>
@@ -362,15 +364,11 @@ export default function SearchTalent() {
               stroke="currentColor"
               className="h-6 w-6 text-[#8D3F42]"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-              />
-            </svg>
+             
+        
 
             <button className="pl-[5px] text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
-              Filters
+              {Strings.FILTERS}
             </button>
           </div>
           <div>
@@ -381,7 +379,7 @@ export default function SearchTalent() {
             
 
             <button className=" px-[10px] text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
-              Sort by rate
+              {Strings.SORT_BY}
             </button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -400,10 +398,10 @@ export default function SearchTalent() {
           </div>
           <div className=" ml-[10px] flex items-center  rounded-[10px] border bg-transparent p-3  xs:py-1 text-white transition duration-300 ease-in-out  dark:shadow xs:text-[14px]">
             <button className="text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
-              Interview requested only
+              {Strings.INTERVIEW_REQUEST}
             </button>
 
-            <label className="inline-flex- relative ml-[10px] cursor-pointer items-center">
+            <label className=" relative ml-[10px] cursor-pointer items-center">
               <input type="checkbox" value="" className="peer sr-only" />
               <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#8D3F42] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#8D3F42] rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-[#8D3F42]"></div>
             </label>
@@ -428,7 +426,7 @@ export default function SearchTalent() {
         </div>
       )}
       {filteredTalent.length === 0 ? (
-        <p>No results found </p>
+        <p>{Strings.NO_RESULTS_FOUND}</p>
       ) : (
         filteredTalent.map((item, inedx) => {
           return (
@@ -439,12 +437,12 @@ export default function SearchTalent() {
                   <div className="w-full pl-2.5">
                     <div className=" flex flex-col items-start">
                       <div className="flex  w-full justify-between pr-3">
-                        <div className="flex w-full xl:flex-row md:flex-row items-center justify-between   space-x-1">
+                        <div className="flex w-full xl:flex-row md:flex-row items-center justify-between space-x-1">
                           <div className="text-base font-semibold text-black dark:text-white">
                             {item.name}
                           </div>
                           <div className="flex ">
-                          <div className="xl:text-[14px] xs:text-[10px] font-semibold text-black dark:text-white flex justify-center items-center xl:block md:block xs:hidden">
+                          <div className=" xs:text-[10px] xl:text-[14px] font-semibold text-black dark:text-white flex justify-center items-center xs:hidden md:block">
                             {item.interview}
                             <FireOutlined rev={undefined} className="text-[#E25822] ml-[5px]"/>
                           </div>
@@ -464,7 +462,7 @@ export default function SearchTalent() {
                           {item.skills.map((skill, index) => (
                             <button
                               key={index}
-                              className=" w-[50px]- mr-1 flex items-center justify-center  rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-center text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
+                              className=" mr-1 flex items-center justify-center  rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-center text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
                               //   onClick={() => handleSkillClick(skill)}
                             >
                               {skill}

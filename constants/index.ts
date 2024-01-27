@@ -50,7 +50,9 @@ export const Strings = {
   GIVE_BOUNS: "Give bonus",
   GIVE_RAISE: "Give Raise",
   HIRE:"Hire a eremote Engineer",
-  TOP:"Top 1% engineers, complience,payroll,and benifits on us.",
+  TOP:"Top 1% engineers, complience,payroll,and benifits on us. ",
+  TOP_TALENT:"Any talent you've sourced yourself, use eremotehire COR to handle complience, payroll,benifits and more at a fixed $490/month
+
   ONBOARD:"Onboard my own talent",
   QUS_1: " 1. What type of hire do you need?*",
   QUS_1_SUB: ` We offer full time (40 hours/week) and part time (20
@@ -113,12 +115,19 @@ export const Strings = {
   GET_MANUALLY:"Get matched manually",
   SWITCH:"Switch to AI Search",
   BETA:" Beta",
-  
-
-
-
   EXAMPLE:"EXAMPLE QUESTION",
   FIRST_EXAMPLE:"I am in search of a senior frontend developer with expertise in React and a knock for UI/UX design. Who in your talent pool fits this description?",
-  SECOND_EXAMPLE:"Looking for a full-stack engineer who is Passionate about startups and can hit the ground running. Any matches?"
+  SECOND_EXAMPLE:"Looking for a full-stack engineer who is Passionate about startups and can hit the ground running. Any matches?",
+  AI_SEARCH:"AI Search",
+  CLEAR_SEARCH:"Clear Search",
+  AI_SUMMARY:"AI Summary:",
+  NO_RESULTS_FOUND:"No results found",
+  SWITCH_TO_AI:"Switch to AI Search",
+  FILTERS:"Filters",
+  SORT_BY:"Sort by rate",
+  INTERVIEW_REQUEST:"Interview requested only",
+ 
+
+
 
 };

@@ -93,7 +93,7 @@ const Filtermodal = ({ isOpen, closeModal }) => {
     <>
       {isOpen && (
         <div className="fixed left-0 top-0 z-50 flex h-full w-full  items-center justify-center  bg-black bg-opacity-[80%]">
-          <div className=" relative min-h-[600px] xl:w-[500px] md:w-[500px] xs:w-[300px]   rounded-2xl bg-white p-4 dark:bg-[#000]">
+          <div className=" relative min-h-[600px] xs:w-[300px]  md:w-[500px]   rounded-2xl bg-white p-4 dark:bg-[#000]">
             <div className="mb-[20px] text-[24px] font-bold text-[#000] dark:text-[white]">
               Filters
             </div>
@@ -153,12 +153,12 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 </div>
 
                 <div
-                  className={`absolute left-0 top-full ml-[5px] mt-[10px] xl:h-[490px] md:h-[490px] xs:h-[520px] xl:w-[456px] md:w-[456px] xs:w-[280px]  rounded-[10px] bg-white overflow-hidden ${
+                  className={`absolute left-0 top-full ml-[5px] mt-[10px] xs:h-[520px] md:h-[490px] xs:w-[280px] md:w-[456px]  rounded-[10px] bg-white overflow-hidden ${
                     isOpenn ? "block" : "hidden"
                   }`}
                 >
                   <div
-                    className={` mx-[20px] mb-[10px] flex h-[40px] xl:w-[90%] md:w-[90%] xs:w-[90%] flex-row items-center rounded-[10px] border  border-[#8D3F42] bg-white ${
+                    className={` mx-[20px] mb-[10px] flex h-[40px] w-[90%] flex-row items-center rounded-[10px] border  border-[#8D3F42] bg-white ${
                       isOpenn ? "block" : "hidden"
                     } mt-[10px] w-full border-t  bg-gray-200  py-2`}
                   >
@@ -248,7 +248,7 @@ const Filtermodal = ({ isOpen, closeModal }) => {
               </label>
               <select
                 id="countries"
-                className="block xl:w-full md:w-full xs:w-full rounded-lg border border-[#8d3f42] bg-transparent py-[14px] px-[12px] text-[16px] text-gray-900 outline-none dark:text-white"
+                className="block w-full rounded-lg border border-[#8d3f42] bg-transparent py-[14px] px-[12px] text-[16px] text-gray-900 outline-none dark:text-white"
               >
                 <option selected className="dark:text-black">Choose a country</option> 
                 <option value="US" className="dark:text-black">United State</option>
