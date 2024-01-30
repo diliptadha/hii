@@ -364,9 +364,12 @@ export default function SearchTalent() {
               stroke="currentColor"
               className="h-6 w-6 text-[#8D3F42]"
             >
-             
-        
-
+               <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+              />
+            </svg>
             <button className="pl-[5px] text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
               {Strings.FILTERS}
             </button>
@@ -442,10 +445,10 @@ export default function SearchTalent() {
                             {item.name}
                           </div>
                           <div className="flex ">
-                          <div className=" xs:text-[10px] xl:text-[14px] font-semibold text-black dark:text-white flex justify-center items-center xs:hidden md:block">
+                          {/* <div className=" xs:text-[10px] xl:text-[14px] font-semibold text-black dark:text-white flex justify-center items-center xs:hidden md:block">
                             {item.interview}
                             <FireOutlined rev={undefined} className="text-[#E25822] ml-[5px]"/>
-                          </div>
+                          </div> */}
                           </div>
                         </div>
                         {/* <text className="text-lg font-semibold text-black dark:text-white">

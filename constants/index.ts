@@ -51,8 +51,7 @@ export const Strings = {
   GIVE_RAISE: "Give Raise",
   HIRE:"Hire a eremote Engineer",
   TOP:"Top 1% engineers, complience,payroll,and benifits on us. ",
-  TOP_TALENT:"Any talent you've sourced yourself, use eremotehire COR to handle complience, payroll,benifits and more at a fixed $490/month
-
+  TOP_TALENT:"Any talent you've sourced yourself, use eremotehire COR to handle complience, payroll,benifits and more at a fixed $490/month",
   ONBOARD:"Onboard my own talent",
   QUS_1: " 1. What type of hire do you need?*",
   QUS_1_SUB: ` We offer full time (40 hours/week) and part time (20
