@@ -9,9 +9,9 @@ module.exports = {
   ],
   darkMode: "class",
   theme: {
-    container: {
-      center: true,
-    },
+      container: {
+          center: true,
+      },
 
     extend: {
       fontFamily: {
@@ -77,9 +77,6 @@ module.exports = {
           light: "#e0e6ed",
           dark: "#888ea8",
         },
-      },
-      fontFamily: {
-        nunito: ["Nunito", "sans-serif"],
       },
       spacing: {
         4.5: "18px",

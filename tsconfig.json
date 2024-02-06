@@ -19,11 +19,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "pages/apps/todolist.tsx"
-  ],
-  "exclude": ["node_modules"]
+  
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/apps/todolist.tsx","src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["node_modules", ".git"]
 }
