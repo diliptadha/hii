@@ -1,9 +1,9 @@
+import { Images, Strings } from "@/constants";
 import React, { useState } from "react";
 
 import { CloseOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { Images } from "@/constants";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export interface UpgradeplaneProps {
@@ -41,7 +41,7 @@ const Upgradeplane: React.FC<UpgradeplaneProps> = ({
 
   return (
     <div>
-      <div className="lg:h-[460px] xl:h-[450px] rounded-xl border p-7 shadow-md xs:w-full lg:w-[300px] xl:w-[350px]">
+      <div className="rounded-xl border p-7 shadow-md xs:w-full lg:h-[460px] lg:w-[300px] xl:h-[450px] xl:w-[350px]">
         <div
           className={`flex items-center justify-between rounded-lg p-2 text-base font-normal ${titleWidth} ${titleColor} ${backgroundColor}`}
         >
@@ -54,13 +54,15 @@ const Upgradeplane: React.FC<UpgradeplaneProps> = ({
               price
             ) : yearly ? (
               <>
-                ${(price as number) * 12}
-                <span className="font-medium">/year</span>
+                {Strings.$}
+                {(price as number) * 12}
+                <span className="font-medium">{Strings.year}</span>
               </>
             ) : (
               <>
-                ${price}
-                <span className="font-medium">/month</span>
+                {Strings.$}
+                {price}
+                <span className="font-medium">{Strings.month}</span>
               </>
             )}
           </span>
@@ -106,7 +108,7 @@ const Upgradeplane: React.FC<UpgradeplaneProps> = ({
                 <CloseOutlined rev={undefined} />
               )}
             </p>
-            Dedicated support
+            {Strings.Dedicated_support}
           </p>
           <p className="flex text-lg font-medium text-black">
             <p
@@ -120,7 +122,7 @@ const Upgradeplane: React.FC<UpgradeplaneProps> = ({
                 <CloseOutlined rev={undefined} />
               )}
             </p>
-            Custom form
+            {Strings.Custom_form}
           </p>
           <p className="flex text-lg font-medium text-black">
             <p
@@ -134,7 +136,7 @@ const Upgradeplane: React.FC<UpgradeplaneProps> = ({
                 <CloseOutlined rev={undefined} />
               )}
             </p>
-            ATS integrations
+            {Strings.ATS_integrations}
           </p>
           <p className="flex text-lg font-medium text-black">
             <p
@@ -148,7 +150,7 @@ const Upgradeplane: React.FC<UpgradeplaneProps> = ({
                 <CloseOutlined rev={undefined} />
               )}
             </p>
-            Custom features
+            {Strings.Custom_features}
           </p>
           <button className="flex w-28 transform items-center justify-center rounded-full bg-[#8D3F42] p-[14px] text-base font-semibold text-white transition-transform hover:scale-105">
             {buttonText}

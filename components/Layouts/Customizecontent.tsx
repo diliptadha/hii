@@ -1,11 +1,11 @@
 import "react-quill/dist/quill.snow.css";
 
 import { CloseOutlined, EditTwoTone } from "@ant-design/icons";
+import { Images, Strings } from "@/constants";
 import Managetests, { toggleModal1 } from "@/components/Layouts/Managetests";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
-import { Images } from "@/constants";
 import dynamic from "next/dynamic";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -163,17 +163,17 @@ const Customizecontent = ({
             <div>
               <div className="mt-10 flex w-[700px] justify-between">
                 <h1 className="text-2xl font-bold text-black">
-                  Customize content
+                  {Strings.Customize_content}
                 </h1>
                 <button
                   onClick={handleButtonClick1}
                   className="transform cursor-pointer text-sm font-semibold text-[#8d3f42] transition-transform hover:scale-105"
                 >
-                  Manage saved tests
+                  {Strings.Manage_saved_tests}
                 </button>
               </div>
               <div className="max-h-auto my-5 min-h-[140px] w-[700px] rounded-xl bg-white p-5 text-xl font-bold text-black">
-                Your logo
+                {Strings.Your_logo}
                 <div className="flex">
                   <div className="max-h-auto my-4 flex min-h-[25px] w-[240px] items-center justify-center rounded-lg border-2 border-black p-2 text-lg font-semibold">
                     {selectedFile ? (
@@ -192,13 +192,13 @@ const Customizecontent = ({
                         <h1 className="mr-4 rounded-lg bg-[#711CA6] px-4 py-2 text-lg font-semibold text-white">
                           C
                         </h1>
-                        <p className="text-black">Company logo</p>
+                        <p className="text-black">{Strings.Company_logo}</p>
                       </>
                     )}
                   </div>
                   <label className="flex items-center text-base font-normal text-primary">
                     <EditTwoTone className="mx-2" />
-                    Edit
+                    {Strings.Edit}
                     <input
                       type="file"
                       accept="image/*"
@@ -211,16 +211,16 @@ const Customizecontent = ({
               <div className="max-h-max min-h-[460px] w-[700px] rounded-xl bg-white p-5 text-xl font-bold">
                 <div className="flex items-center justify-between text-black">
                   <div>
-                    Welcome screen
+                    {Strings.Welcome_screen}
                     <p className="my-2 text-base font-normal text-black">
-                      This is the preview of the first screen of gpt-vetting
+                      {Strings.This_is_the}
                     </p>
                   </div>
                   <button
                     className="flex items-center text-base font-normal text-primary"
                     onClick={handleEditClick}
                   >
-                    <EditTwoTone className="mx-2" /> Edit content
+                    <EditTwoTone className="mx-2" /> {Strings.Edit_content}
                   </button>
                 </div>
 
@@ -243,7 +243,7 @@ const Customizecontent = ({
                             <h1 className="mr-4 rounded-lg bg-[#711CA6] px-4 py-2 text-lg font-semibold text-white">
                               C
                             </h1>
-                            <p className="text-black">Company logo</p>
+                            <p className="text-black">{Strings.Company_logo}</p>
                           </>
                         )}
                       </div>
@@ -261,7 +261,7 @@ const Customizecontent = ({
                             className="text-base font-normal text-primary"
                             onClick={handleSaveClick}
                           >
-                            Save
+                            {Strings.Save}
                           </button>
                         </>
                       ) : (
@@ -279,7 +279,7 @@ const Customizecontent = ({
                           htmlFor="fileInput"
                           className="custom-file-upload cursor-pointer text-center text-primary"
                         >
-                          Upload Video
+                          {Strings.Upload_Video}
                           <input
                             id="fileInput"
                             type="file"
@@ -335,17 +335,16 @@ const Customizecontent = ({
               <div className="my-5 max-h-max min-h-[460px] w-[700px] rounded-xl bg-white p-5">
                 <div className="flex items-center justify-between">
                   <div className="text-xl font-bold text-black">
-                    Invitation email
+                    {Strings.Invitation_email}
                     <p className="my-2 text-base font-normal text-black">
-                      This is the preview of the invitation email a candidate
-                      gets.
+                      {Strings.This_is_the_preview}
                     </p>
                   </div>
                   <button
                     onClick={handleEditClick2}
                     className="flex items-center text-base font-normal text-primary"
                   >
-                    <EditTwoTone className="mx-2" /> Edit content
+                    <EditTwoTone className="mx-2" /> {Strings.Edit_content}
                   </button>
                 </div>
                 <div className="max-h-full min-h-[460px] space-y-3 border-4 border-[#8d3f42] border-opacity-[50%] p-4">
@@ -365,7 +364,7 @@ const Customizecontent = ({
                         <h1 className="mr-4 rounded-lg bg-[#711CA6] px-4 py-2 text-lg font-semibold text-white">
                           C
                         </h1>
-                        <p className="text-black">Company logo</p>
+                        <p className="text-black">{Strings.Company_logo}</p>
                       </>
                     )}
                   </div>
@@ -381,7 +380,7 @@ const Customizecontent = ({
                         className="text-base font-normal text-primary"
                         onClick={handleSaveClick2}
                       >
-                        Save
+                        {Strings.Save}
                       </button>
                     </>
                   ) : (
@@ -395,7 +394,7 @@ const Customizecontent = ({
                   )}
                   {isEditing2 ? (
                     <div>
-                      <p className="text-black">CTA</p>
+                      <p className="text-black">{Strings.CTA}</p>
                       <input
                         type="text"
                         value={newButtonText}
@@ -416,9 +415,9 @@ const Customizecontent = ({
                     </button>
                   )}
                   <p className="text-black">
-                    Best wishes,
+                    {Strings.Best_wishes}
                     <br />
-                    <span className="font-bold">test team</span>
+                    <span className="font-bold">{Strings.test_team}</span>
                   </p>
                   <p className="border"></p>
                   <div className="flex items-center justify-between">
@@ -426,10 +425,10 @@ const Customizecontent = ({
                       {isEditing2 ? (
                         <div>
                           <p>
-                            if you experience any issues with the assessment,
+                            {Strings.if_you_experience}
                           </p>
                           <p>
-                            reply to this email:
+                            {Strings.reply_to_this_email}
                             <span className="text-[#8d3f42]">
                               <input
                                 type="text"
@@ -451,9 +450,9 @@ const Customizecontent = ({
                         </div>
                       ) : (
                         <p>
-                          if you experience any issues with the assessment,
+                          {Strings.if_you_experience}
                           <br />
-                          reply to this email:
+                          {Strings.reply_to_this_email}
                           <span className="text-[#8d3f42]">{emailText}</span>
                         </p>
                       )}

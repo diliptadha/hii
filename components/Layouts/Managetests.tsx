@@ -7,6 +7,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { Switch, Tooltip } from "antd";
 
+import { Strings } from "@/constants";
+
 const onChange = (checked: boolean) => {
   console.log(`switch to ${checked}`);
 };
@@ -30,19 +32,8 @@ const Managetests = ({
   const [managetests, setManagetests] = useState(false);
   const [skills, setSkills] = useState([{ skill: "", level: "" }]);
 
-  const tooltipContent = (
-    <span className="text-xs">
-      This adds 15 mins to the test and will test the candidate on a live coding
-      exercise.
-    </span>
-  );
-  const tooltipContent1 = (
-    <span className="text-xs">
-      Use video-based data and tab movements to generate a trust score and
-      prevent cheating. We recommend keeping this on; however, you can turn off
-      if there are any privacy concerns.
-    </span>
-  );
+  const tooltipContent = <span className="text-xs">{Strings.tooltip}</span>;
+  const tooltipContent1 = <span className="text-xs">{Strings.tooltip1}</span>;
   const addSkill = () => {
     if (skills.length < 5) {
       setSkills([...skills, { skill: "", level: "" }]);
@@ -105,7 +96,9 @@ const Managetests = ({
                 <CloseOutlined rev={undefined} />
               </button>
             </div>
-            <h1 className="text-xl font-bold text-black">Manage tests</h1>
+            <h1 className="text-xl font-bold text-black">
+              {Strings.Manage_tests}
+            </h1>
             <div className="flex justify-center text-center">
               <p className="my-4 h-[100px] w-[110px] space-y-3 rounded-lg bg-[#8d3f42] bg-opacity-[20%] px-2 py-5">
                 {[...Array(repeatCount)].map((_, index) => (
@@ -118,13 +111,13 @@ const Managetests = ({
             </div>
             <div className="text-center">
               <p className="mb-4 text-lg font-semibold text-black">
-                Nothing found
+                {Strings.Nothing_found}
               </p>
               <button
                 onClick={openModal6}
                 className="w-[450px] transform rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-base font-semibold text-[#8d3f42] transition-transform hover:scale-105"
               >
-                Add
+                {Strings.Add}
               </button>
             </div>
           </div>
@@ -147,10 +140,12 @@ const Managetests = ({
             >
               <ArrowLeftOutlined rev={undefined} />
             </button>
-            <h1 className="text-xl font-bold text-black">Add new test</h1>
+            <h1 className="text-xl font-bold text-black">
+              {Strings.Add_new_test}
+            </h1>
 
             <h1 className="my-2 text-base font-normal text-black">
-              Name the test
+              {Strings.Name_the_test}
             </h1>
             <input
               placeholder={"Test name"}
@@ -158,7 +153,9 @@ const Managetests = ({
             />
             <div>
               <div className="justify-between- mt-2 flex items-center">
-                <p className="flex items-center">Please define the skills</p>
+                <p className="flex items-center">
+                  {Strings.Please_define_the_skills}
+                </p>
               </div>
 
               {skills.map((skill, index) => (
@@ -184,11 +181,11 @@ const Managetests = ({
                     }`}
                   >
                     <option disabled={!index} value="">
-                      Level of difficulty
+                      {Strings.Level_of_difficulty}
                     </option>
-                    <option value="Junior">Junior</option>
-                    <option value="Mid Level">Mid Level</option>
-                    <option value="Senior">Senior</option>
+                    <option value="Junior">{Strings.Junior}</option>
+                    <option value="Mid Level">{Strings.Mid_Level}</option>
+                    <option value="Senior">{Strings.Senior}</option>
                   </select>
                   {index > 0 && (
                     <button
@@ -213,9 +210,9 @@ const Managetests = ({
               <p className="flex items-center space-x-2">
                 <Switch
                   onChange={onChange}
-                  className="mr-2 bg-gray-300 font-bold text-black-dark-light"
+                  className="mr-2 bg-gray-300 font-bold text-black"
                 />
-                Add coding exercise
+                {Strings.Add_coding_exercise}
                 <Tooltip title={tooltipContent} placement="top">
                   <ExclamationCircleOutlined rev={undefined} />
                 </Tooltip>
@@ -224,9 +221,9 @@ const Managetests = ({
                 <Switch
                   defaultChecked
                   onChange={onChange}
-                  className=" mr-2 bg-gray-300 font-bold text-black-dark-light"
+                  className=" mr-2 bg-gray-300 font-bold text-black"
                 />
-                Proctoring
+                {Strings.Proctoring}
                 <Tooltip title={tooltipContent1} placement="top">
                   <ExclamationCircleOutlined rev={undefined} />
                 </Tooltip>
@@ -234,7 +231,7 @@ const Managetests = ({
             </div>
             <div className="flex justify-center">
               <button className="w-[450px] transform rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-base font-semibold text-[#8d3f42] transition-transform hover:scale-105">
-                Save
+                {Strings.Save}
               </button>
             </div>
           </div>
