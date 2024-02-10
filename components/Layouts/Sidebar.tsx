@@ -70,9 +70,8 @@ const Sidebar = () => {
   return (
     <div className={semidark ? "dark" : ""}>
       <nav
-        className={`sidebar shadow-[5px_0_25px_0_rgba(94,92,154,0.1)]- fixed bottom-0 top-0 z-50 h-full min-h-screen w-[260px] transition-all duration-300 ${
-          semidark ? "text-white-dark" : ""
-        }`}
+        className={`sidebar shadow-[5px_0_25px_0_rgba(94,92,154,0.1)]- fixed bottom-0 top-0 z-50 h-full min-h-screen w-[260px] transition-all duration-300 ${semidark ? "text-white-dark" : ""
+          }`}
       >
         <div className="h-full bg-white dark:bg-[#000]">
           <div className="flex items-center justify-between px-4 py-3">
@@ -174,7 +173,7 @@ const Sidebar = () => {
                       </div>
                     </Link>
                   </li>
-                  
+
                   <li className="nav-item">
                     <Link href="/apps/hire-new-talent" className="group">
                       <div className="flex items-center">
@@ -195,6 +194,30 @@ const Sidebar = () => {
 
                         <span className="text-black dark:text-[#fff] dark:group-hover:text-white-dark ltr:pl-3 rtl:pr-3">
                           {t("Hire New Talent")}
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link href="/apps/search-talent" className="group">
+                      <div className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          className="h-6 w-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                          />
+                        </svg>
+
+                        <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
+                          {t("Search Talent")}
                         </span>
                       </div>
                     </Link>
@@ -350,7 +373,7 @@ const Sidebar = () => {
                       </div>
                     </Link>
                   </li>
-                  
+
                 </ul>
               </li>
             </ul>
