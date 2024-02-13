@@ -87,8 +87,8 @@ const Managetests = ({
     <div>
       {managesavedtests && (
         <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center  bg-gray-500 bg-opacity-[20%] backdrop-blur-sm ">
-          <div className="items-center- justify-center- flex- h-[300px] w-[500px] rounded-lg bg-white p-5 ">
-            <div className="fixed ml-[520px]">
+          <div className="items-center- justify-center- flex- h-[300px] rounded-lg bg-white p-5 xs:w-[310px] md:w-[500px] ">
+            <div className="fixed xs:ml-[250px] md:ml-[520px]">
               <button
                 className="flex h-8 w-8 items-center justify-center rounded-full border-transparent bg-white text-black opacity-[80%]"
                 onClick={openModal5}
@@ -115,7 +115,7 @@ const Managetests = ({
               </p>
               <button
                 onClick={openModal6}
-                className="w-[450px] transform rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-base font-semibold text-[#8d3f42] transition-transform hover:scale-105"
+                className="xs:w-[270px]- md:w-[450px]- w-full transform rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-base font-semibold text-[#8d3f42] transition-transform hover:scale-105"
               >
                 {Strings.Add}
               </button>
@@ -125,8 +125,8 @@ const Managetests = ({
       )}
       {managetests && (
         <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center  bg-gray-500 bg-opacity-[20%] backdrop-blur-sm">
-          <div className="min-h-auto no-scrollbar max-h-[600px] w-[500px] overflow-y-scroll  rounded-2xl bg-white p-4">
-            <div className="fixed ml-[500px]">
+          <div className="min-h-auto no-scrollbar max-h-[600px] overflow-y-scroll rounded-2xl bg-white  p-4 xs:w-[310px] md:w-[500px]">
+            <div className="fixed ml-[250px] md:ml-[500px]">
               <button
                 className="flex h-8 w-8 items-center justify-center rounded-full border-transparent bg-white text-black opacity-[80%]"
                 onClick={closeModal}
@@ -167,7 +167,7 @@ const Managetests = ({
                       console.log(`Skill ${index + 1}: ${e.target.value}`);
                     }}
                     placeholder={`Enter skill #${index + 1}`}
-                    className="w-[200px] rounded-lg border-2 p-3 outline-none"
+                    className="rounded-lg border-2 p-3 outline-none xs:mr-1 xs:w-[140px] md:mr-0 md:w-[200px]"
                   />
 
                   <select
@@ -176,7 +176,7 @@ const Managetests = ({
                       handleLevelChange(index, e.target.value);
                       console.log(`Level ${index + 1}: ${e.target.value}`);
                     }}
-                    className={`w-[230px] rounded-lg border-2 px-1 text-sm outline-none ${
+                    className={`rounded-lg border-2 px-1 outline-none xs:w-[140px] xs:text-xs md:w-[230px] md:text-sm ${
                       index === 0 ? "mr-[26px]" : ""
                     }`}
                   >
@@ -206,11 +206,11 @@ const Managetests = ({
                 </p>
               )}
             </div>
-            <div className="my-4 flex items-center justify-between rounded-lg border-2  px-14 py-3">
-              <p className="flex items-center space-x-2">
+            <div className="my-4 flex max-h-max min-h-14 items-center justify-between rounded-lg border-2 xs:block xs:px-2 md:flex  md:px-14">
+              <p className="flex items-center space-x-2 ">
                 <Switch
                   onChange={onChange}
-                  className="mr-2 bg-gray-300 font-bold text-black"
+                  className="mr-2 bg-gray-300 font-bold text-black xs:my-2 md:my-0"
                 />
                 {Strings.Add_coding_exercise}
                 <Tooltip title={tooltipContent} placement="top">
@@ -221,7 +221,7 @@ const Managetests = ({
                 <Switch
                   defaultChecked
                   onChange={onChange}
-                  className=" mr-2 bg-gray-300 font-bold text-black"
+                  className=" mr-2 bg-gray-300 font-bold text-black xs:my-2 md:my-0"
                 />
                 {Strings.Proctoring}
                 <Tooltip title={tooltipContent1} placement="top">
@@ -230,7 +230,7 @@ const Managetests = ({
               </p>
             </div>
             <div className="flex justify-center">
-              <button className="w-[450px] transform rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-base font-semibold text-[#8d3f42] transition-transform hover:scale-105">
+              <button className="w-full transform rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-base font-semibold text-[#8d3f42] transition-transform hover:scale-105">
                 {Strings.Save}
               </button>
             </div>

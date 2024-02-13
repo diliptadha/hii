@@ -161,8 +161,8 @@ const Customizecontent = ({
           </div>
           <div className="no-scrollbar flex h-[90%] w-[100%] justify-center overflow-y-scroll bg-gray-100 xs:px-6 md:px-6 lg:px-12">
             <div>
-              <div className="mt-10 flex w-[700px] justify-between">
-                <h1 className="text-2xl font-bold text-black">
+              <div className="mt-10 flex justify-between xs:w-[310px] md:w-[700px]">
+                <h1 className="font-bold text-black xs:text-xl md:text-2xl">
                   {Strings.Customize_content}
                 </h1>
                 <button
@@ -172,7 +172,7 @@ const Customizecontent = ({
                   {Strings.Manage_saved_tests}
                 </button>
               </div>
-              <div className="max-h-auto my-5 min-h-[140px] w-[700px] rounded-xl bg-white p-5 text-xl font-bold text-black">
+              <div className="max-h-auto my-5 min-h-[140px] rounded-xl bg-white p-5 text-xl font-bold text-black xs:w-[310px] md:w-[700px]">
                 {Strings.Your_logo}
                 <div className="flex">
                   <div className="max-h-auto my-4 flex min-h-[25px] w-[240px] items-center justify-center rounded-lg border-2 border-black p-2 text-lg font-semibold">
@@ -208,8 +208,8 @@ const Customizecontent = ({
                   </label>
                 </div>
               </div>
-              <div className="max-h-max min-h-[460px] w-[700px] rounded-xl bg-white p-5 text-xl font-bold">
-                <div className="flex items-center justify-between text-black">
+              <div className="max-h-max min-h-[460px] rounded-xl bg-white p-5 text-xl font-bold xs:w-[310px] md:w-[700px]">
+                <div className="flex items-center text-black xs:block md:flex md:justify-between">
                   <div>
                     {Strings.Welcome_screen}
                     <p className="my-2 text-base font-normal text-black">
@@ -217,10 +217,10 @@ const Customizecontent = ({
                     </p>
                   </div>
                   <button
-                    className="flex items-center text-base font-normal text-primary"
+                    className="flex items-center text-base font-normal text-primary xs:mb-2 md:mb-0"
                     onClick={handleEditClick}
                   >
-                    <EditTwoTone className="mx-2" /> {Strings.Edit_content}
+                    <EditTwoTone className="mr-2" /> {Strings.Edit_content}
                   </button>
                 </div>
 
@@ -332,8 +332,8 @@ const Customizecontent = ({
                   </div>
                 </div>
               </div>
-              <div className="my-5 max-h-max min-h-[460px] w-[700px] rounded-xl bg-white p-5">
-                <div className="flex items-center justify-between">
+              <div className="my-5 max-h-max min-h-[460px] rounded-xl bg-white p-5 xs:w-[310px] md:w-[700px]">
+                <div className="xs:block flex items-center md:flex md:justify-between">
                   <div className="text-xl font-bold text-black">
                     {Strings.Invitation_email}
                     <p className="my-2 text-base font-normal text-black">
@@ -342,9 +342,9 @@ const Customizecontent = ({
                   </div>
                   <button
                     onClick={handleEditClick2}
-                    className="flex items-center text-base font-normal text-primary"
+                    className="flex items-center text-base font-normal text-primary xs:mb-2 md:mb-0"
                   >
-                    <EditTwoTone className="mx-2" /> {Strings.Edit_content}
+                    <EditTwoTone className="mr-2" /> {Strings.Edit_content}
                   </button>
                 </div>
                 <div className="max-h-full min-h-[460px] space-y-3 border-4 border-[#8d3f42] border-opacity-[50%] p-4">
@@ -424,9 +424,7 @@ const Customizecontent = ({
                     <h1 className="space-y-1 text-black">
                       {isEditing2 ? (
                         <div>
-                          <p>
-                            {Strings.if_you_experience}
-                          </p>
+                          <p>{Strings.if_you_experience}</p>
                           <p>
                             {Strings.reply_to_this_email}
                             <span className="text-[#8d3f42]">
@@ -490,7 +488,7 @@ const Customizecontent = ({
                   </div>
                 </div>
               </div>
-              <div className="my-5 h-[100px] w-[700px] bg-gray-100"></div>
+              <div className="my-5 h-[100px] bg-gray-100 xs:w-[310px] md:w-[700px]"></div>
             </div>
           </div>
         </div>

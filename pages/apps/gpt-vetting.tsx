@@ -1,5 +1,8 @@
+import "react-datepicker/dist/react-datepicker.css";
+
 import {
   ArrowLeftOutlined,
+  CalendarOutlined,
   CloseOutlined,
   CopyOutlined,
   DeleteOutlined,
@@ -11,6 +14,7 @@ import {
   LeftOutlined,
   LinkOutlined,
   MailOutlined,
+  MenuOutlined,
   PlusCircleOutlined,
   RetweetOutlined,
   RightOutlined,
@@ -22,6 +26,7 @@ import Customizecontent, {
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Images, Strings } from "@/constants";
 import Managetests, { toggleModal1 } from "@/components/Layouts/Managetests";
+import type { ModalInterface, ModalOptions } from "flowbite";
 import Quickdamo, { toggleModal2 } from "@/components/Layouts/Quickdamo";
 import { Radio, RadioChangeEvent } from "antd";
 import Upgradeplane, {
@@ -31,9 +36,10 @@ import dayjs, { Dayjs } from "dayjs";
 
 import { Checkbox } from "antd";
 import type { CheckboxProps } from "antd";
-import { DatePicker } from "antd";
+import DatePicker from "react-datepicker";
 import Image from "next/image";
 import Loader from "@/components/Layouts/Loader";
+import { Modal } from "flowbite";
 import React from "react";
 import ReactPaginate from "react-paginate";
 import type { SizeType } from "antd/es/config-provider/SizeContext";
@@ -130,7 +136,6 @@ const data: UpgradeplaneProps[] = [
     yearly: false,
   },
 ];
-const { RangePicker } = DatePicker;
 
 const gptvetting: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -185,7 +190,8 @@ const gptvetting: React.FC = () => {
       name: "Mihir Mistry",
       test: "Self defined skills",
       dateTaken: "Jan 01, 2023",
-      mainTechStacks: `Web framework angular(junior)\njavascript(junior)\nReact(mid-level)`,
+      mainTechStacks:
+        "Web framework angular(junior)\njavascript(junior)\nReact(mid-level)",
       softSkills: "Average",
       proctoringResult: "N/A",
     },
@@ -286,7 +292,7 @@ const gptvetting: React.FC = () => {
 
     return (
       <td
-        className={`ant-picker-cell ant-picker-cell-in-view text-center ${customClassName}`}
+        className={` ant-picker-cell ant-picker-cell-in-view text-center ${customClassName}`}
       >
         <div className="ant-picker-cell-inner">{current.date()}</div>
       </td>
@@ -557,13 +563,13 @@ const gptvetting: React.FC = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "";
-  //   }
-  // }, [isOpen]);
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isOpen]);
   // useEffect(() => {
   //   if (isModalOpen) {
   //     document.body.style.overflow = "hidden";
@@ -642,6 +648,32 @@ const gptvetting: React.FC = () => {
   // useEffect(() => {
   //   setTableData2(initialTableData2 as TableRowData[]);
   // }, []);
+  const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const handleMenuItemClick = () => {
+    setShowMenu(false);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setShowMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   return loading ? (
     <div>
@@ -649,9 +681,9 @@ const gptvetting: React.FC = () => {
     </div>
   ) : (
     <div>
-      <div className="flex items-center justify-between ">
-        <div className="flex items-center space-x-2">
-          <h1 className="font-bold text-black dark:text-white xs:text-sm md:text-lg xl:text-xl">
+      <div className="flex items-center xs:flex-col md:flex-row md:justify-between ">
+        <div className="flex items-center space-x-2 xs:mb-4 md:mb-0">
+          <h1 className="md:text-xl- font-bold text-black dark:text-white xs:text-2xl xl:text-xl">
             {Strings.GPT_VETTING}
           </h1>
           <p className=" flex items-center justify-center rounded-full bg-[#8d3f42] bg-opacity-[20%] xs:h-6 xs:w-6 xl:h-8 xl:w-8 ">
@@ -671,34 +703,101 @@ const gptvetting: React.FC = () => {
             </svg>
           </p>
         </div>
-        <div className="flex items-center xs:space-x-1 xl:space-x-2">
+        {/* <div className="flex items-center xs:block md:hidden">
           <button
-            onClick={handleButtonClick}
-            className="xs:text:xs flex transform cursor-pointer items-center font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white xl:text-sm"
+            onClick={toggleMenu}
+            className="xs:text:xs transform cursor-pointer font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white xl:text-sm"
           >
-            {Strings.Customize_content}
+            <MenuOutlined />
           </button>
-          <p>
-            <Tooltip title={tooltipContent2} placement="bottom">
-              <ExclamationCircleOutlined rev={undefined} />
-            </Tooltip>
-          </p>
+        </div>
+        {showMenu && (
+          <div
+            ref={menuRef}
+            className="absolute right-0 top-16 z-10  flex h-[160px] w-[220px] items-center justify-center  rounded-md bg-white  py-2 shadow-lg dark:bg-gray-800"
+          >
+            <div className="space-y-2 text-center">
+              <p className="flex ">
+                <button
+                  onClick={handleButtonClick}
+                  className="mr-1 flex transform cursor-pointer items-center text-sm font-normal text-[#8d3f42] transition-transform hover:scale-105 dark:text-white"
+                >
+                  {Strings.Customize_content}
+                </button>
 
-          <Customizecontent
-            customizecontent={customizecontent}
-            setCustomizecontent={setCustomizecontent}
-          />
-          {/* <div className="h-4 border-2 border-l border-white-dark"></div>
+                <Tooltip title={tooltipContent2} placement="bottom">
+                  <ExclamationCircleOutlined rev={undefined} />
+                </Tooltip>
+              </p>
+
+              <Customizecontent
+                customizecontent={customizecontent}
+                setCustomizecontent={setCustomizecontent}
+              />
+              <p className="border "></p>
+              <button
+                onClick={handleButtonClick1}
+                className="transform cursor-pointer text-sm font-normal text-[#8d3f42] transition-transform hover:scale-105 dark:text-white"
+              >
+                {Strings.Manage_saved_tests}
+              </button>
+              <Managetests
+                managesavedtests={managesavedtests}
+                setManagesavedtests={setManagesavedtests}
+              />
+              <p className="border"></p>
+              <button
+                onClick={handleButtonClick2}
+                className="nav-item h-10- w-28- rounded-full- bg-[#8d3f42]- shadow-lg- dark:bg-white- group
+             flex transform items-center justify-center transition-transform hover:scale-105"
+              >
+                <text className="text-sm font-normal text-[#8d3f42] dark:text-white">
+                  {Strings.Quick_demo}
+                </text>
+              </button>
+              <Quickdamo quickdemo={quickdemo} setQuickdemo={setQuickdemo} />
+              <p className="border"></p>
+              <button
+                onClick={openModal}
+                className="h-10-  w-[150px]- rounded-full- border- border-[#8D3F42]- bg-white- text-[#8D3F42]- hover:bg-[#8D3F42]- dark:border-transparent- dark:bg-[#8D3F42]- dark:text-white- dark:hover:bg-white- dark:hover:text-[#8D3F42]- flex items-center  justify-center text-sm font-normal text-white"
+              >
+                <text className=" text-[#8d3f42] dark:text-white">
+                  {Strings.Inviteacandidate}
+                </text>
+              </button>
+            </div>
+          </div>
+        )} */}
+        <div className="flex items-center  xs:flex-col sm:space-x-1 md:flex-row xl:space-x-2">
+          <div className="flex xs:space-x-1 xl:space-x-2">
+            {" "}
+            <p className="flex">
+              <button
+                onClick={handleButtonClick}
+                className="xs:text:xs mr-1 flex transform cursor-pointer items-center font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white xl:text-sm"
+              >
+                {Strings.Customize_content}
+              </button>
+              <Tooltip title={tooltipContent2} placement="bottom">
+                <ExclamationCircleOutlined rev={undefined} />
+              </Tooltip>
+            </p>
+            <Customizecontent
+              customizecontent={customizecontent}
+              setCustomizecontent={setCustomizecontent}
+            />
+            {/* <div className="h-4 border-2 border-l border-white-dark"></div>
           <h1 className="transform cursor-pointer text-sm font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white">
             Manage access
           </h1> */}
-          <div className="h-4 border-2 border-l border-white-dark"></div>
-          <button
-            onClick={handleButtonClick1}
-            className="xs:text:xs transform cursor-pointer font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white xl:text-sm"
-          >
-            {Strings.Manage_saved_tests}
-          </button>
+            <div className="xs:hidden- md:block- h-4 border-2 border-l border-white-dark"></div>
+            <button
+              onClick={handleButtonClick1}
+              className="xs:text:xs transform cursor-pointer font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white xl:text-sm"
+            >
+              {Strings.Manage_saved_tests}
+            </button>
+          </div>
           <Managetests
             managesavedtests={managesavedtests}
             setManagesavedtests={setManagesavedtests}
@@ -706,31 +805,35 @@ const gptvetting: React.FC = () => {
 
           <button
             onClick={handleButtonClick2}
-            className="nav-item group flex transform items-center rounded-full bg-[#8d3f42] shadow-lg
-             transition-transform hover:scale-105 dark:bg-white xs:p-1 xl:p-2"
+            className="nav-item group flex h-10 transform items-center justify-center rounded-full bg-[#8d3f42] shadow-lg transition-transform
+             hover:scale-105 dark:bg-white xs:my-2 xs:w-[300px] sm:w-full md:my-0 md:w-28"
           >
-            <PlusCircleOutlined rev={undefined} />
-            <text className="text-white dark:text-black ltr:pl-3 rtl:pr-3">
+            <Image
+              src={Images.quickdamo}
+              alt="/"
+              height={16}
+              width={16}
+              className="mr-1"
+            />
+            <text className="text-sm font-semibold text-white dark:text-black">
               {Strings.Quick_demo}
             </text>
           </button>
           <Quickdamo quickdemo={quickdemo} setQuickdemo={setQuickdemo} />
           <button
             onClick={openModal}
-            className="flex items-center justify-center rounded-full border border-[#8D3F42] bg-white text-sm text-[#8D3F42] hover:bg-[#8D3F42] hover:text-white dark:border-transparent  dark:bg-[#8D3F42] dark:text-white dark:hover:bg-white dark:hover:text-[#8D3F42] xs:p-1 xl:p-2"
+            className="flex h-10 transform items-center justify-center rounded-full border border-[#8D3F42] bg-white text-sm font-semibold text-[#8D3F42] transition-transform hover:scale-105 hover:bg-[#8D3F42] hover:text-white dark:border-transparent dark:bg-[#8D3F42] dark:text-white  dark:hover:bg-white dark:hover:text-[#8D3F42] xs:w-[300px] sm:w-full md:w-[150px]"
           >
             <MailOutlined rev={undefined} />
 
-            <text className="ltr:pl-3 rtl:pr-3">
-              {Strings.Inviteacandidate}
-            </text>
+            <text className="ml-1">{Strings.Inviteacandidate}</text>
           </button>
         </div>
         {isOpen && (
           <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center  justify-center bg-black bg-opacity-[80%] backdrop-blur-sm">
-            <div className="min-h-auto no-scrollbar max-h-[600px] w-[500px] overflow-y-scroll  rounded-2xl bg-white p-4">
+            <div className="min-h-auto no-scrollbar max-h-[600px] overflow-y-scroll rounded-2xl bg-white  p-4 xs:w-[310px] md:w-[500px]">
               <div
-                className="fixed ml-[500px]"
+                className="xs:ml-[250px] md:fixed md:ml-[500px]"
                 // className={`fixed  ${
                 //   defineSkills
                 //     ? "xlg:top-[400px] lg:top-[60px] xl:top-[70px]"
@@ -752,7 +855,7 @@ const gptvetting: React.FC = () => {
               </p>
               <div className=" rounded-lg border-2 px-3 py-3  ">
                 <Radio.Group
-                  className="flex justify-between"
+                  className="flex justify-between xs:block xs:space-y-2 md:flex md:space-y-0"
                   name="radiogroup"
                   value={selectedOption}
                   onChange={handleRadioChange}
@@ -783,7 +886,7 @@ const gptvetting: React.FC = () => {
                   </div>
                   <div className="my-2 rounded-lg border-2 px-3 py-3  ">
                     <Radio.Group
-                      className="flex justify-between"
+                      className="flex justify-between xs:block xs:space-y-2 md:flex md:space-y-0"
                       name="radiogroup"
                       defaultValue={3}
                     >
@@ -804,7 +907,7 @@ const gptvetting: React.FC = () => {
                           console.log(`Skill ${index + 1}: ${e.target.value}`);
                         }}
                         placeholder={`Enter skill #${index + 1}`}
-                        className="w-[200px] rounded-lg border-2 p-3 outline-none"
+                        className="rounded-lg border-2 p-3 outline-none xs:mr-1 xs:w-[140px] md:mr-0 md:w-[200px]"
                       />
 
                       {/* <select className="w-[250px] rounded-lg border-2 text-sm outline-none">
@@ -822,7 +925,7 @@ const gptvetting: React.FC = () => {
                           handleLevelChange(index, e.target.value);
                           console.log(`Level ${index + 1}: ${e.target.value}`);
                         }}
-                        className={`w-[230px] rounded-lg border-2 px-1 text-sm outline-none ${
+                        className={`rounded-lg border-2 px-1 outline-none xs:w-[140px] xs:text-xs md:w-[230px] md:text-sm ${
                           index === 0 ? "mr-[26px]" : ""
                         }`}
                       >
@@ -836,7 +939,7 @@ const gptvetting: React.FC = () => {
                       {index > 0 && (
                         <button
                           onClick={() => deleteSkill(index)}
-                          className="text-red-500"
+                          className="ml-1 text-red-500"
                         >
                           <DeleteOutlined />
                         </button>
@@ -864,7 +967,7 @@ const gptvetting: React.FC = () => {
                         type="text"
                         required
                         placeholder="Name"
-                        className="w-[200px] rounded-lg border-2 p-3 outline-none"
+                        className="xs:mr-1- rounded-lg border-2 p-3 outline-none xs:w-[130px] md:mr-0 md:w-[200px]"
                         value={candidate.name}
                         onChange={(e) =>
                           handleNameChange(index, e.target.value)
@@ -874,7 +977,7 @@ const gptvetting: React.FC = () => {
                       <input
                         type="email"
                         placeholder="Email address"
-                        className="w-[230px] rounded-lg border-2 p-3 outline-none"
+                        className="rounded-lg border-2 p-3 outline-none xs:w-[140px] md:w-[230px]"
                         value={candidate.email}
                         onChange={(e) =>
                           handleEmailChange(index, e.target.value)
@@ -884,14 +987,14 @@ const gptvetting: React.FC = () => {
                     <div className="mt-1 flex">
                       <p className="sticky flex justify-start">
                         {candidate.nameError && (
-                          <p className="w-[200px] text-xs font-bold text-red-500">
+                          <p className="font-bold text-red-500 xs:w-[130px] xs:text-[11px] md:w-[200px] md:text-xs">
                             {Strings.Please_enter_your_name}
                           </p>
                         )}
                       </p>
                       <p className="sticky left-[218px]">
                         {candidate.emailError && (
-                          <p className="w-[230px] text-xs font-bold text-red-500">
+                          <p className="font-bold text-red-500 xs:w-[140px] xs:text-[11px] md:w-[230px] md:text-xs">
                             {Strings.Enter_a_valid_email_address}
                           </p>
                         )}
@@ -902,7 +1005,7 @@ const gptvetting: React.FC = () => {
                     {index > 0 && (
                       <button
                         onClick={() => deleteCandidate(index)}
-                        className="text-red-500"
+                        className=" text-red-500"
                       >
                         <DeleteOutlined />
                       </button>
@@ -917,12 +1020,12 @@ const gptvetting: React.FC = () => {
               >
                 {Strings.Add_another_candidate}
               </p>
-              <div className="my-4 flex items-center justify-between rounded-lg border-2  px-14 py-3">
+              <div className="my-4 flex max-h-max min-h-14  items-center justify-between rounded-lg border-2  py-3 xs:block xs:px-2 md:flex md:px-14">
                 <p className="flex items-center space-x-2">
                   <Switch
                     // defaultChecked
                     onChange={onChange1}
-                    className="mr-2 bg-gray-300 font-bold text-black-dark-light"
+                    className="mr-2 bg-gray-300 font-bold text-black-dark-light xs:my-2 md:my-0"
                   />
                   {Strings.Add_coding_exercise}
                   <Tooltip title={tooltipContent} placement="top">
@@ -933,7 +1036,7 @@ const gptvetting: React.FC = () => {
                   <Switch
                     // defaultChecked
                     onChange={onChange1}
-                    className=" mr-2 bg-gray-300 font-bold text-black-dark-light"
+                    className=" mr-2 bg-gray-300 font-bold text-black-dark-light xs:my-2 md:my-0"
                   />
                   {Strings.Proctoring}
                   <Tooltip title={tooltipContent1} placement="top">
@@ -941,12 +1044,18 @@ const gptvetting: React.FC = () => {
                   </Tooltip>
                 </p>
               </div>
-              <div className=" flex justify-between">
+              <div className=" flex justify-between xs:block xs:space-y-2 md:flex md:space-y-0">
                 <button
                   onClick={handleCopyClick}
-                  className="transform rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-sm font-bold text-black transition-transform hover:scale-105"
+                  className="flex transform items-center rounded-full bg-[#8d3f42] bg-opacity-[20%] p-3 text-sm font-bold text-black transition-transform hover:scale-105"
                 >
-                  <CopyOutlined rev={undefined} />
+                  <Image
+                    src={Images.Copy}
+                    alt="/"
+                    height={16}
+                    width={18}
+                    className="mr-1"
+                  />
                   {copied ? "Link Copied!" : "Copy the test link instead"}
                 </button>
                 <button className="transform rounded-full bg-slate-500 bg-opacity-[20%] p-3 text-sm font-bold text-black transition-transform hover:scale-105">
@@ -957,7 +1066,7 @@ const gptvetting: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="flex justify-end">
+      <div className="flex xs:justify-center md:justify-end">
         <button
           onClick={handleLinkCopyClick}
           className="mx-2 mt-1 flex transform cursor-pointer items-center justify-end text-[#8d3f42] transition-transform hover:scale-105"
@@ -967,7 +1076,7 @@ const gptvetting: React.FC = () => {
         </button>
       </div>
       <Tab.Group>
-        <Tab.List className="mt-3 flex flex-wrap border-b border-white-light dark:border-[#8D3F42]">
+        <Tab.List className="mt-3 flex flex-wrap border-b border-white-light dark:border-[#8D3F42] xs:text-[12px] xs:font-normal md:text-sm md:font-semibold">
           <Tab as={Fragment}>
             {({ selected }) => (
               <button
@@ -976,7 +1085,7 @@ const gptvetting: React.FC = () => {
                     ? "rounded-t-md !border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white "
                     : ""
                 }
-                    -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                    -mb-[1px] block border border-transparent dark:hover:border-b-black dark:hover:text-white xs:p-2 xs:py-1 md:p-4 md:py-3`}
               >
                 {Strings.Reports}({totalRecords})
               </button>
@@ -990,7 +1099,7 @@ const gptvetting: React.FC = () => {
                     ? "rounded-t-md !border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
                     : ""
                 }
-                    -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                    -mb-[1px] block border border-transparent dark:hover:border-b-black dark:hover:text-white xs:p-2 xs:py-1 md:p-4 md:py-3`}
               >
                 {Strings.Contected}({connectedRows.length})
               </button>
@@ -1004,7 +1113,7 @@ const gptvetting: React.FC = () => {
                     ? "rounded-t-md !border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
                     : ""
                 }
-                    -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                    -mb-[1px] block border border-transparent dark:hover:border-b-black dark:hover:text-white xs:p-2 xs:py-1 md:p-4 md:py-3`}
               >
                 {Strings.Archived}({archivedData.length})
               </button>
@@ -1014,16 +1123,16 @@ const gptvetting: React.FC = () => {
         <Tab.Panels>
           {/* < Hired tab section > */}
           <Tab.Panel>
-            <div className="mt-5 h-[540px] w-full rounded-2xl border-2 bg-white p-5 shadow-md dark:border-dark-Cod_Gray dark:bg-black-dark-light">
-              <div className="flex justify-between">
-                <div className="flex space-x-2">
+            <div className="mt-5 w-full rounded-2xl border-2 bg-white shadow-md dark:border-dark-Cod_Gray dark:bg-black-dark-light xs:h-[570px] xs:p-3 md:h-[540px] md:p-5">
+              <div className="flex xs:flex-col md:flex-row md:justify-between">
+                <div className="flex xs:justify-between md:space-x-2">
                   <div className="relative ">
                     <input
                       type="text"
                       placeholder="Search"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="flex w-[180px] items-center rounded-lg border-2 bg-white p-3 text-black outline-none dark:border-dark-Cod_Gray dark:bg-gray-300"
+                      className="flex items-center rounded-lg border-2 bg-white p-3 text-black outline-none dark:border-dark-Cod_Gray dark:bg-gray-300 xs:w-[158px] md:w-[180px]"
                       style={{ paddingLeft: "2.5rem" }}
                     />
                     <span className="item-center absolute left-3 top-1/2 flex -translate-y-1/2 transform text-black">
@@ -1032,15 +1141,22 @@ const gptvetting: React.FC = () => {
                   </div>
                   <button
                     onClick={openModal7}
-                    className="flex w-[80px] items-center rounded-lg border-2 bg-white p-3 dark:border-dark-Cod_Gray dark:bg-gray-300"
+                    className="flex w-[85px] items-center rounded-lg border-2 bg-white p-3 text-black dark:border-dark-Cod_Gray dark:bg-gray-300 "
                   >
-                    <FilterTwoTone /> {Strings.Filters}
+                    <Image
+                      src={Images.Filter}
+                      alt="/"
+                      height={16}
+                      width={16}
+                      className="mr-1"
+                    />
+                    {Strings.Filters}
                   </button>
                 </div>
                 {filter && (
                   <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center  bg-gray-500 bg-opacity-[40%] backdrop-blur-sm ">
-                    <div className="items-center- flex min-h-[250px] w-[480px] max-w-full justify-center rounded-lg bg-white p-5 ">
-                      <div className="fixed ml-[520px]">
+                    <div className="items-center- flex min-h-[250px] max-w-full justify-center rounded-lg bg-white p-5 xs:w-[310px] md:w-[480px] ">
+                      <div className="fixed xs:ml-[250px] md:ml-[520px]">
                         <button
                           className="flex h-8 w-8 items-center justify-center rounded-full border-transparent bg-white text-black opacity-[80%]"
                           onClick={openModal7}
@@ -1056,19 +1172,19 @@ const gptvetting: React.FC = () => {
                           {Strings.Filter_by_test}
                         </p>
                         <h1
-                          className="mt-2 flex cursor-pointer justify-between rounded-md border p-4 text-base font-medium"
+                          className="mt-2 flex cursor-pointer justify-between rounded-md border p-4 text-base font-medium xs:w-[280px] md:w-[460px]"
                           onClick={handleTogglePopover}
                         >
                           <p className="text-black">{Strings.Select}</p>
                           <DownOutlined />
                         </h1>
                         {popoverOpen && (
-                          <div className="max-h-full min-h-[150px] w-[460px] rounded-lg bg-white p-4 shadow-md">
+                          <div className="max-h-full min-h-[150px] rounded-lg bg-white p-4 shadow-md xs:w-[280px] md:w-[460px]">
                             <div className="relative ">
                               <input
                                 type="text"
                                 placeholder="Search"
-                                className="flex w-[440px] items-center rounded-lg border-2 bg-white p-3 text-black outline-none"
+                                className="flex items-center rounded-lg border-2 bg-white p-3 text-black outline-none xs:w-[250px] md:w-[440px]"
                                 style={{ paddingLeft: "2.5rem" }}
                               />
                               <span className="item-center absolute left-3 top-1/2 flex -translate-y-1/2 transform text-black">
@@ -1105,14 +1221,84 @@ const gptvetting: React.FC = () => {
                           </div>
                         )}
                         <p className="mt-4 text-black">{Strings.Date_taken}</p>
-                        <div className="text-base font-semibold">
+
+                        {/* <div className="mt-2 text-base font-semibold">
                           <Space direction="vertical" size={12}>
                             <RangePicker
                               size={size}
-                              className="custom-datepicker custom-range-picker mt-2 w-[460px] p-4"
+                              className="custom-datepicker custom-range-picker mt-2 p-4 xs:w-[280px] md:w-[460px]"
                               dateRender={customDateRender}
+                              picker="date" // Set the picker to 'date' to only show date picker
+                              dropdownClassName="custom-date-picker-dropdown" 
                             />
                           </Space>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateRangePicker
+                              value={value}
+                              onChange={(newValue) => setValue(newValue)}
+                              className="custom-date-range-picker"
+                            />
+                            <div className="custom-date-range-picker-labels">
+                              <TextField
+                                label="Start Date"
+                                variant="outlined"
+                                value={value[0]}
+                                onChange={(e) =>
+                                  setValue([
+                                    e.target.value as unknown as Date,
+                                    value[1],
+                                  ])
+                                }
+                              />
+                              <TextField
+                                label="End Date"
+                                variant="outlined"
+                                value={value[1]}
+                                onChange={(e) =>
+                                  setValue([
+                                    value[0],
+                                    e.target.value as unknown as Date,
+                                  ])
+                                }
+                              />
+                            </div>
+                          </LocalizationProvider>
+                         
+
+                        </div>  */}
+                        <div className="mt-2 flex items-center xs:flex-col md:flex-row">
+                          <div className="relative flex items-center">
+                            <DatePicker
+                              selected={startDate}
+                              onChange={(date: Date | null) =>
+                                setStartDate(date)
+                              }
+                              selectsStart
+                              startDate={startDate}
+                              endDate={endDate}
+                              dateFormat="dd/MM/yyyy"
+                              placeholderText="Start Date"
+                              className=" block w-full rounded-md border border-gray-300 bg-gray-50 p-3 text-base text-gray-900 outline-none "
+                            />
+                            <CalendarOutlined className="absolute xs:right-2 md:right-7" />
+                          </div>
+                          <span className="text-gray-500 xs:my-2 md:mx-4">
+                            {Strings.to}
+                          </span>
+                          <div className="relative flex items-center">
+                            <DatePicker
+                              selected={endDate}
+                              onChange={(date: Date | null) => setEndDate(date)}
+                              selectsEnd
+                              startDate={startDate}
+                              endDate={endDate}
+                              minDate={startDate}
+                              dateFormat="dd/MM/yyyy"
+                              placeholderText="End Date"
+                              className=" block w-full rounded-md border border-gray-300 bg-gray-50 p-3 text-base text-gray-900 outline-none "
+                            />
+                            <CalendarOutlined className="absolute xs:right-2 md:right-7" />
+                          </div>
                         </div>
                         <div className="mt-4 flex justify-end">
                           <button className="flex w-28 transform items-center justify-center rounded-full border bg-[#8D3F42] p-4 text-base font-semibold text-white transition-transform hover:scale-105">
@@ -1123,12 +1309,22 @@ const gptvetting: React.FC = () => {
                     </div>
                   </div>
                 )}
+
                 <button
                   onClick={openModal3}
-                  className="flex transform items-center rounded-full bg-[#8D3F42] bg-opacity-[10%] p-2 text-sm font-bold text-black transition-transform hover:scale-105 dark:bg-[#8D3F42] dark:bg-opacity-[30%] dark:text-white"
+                  className="flex h-12 transform items-center justify-center rounded-full bg-[#8D3F42] bg-opacity-[10%] text-sm font-bold text-black transition-transform hover:scale-105 dark:bg-[#8D3F42] dark:bg-opacity-[10%] dark:text-white xs:mt-2 xs:w-full md:mt-0 md:w-32"
                 >
-                  <RetweetOutlined /> {Strings.Upgrade_plan}
+                  <Image
+                    src={Images.Upgradeplane}
+                    alt="/"
+                    height={16}
+                    width={16}
+                    className={`mr-1`}
+                  />
+
+                  {Strings.Upgrade_plan}
                 </button>
+
                 {upgradeplan && (
                   <div className="fixed left-0 top-0 z-50 flex h-full w-full items-end justify-center bg-black bg-opacity-[80%] backdrop-blur-sm">
                     <div className="fixed right-7 top-6">
@@ -1211,36 +1407,55 @@ const gptvetting: React.FC = () => {
                   </thead>
 
                   <tbody>
-                    {currentData
-                      .filter((rowData, index) =>
-                        rowData.name
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase())
-                      )
+                    {currentData.length === 0 ? (
+                      <tr className="text-center">
+                        <td colSpan={7} className="py-8">
+                          <div className="flex flex-col items-center justify-center">
+                            <Image
+                              src={Images.NoRecords}
+                              alt="/"
+                              height={90}
+                              width={90}
+                            />
+                            <span className="text-base font-bold text-black dark:text-white">
+                              {Strings.No_records_found}
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+                      currentData
+                        .filter((rowData, index) =>
+                          rowData.name
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        )
 
-                      .map((rowData, index) => (
-                        <tr
-                          key={index}
-                          className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-[#1B1B1B] dark:hover:bg-dark-tundora"
-                        >
-                          <th
-                            scope="row"
-                            className="flex items-center whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                        .map((rowData, index) => (
+                          <tr
+                            key={index}
+                            className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-[#1B1B1B] dark:hover:bg-dark-tundora"
                           >
-                            {rowData.name}
-                            {svgVisibleArray[currentPage * perPage + index] && (
-                              <Image
-                                src={Images.Contacted}
-                                alt="/"
-                                height={14}
-                                width={14}
-                                className="ml-2"
-                              />
-                            )}
-                          </th>
-                          <td className="px-6 py-4">{rowData.test}</td>
-                          <td className="px-6 py-4">{rowData.dateTaken}</td>
-                          {/* <td
+                            <th
+                              scope="row"
+                              className="flex items-center whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                            >
+                              {rowData.name}
+                              {svgVisibleArray[
+                                currentPage * perPage + index
+                              ] && (
+                                <Image
+                                  src={Images.Contacted}
+                                  alt="/"
+                                  height={14}
+                                  width={14}
+                                  className="ml-2"
+                                />
+                              )}
+                            </th>
+                            <td className="px-6 py-4">{rowData.test}</td>
+                            <td className="px-6 py-4">{rowData.dateTaken}</td>
+                            {/* <td
                             className={`whitespace-nowrap ${
                               rowData.mainTechStacks === "(junior)"
                                 ? "text-slate-500"
@@ -1253,60 +1468,61 @@ const gptvetting: React.FC = () => {
                           >
                             {rowData.mainTechStacks}
                           </td> */}
-                          <td
-                            style={getSkillLevelColor(rowData.mainTechStacks)}
-                            className="px-6 py-4 "
-                          >
-                            {rowData.mainTechStacks}
-                          </td>
-                          <td className="px-6 py-4">{rowData.softSkills}</td>
-                          <td className="px-6 py-4">
-                            {rowData.proctoringResult}
-                          </td>
-                          <td className="px-6 py-4 text-right">
-                            <a onClick={(e) => handleDotsClick(e, index)}>
-                              <div className="flex h-7 w-7 items-center justify-center rounded-lg border-2 dark:bg-white">
-                                <Image
-                                  src={Images.dots}
-                                  width={20}
-                                  height={20}
-                                  alt={""}
-                                />
-                              </div>
-                            </a>
-                            {popoverVisibleArray[index] && (
-                              <div
-                                id="popover"
-                                className="absolute z-10 flex h-24 w-[180px]  items-center justify-center  rounded-lg border bg-white p-4 shadow-md"
-                                style={{
-                                  top: popoverPosition.top,
-                                  left: popoverPosition.left,
-                                }}
-                                onClick={(e) => handlePopoverClick(e)}
-                              >
-                                <h1 className="space-y-4 text-base font-semibold">
-                                  <p
-                                    onClick={() =>
-                                      handleMarkAsContected(
-                                        currentPage * perPage + index
-                                      )
-                                    }
-                                    className="cursor-pointer text-black"
-                                  >
-                                    {Strings.Mark_as_contected}
-                                  </p>
-                                  <p
-                                    onClick={() => openModal2(index)}
-                                    className="cursor-pointer text-red-500"
-                                  >
-                                    {Strings.Archive}
-                                  </p>
-                                </h1>
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
+                            <td
+                              style={getSkillLevelColor(rowData.mainTechStacks)}
+                              className="px-6 py-4 "
+                            >
+                              {rowData.mainTechStacks}
+                            </td>
+                            <td className="px-6 py-4">{rowData.softSkills}</td>
+                            <td className="px-6 py-4">
+                              {rowData.proctoringResult}
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <a onClick={(e) => handleDotsClick(e, index)}>
+                                <div className="flex h-7 w-7 items-center justify-center rounded-lg border-2 dark:bg-white">
+                                  <Image
+                                    src={Images.dots}
+                                    width={20}
+                                    height={20}
+                                    alt={""}
+                                  />
+                                </div>
+                              </a>
+                              {popoverVisibleArray[index] && (
+                                <div
+                                  id="popover"
+                                  className="absolute z-10 flex h-24 w-[180px]  items-center justify-center  rounded-lg border bg-white p-4 shadow-md"
+                                  style={{
+                                    top: popoverPosition.top,
+                                    left: popoverPosition.left,
+                                  }}
+                                  onClick={(e) => handlePopoverClick(e)}
+                                >
+                                  <h1 className="space-y-4 text-base font-semibold">
+                                    <p
+                                      onClick={() =>
+                                        handleMarkAsContected(
+                                          currentPage * perPage + index
+                                        )
+                                      }
+                                      className="cursor-pointer text-black"
+                                    >
+                                      {Strings.Mark_as_contected}
+                                    </p>
+                                    <p
+                                      onClick={() => openModal2(index)}
+                                      className="cursor-pointer text-red-500"
+                                    >
+                                      {Strings.Archive}
+                                    </p>
+                                  </h1>
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                        ))
+                    )}
                     {open && (
                       <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-[20%] backdrop-blur-sm">
                         <div className="flex h-[250px] w-[400px] items-center justify-center rounded-xl bg-white">
@@ -1381,42 +1597,46 @@ const gptvetting: React.FC = () => {
                   onPageChange={handlePageChange}
                   //
                   containerClassName={
-                    " bg-gray-200 rounded-b-lg pagination flex items-center  text-sm justify-center"
+                    " bg-gray-200 dark:bg-[#8D3F42] w-auto  rounded-b-lg pagination flex items-center text-sm justify-center"
                   }
                   pageClassName={
-                    "border px-[15px] py-[5px] hover:bg-[#8D3F42] font-bold"
+                    "  px-[15px] py-[5px] hover:bg-[#8D3F42] dark:hover:bg-white font-bold"
                   }
-                  activeClassName={"bg-[#8D3F42] text-white"}
+                  activeClassName={
+                    "bg-[#8D3F42] dark:bg-white text-white dark:text-black"
+                  }
                   previousClassName={
-                    "border p-[10px] px-[15px] hover:bg-[#8D3F42] rounded-l-lg text-lg"
+                    " p-[10px] px-[15px] hover:bg-[#8D3F42] dark:hover:bg-white rounded-l-lg text-lg"
                   }
                   nextClassName={
-                    "border p-[10px] px-[15px] hover:bg-[#8D3F42] rounded-r-lg"
+                    " p-[10px] px-[15px] hover:bg-[#8D3F42] dark:hover:bg-white rounded-r-lg"
                   }
                   previousLinkClassName={
                     currentPage === 0
-                      ? "pointer-events-none opacity-50 bg-[#8D3F42] text-black hover:text-white"
-                      : "bg-blue-500 text-black hover:text-white"
+                      ? "pointer-events-none opacity-50 bg-[#8D3F42] dark:bg-white text-black hover:text-white"
+                      : "bg-blue-500 text-black  hover:text-white dark:hover:text-black"
                   }
                   nextLinkClassName={
                     currentPage === pageCount - 1
-                      ? "pointer-events-none opacity-50 bg-[#8D3F42] text-black hover:text-white"
-                      : "bg-blue-500 text-black hover:text-white"
+                      ? "pointer-events-none opacity-50 bg-[#8D3F42] dark:bg-white text-black hover:text-white"
+                      : "bg-blue-500 text-black   hover:text-white dark:hover:text-black"
                   }
-                  breakClassName={"border p-2 hover:bg-[#8D3F42]"}
+                  breakClassName={
+                    "border p-2 hover:bg-[#8D3F42] dark:hover:bg-white hover:dark:text-black"
+                  }
                 />
               </div>
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div className="mt-5 h-[540px] w-full rounded-2xl border-2 bg-white p-5 shadow-md dark:border-dark-Cod_Gray dark:bg-black-dark-light">
+            <div className="mt-5 h-[540px] w-full rounded-2xl border-2 bg-white shadow-md  dark:border-dark-Cod_Gray dark:bg-black-dark-light xs:p-3 md:p-5">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Search"
                   value={searchTerm1}
                   onChange={(e) => setSearchTerm1(e.target.value)}
-                  className="flex w-[380px] items-center rounded-lg border-2 bg-white p-3 text-black outline-none dark:border-dark-Cod_Gray dark:bg-gray-300 "
+                  className="flex items-center rounded-lg border-2 bg-white p-3 text-black outline-none dark:border-dark-Cod_Gray dark:bg-gray-300 xs:w-[200px] md:w-[380px] "
                   style={{ paddingLeft: "2.5rem" }}
                 />
                 <span className="item-center absolute left-3 top-1/2 flex -translate-y-1/2 transform text-black">
@@ -1451,92 +1671,110 @@ const gptvetting: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredConnectedRows.map((connectedIndex, index) => {
-                      console.log("Rendering Connected Row:", connectedIndex);
-                      const connectedRow = TableData[connectedIndex];
+                    {filteredConnectedRows.length === 0 ? (
+                      <tr className="text-center">
+                        <td colSpan={7} className="py-8">
+                          <div className="flex flex-col items-center justify-center">
+                            <Image
+                              src={Images.NoRecords}
+                              alt="/"
+                              height={90}
+                              width={90}
+                            />
+                            <span className="text-base font-bold text-black dark:text-white">
+                              {Strings.No_records_found}
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredConnectedRows.map((connectedIndex, index) => {
+                        console.log("Rendering Connected Row:", connectedIndex);
+                        const connectedRow = TableData[connectedIndex];
 
-                      if (connectedRow) {
-                        console.log("Connected Row Data:", connectedRow);
-                        return (
-                          <tr
-                            key={connectedIndex}
-                            style={{ cursor: "pointer" }}
-                            className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-[#1B1B1B] dark:hover:bg-dark-tundora"
-                          >
-                            <th
-                              onClick={() => openModal1(connectedRow, index)}
-                              scope="row"
-                              className="flex items-center whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                        if (connectedRow) {
+                          console.log("Connected Row Data:", connectedRow);
+                          return (
+                            <tr
+                              key={connectedIndex}
+                              style={{ cursor: "pointer" }}
+                              className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-[#1B1B1B] dark:hover:bg-dark-tundora"
                             >
-                              {connectedRow.name}
-                              <Image
-                                src={Images.Contacted}
-                                alt="/"
-                                height={14}
-                                width={14}
-                                className="ml-2"
-                              />
-                            </th>
-                            <td
-                              onClick={() => openModal1(connectedRow, index)}
-                              className="px-6 py-4"
-                            >
-                              {connectedRow.test}
-                            </td>
-                            <td
-                              onClick={() => openModal1(connectedRow, index)}
-                              className="px-6 py-4"
-                            >
-                              {connectedRow.dateTaken}
-                            </td>
-                            <td
-                              onClick={() => openModal1(connectedRow, index)}
-                              className="px-6 py-4"
-                            >
-                              {connectedRow.mainTechStacks}
-                            </td>
-                            <td
-                              onClick={() => openModal1(connectedRow, index)}
-                              className="px-6 py-4"
-                            >
-                              {connectedRow.softSkills}
-                            </td>
-                            <td
-                              onClick={() => openModal1(connectedRow, index)}
-                              className="px-6 py-4"
-                            >
-                              {connectedRow.proctoringResult}
-                            </td>
-                            <td className="px-6 py-4 text-right">
-                              <a
-                                className=""
-                                onClick={() =>
-                                  archiveRow(
-                                    {
-                                      ...connectedRow,
-                                      title: "",
-                                      location: "",
-                                      teston: "",
-                                    },
-                                    connectedIndex
-                                  )
-                                }
+                              <th
+                                onClick={() => openModal1(connectedRow, index)}
+                                scope="row"
+                                className="flex items-center whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                               >
-                                <div className="z-50 cursor-pointer text-sm font-bold text-red-500">
-                                  {Strings.Archive}
-                                </div>
-                              </a>
-                            </td>
-                          </tr>
-                        );
-                      } else {
-                        console.warn(
-                          "Connected Row Data not found for index:",
-                          connectedIndex
-                        );
-                        return null;
-                      }
-                    })}
+                                {connectedRow.name}
+                                <Image
+                                  src={Images.Contacted}
+                                  alt="/"
+                                  height={14}
+                                  width={14}
+                                  className="ml-2"
+                                />
+                              </th>
+                              <td
+                                onClick={() => openModal1(connectedRow, index)}
+                                className="px-6 py-4"
+                              >
+                                {connectedRow.test}
+                              </td>
+                              <td
+                                onClick={() => openModal1(connectedRow, index)}
+                                className="px-6 py-4"
+                              >
+                                {connectedRow.dateTaken}
+                              </td>
+                              <td
+                                onClick={() => openModal1(connectedRow, index)}
+                                className="px-6 py-4"
+                              >
+                                {connectedRow.mainTechStacks}
+                              </td>
+                              <td
+                                onClick={() => openModal1(connectedRow, index)}
+                                className="px-6 py-4"
+                              >
+                                {connectedRow.softSkills}
+                              </td>
+                              <td
+                                onClick={() => openModal1(connectedRow, index)}
+                                className="px-6 py-4"
+                              >
+                                {connectedRow.proctoringResult}
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                <a
+                                  className=""
+                                  onClick={() =>
+                                    archiveRow(
+                                      {
+                                        ...connectedRow,
+                                        title: "",
+                                        location: "",
+                                        teston: "",
+                                      },
+                                      connectedIndex
+                                    )
+                                  }
+                                >
+                                  <div className="z-50 cursor-pointer text-sm font-bold text-red-500">
+                                    {Strings.Archive}
+                                  </div>
+                                </a>
+                              </td>
+                            </tr>
+                          );
+                        } else {
+                          console.warn(
+                            "Connected Row Data not found for index:",
+                            connectedIndex
+                          );
+                          return null;
+                        }
+                      })
+                    )}
                     {isModalOpen && (
                       <div className="fixed left-0 top-0 z-50 flex h-full w-full items-end justify-center  bg-black bg-opacity-[80%] backdrop-blur-sm">
                         <div className="fixed right-7 top-6">
@@ -1547,100 +1785,103 @@ const gptvetting: React.FC = () => {
                             <CloseOutlined rev={undefined} />
                           </button>
                         </div>
-                        <div className="items-center- justify-center- flex- no-scrollbar h-[90%] w-[100%] overflow-y-scroll bg-white xs:px-3 md:px-6 lg:px-12 ">
-                          <div className="my-10 flex w-[950px]  justify-between">
-                            <button
-                              onClick={handleDownloadReport}
-                              className="flex items-center space-x-2 text-base font-bold text-[#8d3f42]"
-                            >
-                              <DownloadOutlined rev={undefined} />
-                              <p>{Strings.Download_report}</p>
-                            </button>
-                            <div className="flex items-center space-x-2 ">
-                              <button className="rounded-full bg-slate-500 bg-opacity-[20%] p-2 text-black hover:shadow-sm">
-                                {Strings.Contected}
+                        <div className="items-center- xs:justify-center- md:justify-start- no-scrollbar flex h-[90%] w-[100%] overflow-y-scroll bg-white xs:px-3 md:px-6 lg:px-12 ">
+                          <div>
+                            <div className="my-10 flex justify-between xs:w-[310px]  md:w-[950px]">
+                              <button
+                                onClick={handleDownloadReport}
+                                className="flex items-center space-x-2 text-base font-bold text-[#8d3f42]"
+                              >
+                                <DownloadOutlined rev={undefined} />
+                                <p>{Strings.Download_report}</p>
                               </button>
-                              <h1 className="cursor-pointer text-sm font-bold text-red-500">
-                                {Strings.Archive}
-                              </h1>
-                            </div>
-                          </div>
-                          <div className="no-scrollbar- h-[80%]- overflow-y-scroll- w-[950px] rounded-md border-2 p-4 shadow-lg">
-                            <div className="mt-5 flex justify-between">
-                              <div>
-                                <h1 className="text-base font-bold">
-                                  Report id: 007
-                                </h1>
-                                <h1 className="text-base font-bold">
-                                  name: {selectedRowData?.name}
-                                </h1>
-                                <h1 className="text-base font-bold">
-                                  Email: parth@gmail.in
+                              <div className="flex items-center space-x-2 ">
+                                <button className="rounded-full bg-slate-500 bg-opacity-[20%] p-2 text-black hover:shadow-sm">
+                                  {Strings.Contected}
+                                </button>
+                                <h1 className="cursor-pointer text-sm font-bold text-red-500">
+                                  {Strings.Archive}
                                 </h1>
                               </div>
-                              <h1 className=" text-base font-bold">
-                                Date: {selectedRowData?.dateTaken}
+                            </div>
+                            <div className="no-scrollbar- h-[80%]- overflow-y-scroll- rounded-md border-2 p-4 shadow-lg xs:w-[310px] md:w-[950px]">
+                              <div className="mt-5 flex justify-between">
+                                <div>
+                                  <h1 className="text-base font-bold">
+                                    Report id: 007
+                                  </h1>
+                                  <h1 className="text-base font-bold">
+                                    name: {selectedRowData?.name}
+                                  </h1>
+                                  <h1 className="text-base font-bold">
+                                    Email: parth@gmail.in
+                                  </h1>
+                                </div>
+                                <h1 className=" text-base font-bold">
+                                  Date: {selectedRowData?.dateTaken}
+                                </h1>
+                              </div>
+                              <p className="my-5 border"></p>
+                              <h1 className="text-lg font-bold text-slate-500">
+                                TECHNICAL RESULTS
                               </h1>
+                              <p ref={reportRef} className="space-y-7">
+                                <p className="text-lg font-bold text-black">
+                                  Node.js
+                                </p>
+                                <p className="text-base font-bold">
+                                  Self rating intermediate
+                                </p>
+                                <p className="text-base font-bold text-lime-500">
+                                  Al assessment:
+                                </p>
+                                <p>
+                                  Roting by Al Date: 02 Aug 2023 The candidate's
+                                  responses to the interview questions were
+                                  unprofessional and disrespectful. They did not
+                                  provide any relevant or meaningful information
+                                  about event-driven programming in Node.js or
+                                  how to handle memory leaks. Their lack of
+                                  interest and knowledge in these areas
+                                  indicates a low level of expertise in node.js.
+                                  Based on their responses, the candidate can be
+                                  rated as Not experienced.
+                                </p>
+                                <p>Rating by Al: Not experienced</p>
+                                <p className="text-lg font-bold text-black">
+                                  React.Js
+                                </p>
+                                <p className="text-base font-bold">
+                                  Self rating: beginner
+                                </p>
+                                <p className="text-base font-bold text-lime-500">
+                                  Al assessment:
+                                </p>
+                                <p>
+                                  The candidate has a beginner level of
+                                  experience in React.js. They have a basic
+                                  understanding of state management using
+                                  useState and useEffect hooks. However, their
+                                  explanation is not clear and lacks depth. They
+                                  mention automating state changes using loops
+                                  or timers, which is not the recommended
+                                  approach in React.js. The candidate's
+                                  explanation of the virtual DOM is also lacking
+                                  clarity and does not demonstrate a strong
+                                  understanding of the concept. Archive
+                                </p>
+                              </p>
+                              <div className="mt-5 flex justify-end">
+                                <p className="text-base font-normal text-black">
+                                  Powered by
+                                  <span className="ml-1 text-[#8d3f42]">
+                                    eRemoteHire
+                                  </span>
+                                </p>
+                              </div>
                             </div>
-                            <p className="my-5 border"></p>
-                            <h1 className="text-lg font-bold text-slate-500">
-                              TECHNICAL RESULTS
-                            </h1>
-                            <p ref={reportRef} className="space-y-7">
-                              <p className="text-lg font-bold text-black">
-                                Node.js
-                              </p>
-                              <p className="text-base font-bold">
-                                Self rating intermediate
-                              </p>
-                              <p className="text-base font-bold text-lime-500">
-                                Al assessment:
-                              </p>
-                              <p>
-                                Roting by Al Date: 02 Aug 2023 The candidate's
-                                responses to the interview questions were
-                                unprofessional and disrespectful. They did not
-                                provide any relevant or meaningful information
-                                about event-driven programming in Node.js or how
-                                to handle memory leaks. Their lack of interest
-                                and knowledge in these areas indicates a low
-                                level of expertise in node.js. Based on their
-                                responses, the candidate can be rated as Not
-                                experienced.
-                              </p>
-                              <p>Rating by Al: Not experienced</p>
-                              <p className="text-lg font-bold text-black">
-                                React.Js
-                              </p>
-                              <p className="text-base font-bold">
-                                Self rating: beginner
-                              </p>
-                              <p className="text-base font-bold text-lime-500">
-                                Al assessment:
-                              </p>
-                              <p>
-                                The candidate has a beginner level of experience
-                                in React.js. They have a basic understanding of
-                                state management using useState and useEffect
-                                hooks. However, their explanation is not clear
-                                and lacks depth. They mention automating state
-                                changes using loops or timers, which is not the
-                                recommended approach in React.js. The
-                                candidate's explanation of the virtual DOM is
-                                also lacking clarity and does not demonstrate a
-                                strong understanding of the concept. Archive
-                              </p>
-                            </p>
-                            <div className="mt-5 flex justify-end">
-                              <p className="text-base font-normal text-black">
-                                Powered by
-                                <span className="ml-1 text-[#8d3f42]">
-                                  eRemoteHire
-                                </span>
-                              </p>
-                            </div>
+                            <div className="my-5 h-[100px] w-[950px] bg-white"></div>
                           </div>
-                          <div className="my-5 h-[100px] w-[950px] bg-white"></div>
                         </div>
                       </div>
                     )}
@@ -1679,36 +1920,56 @@ const gptvetting: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {archivedData.map((rowData, index) => (
-                      <tr
-                        key={index}
-                        className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-[#1B1B1B] dark:hover:bg-dark-tundora"
-                      >
-                        <th
-                          scope="row"
-                          className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                        >
-                          {rowData.name}
-                        </th>
-                        <td className="px-6 py-4">{rowData.test}</td>
-                        <td className="px-6 py-4">{rowData.dateTaken}</td>
-                        <td className="px-6 py-4">{rowData.mainTechStacks}</td>
-                        <td className="px-6 py-4">{rowData.softSkills}</td>
-                        <td className="px-6 py-4">
-                          {rowData.proctoringResult}
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <a
-                            className=""
-                            onClick={() => handleUndo(rowData, index)}
-                          >
-                            <div className="z-50 cursor-pointer text-sm font-bold text-green-500">
-                              {Strings.Unarchive}
-                            </div>
-                          </a>
+                    {archivedData.length === 0 ? (
+                      <tr className="text-center">
+                        <td colSpan={7} className="py-8">
+                          <div className="flex flex-col items-center justify-center">
+                            <Image
+                              src={Images.NoRecords}
+                              alt="/"
+                              height={90}
+                              width={90}
+                            />
+                            <span className="text-base font-bold text-black dark:text-white">
+                              {Strings.No_records_found}
+                            </span>
+                          </div>
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      archivedData.map((rowData, index) => (
+                        <tr
+                          key={index}
+                          className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-[#1B1B1B] dark:hover:bg-dark-tundora"
+                        >
+                          <th
+                            scope="row"
+                            className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                          >
+                            {rowData.name}
+                          </th>
+                          <td className="px-6 py-4">{rowData.test}</td>
+                          <td className="px-6 py-4">{rowData.dateTaken}</td>
+                          <td className="px-6 py-4">
+                            {rowData.mainTechStacks}
+                          </td>
+                          <td className="px-6 py-4">{rowData.softSkills}</td>
+                          <td className="px-6 py-4">
+                            {rowData.proctoringResult}
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <a
+                              className=""
+                              onClick={() => handleUndo(rowData, index)}
+                            >
+                              <div className="z-50 cursor-pointer text-sm font-bold text-green-500">
+                                {Strings.Unarchive}
+                              </div>
+                            </a>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>

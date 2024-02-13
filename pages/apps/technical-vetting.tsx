@@ -65,6 +65,37 @@ const technicalvetting: React.FC = () => {
   const [confirmationShown, setConfirmationShown] = useState(false);
 
   useEffect(() => {
+    function handleContextMenu(event: MouseEvent) {
+      event.preventDefault();
+      alert("Please open this page desktop only");
+    }
+
+    function handleDevTools(event: {
+      ctrlKey: any;
+      shiftKey: any;
+      keyCode: number;
+      preventDefault: () => void;
+    }) {
+      if (
+        event.ctrlKey &&
+        event.shiftKey &&
+        (event.keyCode === 73 || event.keyCode === 67)
+      ) {
+        event.preventDefault();
+        alert("Please open this page desktop only");
+      }
+    }
+
+    window.addEventListener("contextmenu", handleContextMenu);
+    window.addEventListener("keydown", handleDevTools);
+
+    return () => {
+      window.removeEventListener("contextmenu", handleContextMenu);
+      window.removeEventListener("keydown", handleDevTools);
+    };
+  }, []);
+
+  useEffect(() => {
     const requestMediaPermissions = async () => {
       if (confirmationShown) {
         try {

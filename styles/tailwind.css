@@ -867,4 +867,11 @@ thead {
   }
 }
 
+.colored-icon {
+  filter: brightness(0) invert(1); /* Change color to white */
+}
+
+
+
+
 
