@@ -38,12 +38,24 @@ import { LabelComponent } from "../../components/label";
 
 export default function DeveloperDetails() {
   const router = useRouter();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({ name: "", position: "", price: "", country: "", amount: "", sentOn: "", raise: "", raise_two: "", skill: "", skill_two: "", vetting: "", vetting_two: "", yearOfExperience: "", yearOfExperience_two: "", workType: "", monthlySalary: "", bonusGiven: "",effectiveOn:"", effectiveOn_two:""});
   const [loading, setLoading] = useState(true);
   const [showBouns, setShowBouns] = useState(true);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenn, setIsOpenn] = useState(false);
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
+
+
+  const longText = "Experienced in writing custom Python code to extend Django applications, collaborating with other developers, and integrating third-party services and APIs. Highly skilled Python Django Developer with a proven track record of developing and maintaining complex web applications. Achieved a 20% increase in user engagement, resulting in a revenue boost of $50,000, while reducing development time by 30% and improving overall code quality.";
+
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
 
   const openModal = () => {
     setIsOpen(true);
@@ -61,9 +73,13 @@ export default function DeveloperDetails() {
   };
 
   useEffect(() => {
-    console.log(router?.query, "queryyy");
-    setUserData(router?.query);
-
+    // console.log(router?.query, "queryyy");
+    
+    setUserData(prevUserData => ({
+      ...prevUserData,
+      ...router.query
+    }));
+    
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500);
@@ -78,21 +94,13 @@ export default function DeveloperDetails() {
   const BounsHistoryData = [
     {
       id: 0,
-      role: `${userData?.role} `,
+      role: `${userData?.position} `,
       amount: `${userData?.amount} `,
       senton: `${userData?.sentOn}`,
     },
   ];
 
-  const Benefits = [
-    "15 days PTO",
-    "coding chair",
-    "laptop credit",
-    "Fast speed wifi",
-    "1 week pay covered",
-    "Healthcare incurance",
-    "Bonus points",
-  ];
+
   const BenefitsData = [
     {
       id: 1,
@@ -134,21 +142,25 @@ export default function DeveloperDetails() {
     {
       id: 0,
       amount: `${userData?.raise} `,
+      amount_two: `${userData?.raise_two} `,
       effective_on: `${userData?.effectiveOn} `,
+      effective_on_two: `${userData?.effectiveOn_two} `,
+
     },
+
   ];
   const VettingResult = [
     {
       id: 0,
-      skill: `${userData?.skill}`,
-      vetting_result: `${userData?.vettingResult}`,
-      yearOfExperience: `${userData?.yearOfExperience}`,
+      skill: `${userData.skill}`,
+      vetting_result: `${userData?.vetting}`,
+      yearOfExperience: `${userData.yearOfExperience}`,
     },
     {
       id: 0,
-      skill: `${userData?.skill_two}`,
-      vetting_result: `${userData?.vettingResult_two}`,
-      yearOfExperience: `${userData?.yearOfExperience_two}`,
+      skill: `${userData.skill_two}`,
+      vetting_result: `${userData?.vetting_two}`,
+      yearOfExperience: `${userData.yearOfExperience_two}`,
     },
   ];
 
@@ -171,10 +183,10 @@ export default function DeveloperDetails() {
   ];
 
   const useroverview = [
-    { id: 0, title: "HOURS WORKED", value: `${userData?.workingHoursInDay}`},
-    { id: 1, title: "WORK TYPE", value: `${userData?.workType}`},
-    { id: 2, title: "MONTHLY SALARY", value: `${userData?.monthlySalary}` },
-    { id: 3, title: "BOUNS GIVEN", value: `${userData?.bonusGiven}`},
+    { id: 0, title: "HOURS WORKED", value: `8` },
+    { id: 1, title: "WORK TYPE", value: `${userData.workType}` },
+    { id: 2, title: "MONTHLY SALARY", value: `${userData.monthlySalary}` },
+    { id: 3, title: "BOUNS GIVEN", value: `${userData.bonusGiven}` },
   ];
   // console.log("hyyyyyyy", userData);
 
@@ -298,9 +310,17 @@ export default function DeveloperDetails() {
             <text className="text-red-600 dark:text-blue-300">
               {Strings.DEVELOPERS}
             </text>
-            <text className="mx-2">
-              {">" + " " + Strings.DEVELOPER_DETAILS}
-            </text>
+            <text className="mx-2">{">" + " " + Strings.DEVELOPER_DETAILS}</text>
+          </div>
+          <div className="flex space-x-2 xs:hidden ">
+            <button className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]">
+              <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
+                {Strings.REPLACMENT_REQUSET}
+              </text>
+              {/* <text className="mx-2">
+                {">" + " " + Strings.DEVELOPER_DETAILS}
+              </text> */}
+            </button>
           </div>
           <div className="flex space-x-2 xs:hidden md:flex">
             <button className="nav-item group ">
@@ -308,30 +328,7 @@ export default function DeveloperDetails() {
                 Ask for replacement
               </text>
             </button>
-            {/* <button
-                    className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]"
-                    onClick={() => setShowBouns(!showBouns)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-        
-                    <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
-                      {Strings.GIVE_BOUNS}
-                    </text>
-                  </button> */}
-
+            
             <button
               onClick={openModal}
               className="nav-item group flex items-center rounded-full  bg-white px-[15px] py-2 shadow-md dark:bg-[#8d3f42]"
@@ -407,7 +404,7 @@ export default function DeveloperDetails() {
             >
               <path
                 fillRule="evenodd"
-                d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
+                d="M7.5 6a4.5  4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
                 clipRule="evenodd"
               />
             </svg>
@@ -415,32 +412,19 @@ export default function DeveloperDetails() {
           <div className="w-full pl-2.5">
             <div className=" flex flex-col items-start">
               <div className="flex  w-full justify-between pr-3">
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1-">
                   <text className="text-base font-semibold text-black dark:text-white">
                     {userData?.name}
                   </text>
-                  {/* {userData.profile_process === "verify" && (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="green"
-                            className="h-6 w-6"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        )} */}
+
                 </div>
-                <div className="flex ">
-                  <button className="mr-2 flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
+                <div className=" xs:hidden md:flex">
+                  <button className="mr-2 flex items-center  px-2 py-1.5 shadow-sm dark:shadow">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="green"
-                      className="h-5 w-5"
+                      className="h-5 w-5 "
                     >
                       <path
                         fillRule="evenodd"
@@ -448,7 +432,7 @@ export default function DeveloperDetails() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <text>{userData?.hiring_status}</text>
+                    <text className="text-[#000] dark:text-[#fff]">compliantly hired</text>
                   </button>
                   <button className="mr-[-5px] flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
                     <svg
@@ -463,17 +447,17 @@ export default function DeveloperDetails() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <text>{"eremotehire certified"}</text>
+                    <text className="text-[#000] dark:text-[#fff]">{"eremotehire certified"}</text>
                   </button>
                 </div>
               </div>
               <div className="flex w-full items-center justify-between">
-                <div className="my-2 rounded-full bg-gray-400 px-2 py-0.5">
-                  <text className="text-sm  text-black">
-                    {userData?.postion}
+                <div className="  px-2- py-0.5">
+                  <text className="text-sm  dark:text-white text-black">
+                    {userData?.position}
                   </text>
                 </div>
-                <text className="mr-3">{"Rate"}</text>
+                {/* <text className="mr-3">{"Rate"}</text> */}
               </div>
               <div className="flex  w-full items-center justify-between">
                 <div className="flex items-center">
@@ -499,7 +483,7 @@ export default function DeveloperDetails() {
                   <text className="mx-1">{userData?.country}</text>
                 </div>
                 <text className="text-lg font-semibold text-black dark:text-white">
-                  {userData?.price}
+                  ${userData?.price}/month
                 </text>
               </div>
             </div>
@@ -509,101 +493,38 @@ export default function DeveloperDetails() {
         {/* < tabbar section > */}
 
         <Tab.Group>
-          <Tab.List className="mt-3 flex flex-wrap border-b border-white-light dark:border-[#8D3F42]">
-            <Tab as={Fragment}>
-              {({ selected }) => (
-                <button
-                  className={`${
-                    selected
-                      ? "!border-white-light !border-b-white  text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white "
-                      : ""
-                  }
-                            -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
-                >
-                  Overview
-                </button>
-              )}
-            </Tab>
-            <Tab as={Fragment}>
-              {({ selected }) => (
-                <button
-                  className={`${
-                    selected
-                      ? "!border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
-                      : ""
-                  }
-                            -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
-                >
-                  Bouns history
-                </button>
-              )}
-            </Tab>
-            <Tab as={Fragment}>
-              {({ selected }) => (
-                <button
-                  className={`${
-                    selected
-                      ? "!border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
-                      : ""
-                  }
-                            -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
-                >
-                  Raise history
-                </button>
-              )}
-            </Tab>
-            <Tab as={Fragment}>
-              {({ selected }) => (
-                <button
-                  className={`${
-                    selected
-                      ? "!border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
-                      : ""
-                  }
-                            -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
-                >
-                  Benefits
-                </button>
-              )}
-            </Tab>
-            <Tab as={Fragment}>
-              {({ selected }) => (
-                <button
-                  className={`${
-                    selected
-                      ? "!border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
-                      : ""
-                  }
-                            -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
-                >
-                  {userData?.name}'s details
-                </button>
-              )}
-            </Tab>
-            <Tab as={Fragment}>
-              {({ selected }) => (
-                <button
-                  className={`${
-                    selected
-                      ? "!border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
-                      : ""
-                  }
-                            -mb-[1px] block border border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
-                >
-                  Settings
-                </button>
-              )}
-            </Tab>
+          
+
+          <Tab.List className="mt-3 flex md:flex-wrap border-b border-opacity-25 border-[#8D3F42] overflow-x-scroll md:overflow-x-auto">
+            {["Overview", "Bonus history", "Raise history","Benifits",`${userData?.name}'s details`,"Settings"].map(
+              (tab, index) => (
+                <Tab key={index}>
+                  {({ selected }) => (
+                    <button
+                      className={`text-[15px] xs:w-[130px] md:w-full p-4   ${selected
+                        ? "border-b-2 border-[#8D3F42] bg-red-900- outline-none bg-[#8D3F42] bg-opacity-[.25] p-2 rounded-t-[5px] text-white "
+                        : ""
+                        } `}
+                      // onClick={() => setSelectedTabIndex(index)}
+                    >
+                      {tab}
+                    </button>
+                  )}
+                </Tab>
+              )
+            )}
           </Tab.List>
+
+
           <Tab.Panels>
             {/* < Overview tab section > */}
 
             <Tab.Panel>
               <div>
-                <div className="mt-3 flex justify-between">
+                <div className="mt-3 flex xs:flex-col md:flex-row md:justify-between xs:justify-center items-center xs:space-y-2 md:space-y-0">
                   {useroverview.map((item) => {
                     return (
-                      <div className="w-full max-w-[18rem] justify-between    rounded-[10px]  bg-white shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000]   dark:shadow-none ">
+                      <div className="w-full md:max-w-[18rem] xs:mx-width-[24rem] mx-[10px] justify-between    rounded-[10px]  bg-white shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000]   dark:shadow-none ">
                         <div className="px-4 py-7 ">
                           <div className="flex items-center justify-center">
                             <p className="text-center text-white-dark">
@@ -640,7 +561,7 @@ export default function DeveloperDetails() {
                   })}
                 </div>
                 <div className="flex  justify-between xs:flex-col md:flex-row">
-                  <div className="mt-8 justify-between  rounded-[10px]  bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm ">
+                  <div className="mt-8 justify-between  rounded-[10px]  bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:w-2/4 md:mx-[10px] ">
                     <div className="flex items-center justify-between">
                       <div className="mb-4 mt-2 flex items-center">
                         <h1 className="mr-2 font-bold">PERFORMANCE</h1>
@@ -670,7 +591,7 @@ export default function DeveloperDetails() {
                       className="h-72"
                     />
                   </div>
-                  <div className="mt-8 justify-between rounded-[10px] bg-white p-2   shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:w-2/4 ">
+                  <div className="mt-8 justify-between rounded-[10px] bg-white p-2   shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:mx-[10px] md:w-2/4 ">
                     <h1 className="text-lg font-bold">WEEKLY SUMMARIES</h1>
                     <p className=" my-1 text-white-dark">
                       Weekly summeries data is only available from Dec 26th,2022
@@ -705,7 +626,7 @@ export default function DeveloperDetails() {
             {/* < Bouns tab section > */}
             <Tab.Panel>
               <table className="table-hover mt-3">
-                <thead className="sticky top-0">
+                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white">
                   <tr>
                     <th>Developer</th>
                     <th>Role</th>
@@ -719,11 +640,23 @@ export default function DeveloperDetails() {
                       return (
                         <tr key={index}>
                           <td>{userData?.name}</td>
-                          <td>{userData?.postion}</td>
+                          <td>{userData?.position}</td>
 
                           <td>{data?.amount}</td>
 
-                          <td>{data?.senton}</td>
+                          <td>
+                            {/* {data?.senton} */}
+                            <ul>
+                              <li>
+                                {new Date(data.senton).toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })
+                                }
+                              </li>
+                            </ul>
+                          </td>
                         </tr>
                       );
                     })
@@ -740,7 +673,7 @@ export default function DeveloperDetails() {
 
             <Tab.Panel>
               <table className="table-hover mt-3">
-                <thead className="sticky top-0">
+                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white">
                   <tr>
                     <th>Developer</th>
                     <th>Role</th>
@@ -752,14 +685,58 @@ export default function DeveloperDetails() {
                   {RaiseHistory?.length > 0 ? (
                     RaiseHistory?.map((data, index) => {
                       return (
-                        <tr key={index}>
-                          <td>{userData?.name}</td>
-                          <td>{userData?.postion}</td>
+                        <>
+                          <tr key={index}>
+                            <td>{userData?.name}</td>
+                            <td>{userData?.position}</td>
 
-                          <td>{data?.amount}</td>
+                            <td>
+                              <p>{data?.amount}</p>
+                              {/* <p>{data?.amount_two}</p> */}
+                            </td>
 
-                          <td>{data?.effective_on}</td>
-                        </tr>
+                            <td>
+                              {/* {data?.senton} */}
+                              <ul>
+                                <li>
+                                  {new Date(data.effective_on).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })
+                                  }
+                                </li>
+                              </ul>
+                            </td>
+
+                          </tr><tr key={index}>
+                            <td>{userData?.name}</td>
+                            <td>{userData?.position}</td>
+
+                            <td>
+                              {/* <p>{data?.amount}</p> */}
+                              <p>{data?.amount_two}</p>
+                            </td>
+
+                            <td>
+                              {/* {data?.senton} */}
+                              <ul>
+                                <li>
+                                  {new Date(data.effective_on_two).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  })
+                                  }
+                                </li>
+                              </ul>
+                            </td>
+
+
+
+
+
+                          </tr></>
                       );
                     })
                   ) : (
@@ -768,6 +745,11 @@ export default function DeveloperDetails() {
                     </div>
                   )}
                 </tbody>
+
+
+
+
+
               </table>
             </Tab.Panel>
 
@@ -813,11 +795,10 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${
-                            selected
-                              ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
-                              : ""
-                          }
+                          className={`${selected
+                            ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
+                            : ""
+                            }
                     border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           {Strings.VETTING}
@@ -827,11 +808,10 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${
-                            selected
-                              ? "nav-item group flex items-center rounded-[30px]  px-[15px] py-2 shadow-md dark:bg-[#8d3f42]"
-                              : ""
-                          }
+                          className={`${selected
+                            ? "nav-item group flex items-center rounded-[30px]  px-[15px] py-2 shadow-md dark:bg-[#8d3f42]"
+                            : ""
+                            }
                     border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           About
@@ -841,11 +821,10 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${
-                            selected
-                              ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
-                              : ""
-                          }
+                          className={`${selected
+                            ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
+                            : ""
+                            }
                     border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           Experience
@@ -858,77 +837,41 @@ export default function DeveloperDetails() {
                       <div className="mt-3">
                         <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] xs:h-[450px] md:h-[430px] ">
                           <div className="p-8">
-                            <LabelComponent
-                              label="Vetted Technical Skill "
-                              className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  "
-                            />
-                            <LabelComponent
-                              className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
-                              label="These are the skill we have explicity vetted for in the technical interview"
-                            />
+                            <p className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  "
+                            >
+                              Vetted Technical Skill
+                            </p>
+                            <p className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
+                            >
+                              These are the skill we have explicity vetted for in the technical interview
+                            </p>
                           </div>
-                          <div className="pl-8">
-                            <div className="relative overflow-x-auto ">
-                              {/* <table className="w-full text-center  text-sm text-gray-500  dark:text-gray-400">
-                              <thead className="text-[16px] uppercase text-black dark:bg-[#000] dark:text-gray-400 ">
-                                <tr>
-                                  <th scope="col" className="px-6 py-3">
-                                    SKILL
-                                  </th>
-                                  <th scope="col" className="px-6 py-3">
-                                    VETTING RESULT
-                                  </th>
-                                  <th scope="col" className="px-6 py-3">
-                                    YEARS OF EXPERIENCE
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr className=" bg-white text-center dark:border-gray-700 dark:bg-[#000]  dark:text-white text-[#000]">
-                                  <td className="px-6 py-4 text-center   ">
-                                    {userData?.skill}
-                                  </td>
-
-                                  <td className="px-6 py-4 text-center- bg-red-500-  ">
-                                    <button className="bg-gray-900 px-[30px] text-[16px] py-[10px] rounded-[10px] text-white">{userData?.vettingResult}</button>
-                                    
-                                  </td>
-                                  <td className="px-6 py-4 text-center ">
-                                    {userData?.yearOfExperience}
-                                  </td>
-                                </tr>
-                                <tr className=" bg-white text-center dark:border-gray-700 dark:bg-[#000] dark:text-white  text-[#000]">
-                                  <td className="px-6 py-4 text-center   ">
-                                    {userData?.skill_two}
-                                  </td>
-
-                                  <td className="px-6 py-4 text-center ">
-                                    <button className="bg-yellow-800 px-[30px] text-[16px] py-[10px] rounded-[10px] text-white"> {userData?.vettingResult_two}</button>
-                                   
-                                  </td>
-                                  <td className="px-6 py-4 text-center ">
-                                    {userData?.yearOfExperience_two}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table> */}
-                              <table className="table-hover mt-3">
-                                <thead className="sticky top-0">
-                                  <tr>
-                                    <th>Skill</th>
-                                    <th>Vetting Result</th>
-                                    <th>yearOfExperiencee</th>
+                          <div className="md:ml-8 xs:mx-[10px]  md:w-[500px] border border-[#8D3F42] border-opacity-25 rounded-[10px]">
+                            <div className="relative overflow-x-auto  ">
+                              <table className="table-hover mt-3-">
+                                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white ">
+                                  <tr className="xs:text-[12px] md:text-[14px]">
+                                    <th>SKILL</th>
+                                    <th>VETTING RESULT</th>
+                                    <th>YEAR OF EXPERIENCE</th>
                                   </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="">
                                   {VettingResult?.length > 0 ? (
                                     VettingResult?.map((data, index) => {
                                       return (
                                         <tr key={index}>
                                           <td>{data.skill}</td>
-                                          <td>{data.vetting_result}</td>
+                                          <td className={`bg-red-900- ${index === 0 ? "text-green-800 p-2 rounded-[10px]" :
+                                            index === 1 ? "text-yellow-800 p-2 rounded-[10px]" :
+                                              index === 2 ? "bg-green-600" :
+                                                index === 3 ? "bg-yellow-400" :
+                                                  ""
+                                            }`}>
+                                            {data.vetting_result}
+                                          </td>
 
-                                          <td>{data.yearOfExperience}</td>
+                                          <td>{data.yearOfExperience}+ years</td>
                                         </tr>
                                       );
                                     })
@@ -1015,27 +958,6 @@ export default function DeveloperDetails() {
                             />
                           </div>
                           <div className="xs:pl-[20px] md:pl-8">
-                            {/* {soft_skill.map((items) => {
-                            return (
-                              <div className="mt-4 flex max-w-[350px] justify-between  rounded-lg border border-white-light bg-white   p-2 px-4 py-2 shadow-[4px_6px_10px_-3px_#bfc9d4] dark:border-[#8d3f42] dark:bg-[#000]  dark:shadow-sm">
-                                <div className="flex items-center">
-                                  <text className="text-lg font-bold text-[#000] dark:text-[#fff]">
-                                    {items.chat}
-                                  </text>
-                                  <div className="pl-[10px]">
-                                    <text className="text-sm font-medium text-[#000] dark:text-[#fff]">
-                                      {items.subject}
-                                    </text>
-                                  </div>
-                                </div>
-                                <div>
-                                  <text className="text-[#000] dark:text-[#fff]">
-                                    {items.status}
-                                  </text>
-                                </div>
-                              </div>
-                            );
-                          })} */}
                           </div>
                           <div className="p-8">
                             <LabelComponent
@@ -1050,9 +972,146 @@ export default function DeveloperDetails() {
                         </div>
                       </div>
                     </Tab.Panel>
+
                     <Tab.Panel>
-                      <div>About </div>
-                    </Tab.Panel>
+                    <div className="mt-3">
+                      <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
+                        <div className="p-8">
+                          <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">About Mihir</h2>
+                          <div>
+                            {isExpanded ? (
+                              <div>
+                                {longText}
+                                <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_Less}</button>
+                              </div>
+                            ) : (
+                              <div>
+                                {longText.slice(0, 256)} {/* Display first 100 characters */}
+                                <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_More}</button>
+                              </div>
+                            )}
+                          </div>
+                          <div className="py-2.5 px-4 text-[16px] text-[#000] text-[#fff] font-normal bg-[#8D3F42] mt-[20px] rounded-3xl inline-flex items-center">
+                            <button className="">
+                              {Strings.Background_checked}
+
+                            </button>
+                            <div className="relative">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                className="h-6 w-6 ml-[10px] cursor-pointer"
+                                onMouseEnter={() => setTooltipVisible(true)}
+                                onMouseLeave={() => setTooltipVisible(false)}
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                />
+                              </svg>
+                              {isTooltipVisible && (
+                                <p className="bg-white border w-[300px] rounded-xl h-[100x]- absolute md:top-[-20px] md:left-[50px] xs:top-[40px] xs:left-[-185px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
+                                  {Strings.POPUP_TEXT_TWO}
+                                </p>
+                              )}
+                            </div>
+
+                          </div>
+
+                        </div>
+
+
+                      </div>
+
+                      <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
+                        <div className="p-8">
+                          <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">Education</h2>
+                          <div className="border border-[#8D3F42] p-4 rounded-xl flex items-center gap-3">
+                            <div>
+                              <img src={Images.RAHULSAHAI} className="w-[100px] h-[100px]" />
+                            </div>
+                            <div>
+                              <h2 className="text-lg font-medium mb-2 text-[#000] dark:text-[#fff]">Bachelor of Science - BS, Information Technology</h2>
+                              <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">University of Mumbai</h3>
+                              <p className="text-m mb-2 text-[#000] dark:text-[#fff]">Jun 2016 - May 2019</p>
+
+                            </div>
+
+                          </div>
+
+
+
+                        </div>
+
+
+                      </div>
+
+
+
+                    </div>
+                  </Tab.Panel>
+
+                  <Tab.Panel>
+                    <>
+                      <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
+                        <div className="p-8">
+                          <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">Experience
+                          </h2>
+                          <div className="border border-[#8D3F42] p-4 rounded-xl  gap-3">
+                            <div className="flex  xs:flex-col md:flex-row">
+                              <div>
+                                <img src={Images.RAHULSAHAI} className="w-[100px] h-[100px]" />
+                              </div>
+                              <div className="flex-1 pl-4" >
+                                <div className="flex bg-red-900- xs:my-[10px] md:my-0 bg-full- md:flex-row xs:flex-col md:justify-between md:items-center">
+                                  <div className="text-lg font-medium md:mb-2 text-[#000] dark:text-[#fff]">Full Stack Developer at ANTRIX INFOTECH
+                                  </div>
+                                  <div> Jun 2019 - Present
+
+                                  </div>
+                                </div>
+
+                                <div className="mb-[10px]">
+                                  <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">TECH STACKS USED
+                                  </h3>
+                                  <div >
+                                    <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full mx-[10px]-">React</span>
+                                    <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full ml-[5px]">node</span>
+                                    <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full ml-[5px]">Material UI</span>
+                                  </div>
+
+                                </div>
+                                <div className="mt-2">
+                                  <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">RESPONSIBILITIES</h3>
+                                  <ul className="text-sm mt-2 font-light ml-[1.2rem] ">
+                                    <li className="list-disc">Worked on different MES and WMS software products</li>
+                                    <li className="list-disc">Handled product task using react js and node js
+                                    </li>
+                                  </ul>
+                                </div>
+
+
+                              </div>
+                            </div>
+
+                          </div>
+
+
+
+                        </div>
+
+
+                      </div>
+                    </>
+
+
+
+                  </Tab.Panel>
+                    
                   </Tab.Panels>
                 </Tab.Group>
               </div>

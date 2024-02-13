@@ -1,6 +1,6 @@
 import React from "react";
 
-const Loaderr = () => {
+const Loader= () => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#000] bg-opacity-10 z-50">
       <div
@@ -15,4 +15,4 @@ const Loaderr = () => {
   );
 };
 
-export default Loaderr;
+export default Loader;

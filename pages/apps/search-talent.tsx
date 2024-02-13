@@ -60,7 +60,7 @@ export default function SearchTalent() {
         </svg>
       ),
       name: "Dharmit",
-      position: "Raect Native developer",
+      position: "React Native developer",
       skills: ["React Native", "PHP", "2+"],
       rate: "$33k/month",
       interview: "Activity interviewing with 6 companies",
@@ -125,7 +125,7 @@ export default function SearchTalent() {
         </svg>
       ),
       name: "Dharmit",
-      position: "Raect Native developer",
+      position: "React Native developer",
       skills: ["React Native", "PHP", "2+"],
       rate: "$33k/month",
       interview: "Activity interviewing with 6 companies",
