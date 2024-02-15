@@ -1,12 +1,13 @@
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+
 import { IRootState } from "@/store";
 import Image from "next/image";
 import { Images } from "@/constants";
 import Loader from "@/components/Layouts/Loader";
 import React from "react";
-import { useRouter } from "next/router";
 import { Strings } from "@/constants";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 export default function Index() {
   const router = useRouter();
@@ -62,16 +63,20 @@ export default function Index() {
     },
   ];
 
-
   return loading ? (
     <div>
-      <Loader/>
+      <Loader />
     </div>
   ) : (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold dark:text-white select-none">{Strings.DASHBOARD}</h1>
-        <a href="/apps/hire-new-talent" className="nav-item group flex items-center rounded-[45px] bg-white px-7 py-2 shadow-md dark:bg-[#000] text-black ltr:pl-3 rtl:pr-3 hover:text-blue-500 dark:text-[#fff] ">
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="select-none text-xl font-bold dark:text-white">
+          {Strings.DASHBOARD}
+        </h1>
+        <a
+          href="/apps/hire-new-talent"
+          className="nav-item group flex items-center rounded-[45px] bg-white px-7 py-2 text-black shadow-md hover:text-blue-500 dark:bg-[#000] dark:text-[#fff] ltr:pl-3 rtl:pr-3 "
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -87,34 +92,45 @@ export default function Index() {
             />
           </svg>
 
-          <text className="text-black ltr:pl-3 rtl:pr-3 hover:text-[#8D3F42] hover:dark:text-[#8D3F42] dark:text-white">
-           { Strings.HIRE_NEW_TALENT }
+          <text className="text-black hover:text-[#8D3F42] dark:text-white hover:dark:text-[#8D3F42] ltr:pl-3 rtl:pr-3">
+            {Strings.HIRE_NEW_TALENT}
           </text>
-
         </a>
       </div>
       <div>
         <div className="flex w-full flex-wrap justify-between">
-
-          <div className=" dark:border-gray-700 mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000]  xs:w-[384px] sm:w-[320px] lg:w-[450px] xl:w-[600px]">
+          <div className=" mb-[20px] flex items-center justify-center space-x-2 rounded-lg border bg-white p-6 outline-none dark:border-none dark:border-gray-700 dark:bg-[#000]  xs:w-[384px] sm:w-[320px] lg:w-[450px] xl:w-[550px]">
             <div>
               <a href="#">
-                <button className=" dark:text-white mb-[15px] text-[14px] font-bold dark:text-white">
+                <button className=" mb-[15px] text-[14px] font-bold dark:text-white">
                   {Strings.HIRED_ENGINEERS}
                 </button>
-                <button className="dark:text-white"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 -1 24 18" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                <button className="dark:text-white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 -1 24 18"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    />
+                  </svg>
                 </button>
               </a>
-              <p className=" text-center text-[20px] font-bold text-black-500 dark:text-white select-none">
+              <p className=" text-black-500 select-none text-center text-[20px] font-bold dark:text-white">
                 1
               </p>
             </div>
           </div>
-          <div className=" dark:border-gray-700- mb-[20px] space-x-2 rounded-lg border-none bg-white p-6  shadow outline-none dark:bg-[#000] xs:w-[384px] sm:w-[320px] lg:w-[450px] xl:w-[600px]">
+          <div className=" dark:border-gray-700- mb-[20px] space-x-2 rounded-lg border bg-white p-6 outline-none  dark:border-none dark:bg-[#000] xs:w-[384px] sm:w-[320px] lg:w-[450px] xl:w-[550px]">
             <div>
               <div>
-                <h2 className="dark:text-gray mb-[15px] text-[14px] font-bold select-none">
+                <h2 className="dark:text-gray mb-[15px] select-none text-[14px] font-bold">
                   {Strings.YOUR_ACCOUNT_MANAGER}
                 </h2>
               </div>
@@ -132,29 +148,39 @@ export default function Index() {
                         {Strings.DEVELOPER_NAME}
                       </h5>
                     </a>
-                    <div className="flex flex-col sm:flex-col sm:flex-col xl:flex-row">
+                    <div className="flex flex-col sm:flex-col xl:flex-row">
                       <a
                         href="#"
                         className="mb-[5px] flex text-[16px] text-gray-500 dark:text-white"
                       >
                         {themeConfig.theme === "light" ? (
                           <img
-                            className="inline h-[20px] w-[20px] mr-[5px]"
+                            className="mr-[5px] inline h-[20px] w-[20px]"
                             src={Images.MSG_WHITE}
                             alt="logo"
                           />
                         ) : (
                           <img
-                            className="inline h-[20px] w-[20px] mr-[5px]"
+                            className="mr-[5px] inline h-[20px] w-[20px]"
                             src={Images.MSG}
                             alt="logo"
                           />
                         )}
-                       {Strings.EMAIL}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-[3px] mt-[3px] w-3.5 h-3.5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                        {Strings.EMAIL}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          className="ml-[3px] mt-[3px] h-3.5 w-3.5"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                          />
                         </svg>
-
                       </a>
 
                       <strong className="mb-[5px] flex items-center px-[5px] dark:text-white xs:hidden sm:hidden lg:hidden xl:block">
@@ -167,21 +193,20 @@ export default function Index() {
                       >
                         {themeConfig.theme === "light" ? (
                           <img
-                            className="inline h-[18px] w-[18px] mr-[5px]"
+                            className="mr-[5px] inline h-[18px] w-[18px]"
                             src={Images.PHONE_WHITE}
                             alt="logo"
                           />
                         ) : (
                           <img
-                            className="inline h-[18px] w-[18px] mr-[5px]"
-                            src={Images.PHONE} 
+                            className="mr-[5px] inline h-[18px] w-[18px]"
+                            src={Images.PHONE}
                             alt="logo"
                           />
                         )}
-                      {Strings.CONTACT_NUMBER}
+                        {Strings.CONTACT_NUMBER}
                       </a>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -190,12 +215,13 @@ export default function Index() {
         </div>
       </div>
       <div>
-        <h3 className="text-l font-bold select-none dark:text-white ">{Strings.HAND_PICKED_RECOMMENDATIONS}</h3>
+        <h3 className="text-l select-none font-bold dark:text-white ">
+          {Strings.HAND_PICKED_RECOMMENDATIONS}
+        </h3>
       </div>
       <div className="mt-5">
         {userdata.map((item, index) => {
           return (
-
             <a
               onClick={() =>
                 router.push(
@@ -213,7 +239,7 @@ export default function Index() {
                   "/apps/developer-details"
                 )
               }
-              className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md  hover:border-none dark:bg-[#000] dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42]"
+              className="my-6 flex w-full items-center rounded-xl border bg-white px-4 py-3  shadow-md dark:border-none dark:bg-[#000] dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42]"
             >
               <div className="rounded-full bg-blue-300 p-2">
                 <svg
@@ -251,12 +277,12 @@ export default function Index() {
                         </svg>
                       )}
                     </div>
-                    <text className="text-[16px] font-bold text-black font-outfit dark:text-white">
+                    <text className="font-outfit text-[16px] font-bold text-black dark:text-white">
                       {item.price}
                     </text>
                   </div>
                   <div className="my-2 rounded-full bg-[#8D3F42] px-2 py-0.5">
-                    <text className="text-[12px]  text-white">
+                    <text className="text-[12px] text-white">
                       {item.postion}
                     </text>
                   </div>
@@ -284,13 +310,14 @@ export default function Index() {
                       <text className="mx-1">{item.country}</text>
                     </div>
 
-                    <div className="flex items-center ml-auto">
-                      <button className="mr-1 transition duration-300 ease-in-out">{item.status}</button>
-                      <button className="flex items-center rounded-full border-none px-1 py-1.5 transition duration-300 ease-in-out dark:shadow text-white bg-[#8D3F42]">
+                    <div className="ml-auto flex items-center">
+                      <button className="mr-2 transition duration-300 ease-in-out">
+                        {item.status}
+                      </button>
+                      <button className="flex items-center rounded-full border-none bg-[#8D3F42] px-1 py-1.5 text-white transition duration-300 ease-in-out dark:shadow">
                         <text className="xs:text-[11px]">{item.interview}</text>
                       </button>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -298,7 +325,6 @@ export default function Index() {
           );
         })}
       </div>
-
     </div>
   );
 }

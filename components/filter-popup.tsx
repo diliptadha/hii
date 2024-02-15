@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { LabelComponent } from "../components/label";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+import React, { useEffect, useState } from "react";
+
+import DatePicker from "react-datepicker";
+import { LabelComponent } from "../components/label";
 import { Strings } from "../constants";
 import axios from "axios";
 
@@ -32,7 +34,6 @@ const Filtermodal = ({ isOpen, closeModal }) => {
       document.body.style.overflow = "";
     }
   }, [isOpen]);
-  
 
   const initialDateString = "2023-12-31"; // Replace this with your actual date string
   const initialDate = new Date(initialDateString);
@@ -59,10 +60,6 @@ const Filtermodal = ({ isOpen, closeModal }) => {
     sliderValue.textContent = `$${value}/h`;
   };
 
-
-  
- 
-  
   const skillsData = [
     "JavaScript",
     "React",
@@ -87,13 +84,12 @@ const Filtermodal = ({ isOpen, closeModal }) => {
     "3DS Max",
     "ActiveCampaign",
   ];
-  
 
   return (
     <>
       {isOpen && (
         <div className="fixed left-0 top-0 z-50 flex h-full w-full  items-center justify-center  bg-black bg-opacity-[80%]">
-          <div className=" relative min-h-[600px] xs:w-[300px]  md:w-[500px]   rounded-2xl bg-white p-4 dark:bg-[#000]">
+          <div className=" relative min-h-[600px] rounded-2xl  bg-white   p-4 dark:bg-[#000] xs:w-[300px] md:w-[500px]">
             <div className="mb-[20px] text-[24px] font-bold text-[#000] dark:text-[white]">
               Filters
             </div>
@@ -130,7 +126,7 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                   Technical skills
                 </label>
                 <div
-                  className="flex w-full cursor-pointer justify-between items-center text-[16px] rounded-[10px] border border-[#8D3F42] px-4 py-[14px]"
+                  className="flex w-full cursor-pointer items-center justify-between rounded-[10px] border border-[#8D3F42] px-4 py-[14px] text-[16px]"
                   onClick={toggleDropdown}
                 >
                   Select
@@ -153,12 +149,12 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 </div>
 
                 <div
-                  className={`absolute left-0 top-full ml-[5px] mt-[10px] xs:h-[520px] md:h-[490px] xs:w-[280px] md:w-[456px]  rounded-[10px] bg-white overflow-hidden ${
+                  className={`absolute left-0 top-full ml-[5px] mt-[10px] overflow-hidden rounded-[10px] bg-white xs:h-[520px]  xs:w-[280px] md:h-[490px] md:w-[440px] ${
                     isOpenn ? "block" : "hidden"
                   }`}
                 >
                   <div
-                    className={` mx-[20px] mb-[10px] flex h-[40px] w-[90%] flex-row items-center rounded-[10px] border  border-[#8D3F42] bg-white ${
+                    className={` mx-[20px] mb-[10px] flex h-[40px] flex-row items-center rounded-[10px] border border-[#8D3F42] bg-white  xs:w-[240px] md:w-[398px] ${
                       isOpenn ? "block" : "hidden"
                     } mt-[10px] w-full border-t  bg-gray-200  py-2`}
                   >
@@ -232,11 +228,21 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 id="countries"
                 className="block w-full rounded-lg border border-[#8d3f42] bg-transparent px-[10px] py-[14px] text-[16px] text-gray-900 outline-none dark:text-white "
               >
-                <option selected className="dark:text-black">Choose a skill</option>
-                <option value="US" className="dark:text-black">React</option>
-                <option value="CA" className="dark:text-black">JavaScript</option>
-                <option value="FR" className="dark:text-black">HTML</option>
-                <option value="DE" className="dark:text-black">CSS</option>
+                <option selected className="dark:text-black">
+                  Choose a skill
+                </option>
+                <option value="US" className="dark:text-black">
+                  React
+                </option>
+                <option value="CA" className="dark:text-black">
+                  JavaScript
+                </option>
+                <option value="FR" className="dark:text-black">
+                  HTML
+                </option>
+                <option value="DE" className="dark:text-black">
+                  CSS
+                </option>
               </select>
             </div>
             <div className="flex- mt-3 ">
@@ -248,16 +254,25 @@ const Filtermodal = ({ isOpen, closeModal }) => {
               </label>
               <select
                 id="countries"
-                className="block w-full rounded-lg border border-[#8d3f42] bg-transparent py-[14px] px-[12px] text-[16px] text-gray-900 outline-none dark:text-white"
+                className="block w-full rounded-lg border border-[#8d3f42] bg-transparent px-[12px] py-[14px] text-[16px] text-gray-900 outline-none dark:text-white"
               >
-                <option selected className="dark:text-black">Choose a country</option> 
-                <option value="US" className="dark:text-black">United State</option>
-                <option value="CA" className="dark:text-black">Canada</option>
-                <option value="FR" className="dark:text-black">France</option>
-                <option value="DE" className="dark:text-black">Germany</option>
-               
+                <option selected className="dark:text-black">
+                  Choose a country
+                </option>
+                <option value="US" className="dark:text-black">
+                  United State
+                </option>
+                <option value="CA" className="dark:text-black">
+                  Canada
+                </option>
+                <option value="FR" className="dark:text-black">
+                  France
+                </option>
+                <option value="DE" className="dark:text-black">
+                  Germany
+                </option>
               </select>
-           </div>
+            </div>
             <div className="mt-[30px]">
               <label
                 htmlFor="countries"
@@ -285,18 +300,18 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 Price per hour
               </div>
               <div className="slidecontainer">
-                  <input
-                    id="myinput"
-                    type="range"
-                    min={0}
-                    value={value}
-                    max={100}
-                    className="h-[10px] w-full rounded-md outline-none bg-transparent appearance-none "
-                    style={{ background: gradientBackground }}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div id="slider-value" className="slider-value">
+                <input
+                  id="myinput"
+                  type="range"
+                  min={0}
+                  value={value}
+                  max={100}
+                  className="h-[10px] w-full appearance-none rounded-md bg-transparent outline-none "
+                  style={{ background: gradientBackground }}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div id="slider-value" className="slider-value">
                 ${value}/h
               </div>
             </div>

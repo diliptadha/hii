@@ -3,7 +3,7 @@ import { LabelComponent } from "./label";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Strings } from "../constants";
-import axios from 'axios'
+import axios from "axios";
 
 const GiveRaiseModal = ({ isOpenn, closeModall }) => {
   const [userData, setUserData] = useState({});
@@ -13,16 +13,15 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
   const [defineSkills, setDefineSkills] = useState<boolean>(false);
   const [clickedNumber, setClickedNumber] = useState(null);
   const [value, setValue] = useState<number>(0);
-   
+
   const [customValue, setCustomValue] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [message, setMessage] = useState("");
 
-
   const initialDateString = "2023-12-31"; // Replace this with your actual date string
-const initialDate = new Date(initialDateString);
+  const initialDate = new Date(initialDateString);
 
-const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [selectedDate, setSelectedDate] = useState(initialDate);
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
@@ -30,14 +29,14 @@ const [selectedDate, setSelectedDate] = useState(initialDate);
   const handleInputChange = (event) => {
     const newValue = parseInt(event.target.value, 10);
     setValue(newValue);
-};
+  };
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const gradientBackground = `linear-gradient(to right, #8d3f42 0%, #8d3f42 ${parseInt((value / 20) * 100)}%, #DEE2E6 ${parseInt((value / 20) * 100)}%, #DEE2E6 100%)`;
-
-
+  const gradientBackground = `linear-gradient(to right, #8d3f42 0%, #8d3f42 ${parseInt(
+    (value / 20) * 100
+  )}%, #DEE2E6 ${parseInt((value / 20) * 100)}%, #DEE2E6 100%)`;
 
   const updateSliderValue = (value) => {
     const sliderValue = document.getElementById("slider-value");
@@ -54,7 +53,7 @@ const [selectedDate, setSelectedDate] = useState(initialDate);
 
   const CustomDatePickerInput = ({ value, onClick }) => (
     <div
-      className="flex w-full justify-between rounded-lg border border-[#8d3f42] bg-white p-2.5 text-sm  text-[#000] dark:bg-[#000] dark:text-white
+      className="flex w-full  items-center justify-center  rounded-lg border border-[#8d3f42] bg-white p-2.5 text-sm  text-[#000] dark:bg-[#000] dark:text-white
      "
       onClick={onClick}
     >
@@ -66,7 +65,7 @@ const [selectedDate, setSelectedDate] = useState(initialDate);
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        className="h-6 w-6 "
+        className="ml-1 h-6 w-6"
       >
         <path
           stroke-linecap="round"
@@ -79,53 +78,65 @@ const [selectedDate, setSelectedDate] = useState(initialDate);
   const resetState = () => {
     setValue(0);
     setSelectedDate(initialDate);
-    setMessage('');
-};
+    setMessage("");
+  };
   const handleSubmit = async () => {
     try {
-        // Validate user input (add your validation logic here)
-        if (!value || isNaN(parseInt(value))) {
-            // Handle invalid value
-            console.error('Invalid value. Please enter a valid raise amount.');
-            return;
+      // Validate user input (add your validation logic here)
+      if (!value || isNaN(parseInt(value))) {
+        // Handle invalid value
+        console.error("Invalid value. Please enter a valid raise amount.");
+        return;
+      }
+
+      if (
+        selectedDate &&
+        !(selectedDate instanceof Date && !isNaN(selectedDate))
+      ) {
+        // Handle invalid date
+        console.error("Invalid date. Please select a valid effective date.");
+        return;
+      }
+
+      const raiseData = {
+        raiseAmount: value,
+        effectiveOn: selectedDate
+          ? selectedDate.toISOString().split("T")[0]
+          : null,
+        currentRate: 10,
+        afterRaiseRate: 10 + parseInt(value),
+        messageRegardingRaise: message,
+      };
+
+      console.log("Request Data:", raiseData);
+
+      const response = await axios.post(
+        "https://api.eremotehire.com/myTeam/giveRaiseData",
+        raiseData,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDAzIiwiZW1haWxJZCI6Ik5pcmRvc2hQYXRpbEBnbWFpbC5jb20iLCJpYXQiOjE3MDI3MjY3ODcsImV4cCI6MTcwMjczMDM4N30.aI1D1PjRpLt6YayBwlHw7kVxBQwJWijMAt_XwLn_nuU",
+            "Content-Type": "application/json",
+          },
         }
+      );
 
-        if (selectedDate && !(selectedDate instanceof Date && !isNaN(selectedDate))) {
-            // Handle invalid date
-            console.error('Invalid date. Please select a valid effective date.');
-            return;
-        }
+      console.log("Response Data:", response.data);
+      closeModall();
+      // Optionally, display a success message to the user
+      alert("Raise submitted successfully!");
 
-        const raiseData = {
-            raiseAmount: value,
-            effectiveOn: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
-            currentRate: 10,
-            afterRaiseRate: 10 + parseInt(value),
-            messageRegardingRaise: message,
-        };
-
-        console.log('Request Data:', raiseData);
-
-        const response = await axios.post('https://api.eremotehire.com/myTeam/giveRaiseData', raiseData, {
-            headers: { 
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDAzIiwiZW1haWxJZCI6Ik5pcmRvc2hQYXRpbEBnbWFpbC5jb20iLCJpYXQiOjE3MDI3MjY3ODcsImV4cCI6MTcwMjczMDM4N30.aI1D1PjRpLt6YayBwlHw7kVxBQwJWijMAt_XwLn_nuU', 
-                'Content-Type': 'application/json'
-              },
-        });
-
-        console.log('Response Data:', response.data);
-        closeModall();
-        // Optionally, display a success message to the user
-        alert('Raise submitted successfully!');
-
-        resetState();
+      resetState();
     } catch (error) {
-        console.error('API Error:', error.response ? error.response.data : error.message);
-        // Handle the error (e.g., display an error message to the user)
-        alert('Error submitting raise. Please try again.');
+      console.error(
+        "API Error:",
+        error.response ? error.response.data : error.message
+      );
+      // Handle the error (e.g., display an error message to the user)
+      alert("Error submitting raise. Please try again.");
     }
-};
-
+  };
 
   return (
     <>
@@ -147,7 +158,7 @@ const [selectedDate, setSelectedDate] = useState(initialDate);
                     min={0}
                     value={value}
                     max={20}
-                    className="h-[15px] w-[400px] rounded-md outline-none bg-transparent appearance-none "
+                    className="h-[15px] w-[400px] appearance-none rounded-md bg-transparent outline-none "
                     style={{ background: gradientBackground }}
                     onChange={handleInputChange}
                   />
@@ -232,9 +243,8 @@ const [selectedDate, setSelectedDate] = useState(initialDate);
             </div>
 
             <div className="mt-[20px] text-right">
-                
               <button
-               onClick={handleSubmit}
+                onClick={handleSubmit}
                 className=" rounded-[25px] bg-white px-[20px] py-2 font-semibold text-[#000] shadow-md outline-none dark:bg-[#8d3f42] dark:text-[#fff]"
                 type="submit"
               >

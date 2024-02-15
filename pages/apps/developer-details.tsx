@@ -1,15 +1,3 @@
-import { useEffect, useState } from "react";
-
-import Loader from "../../components/Layouts/Loader";
-import React from "react";
-import { useRouter } from "next/router";
-import { Images, Strings } from "../../constants";
-import { Fragment } from "react";
-import { Tab } from "@headlessui/react";
-import { Bar } from "react-chartjs-2";
-import Select from "react-select";
-import GiveBounsModal from "../../components/Give-Bouns-Modal";
-
 import {
   ArcElement,
   BarElement,
@@ -19,8 +7,23 @@ import {
   LineElement,
   LinearScale,
   PointElement,
-  Tooltip,
 } from "chart.js";
+import { Images, Strings } from "../../constants";
+import { useEffect, useState } from "react";
+
+import { Bar } from "react-chartjs-2";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Fragment } from "react";
+import GiveBounsModal from "../../components/Give-Bouns-Modal";
+import GiveRaiseModal from "../../components/Give-Raise-Modal";
+import { LabelComponent } from "../../components/label";
+import Loader from "../../components/Layouts/Loader";
+import React from "react";
+import Select from "react-select";
+import { Switch } from "antd";
+import { Tab } from "@headlessui/react";
+import { Tooltip } from "antd";
+import { useRouter } from "next/router";
 
 ChartJS.register(
   CategoryScale,
@@ -28,17 +31,34 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
-  Tooltip,
+
   ArcElement,
   Legend
 );
-import { Switch } from "antd";
-import GiveRaiseModal from "../../components/Give-Raise-Modal";
-import { LabelComponent } from "../../components/label";
 
 export default function DeveloperDetails() {
   const router = useRouter();
-  const [userData, setUserData] = useState({ name: "", position: "", price: "", country: "", amount: "", sentOn: "", raise: "", raise_two: "", skill: "", skill_two: "", vetting: "", vetting_two: "", yearOfExperience: "", yearOfExperience_two: "", workType: "", monthlySalary: "", bonusGiven: "",effectiveOn:"", effectiveOn_two:""});
+  const [userData, setUserData] = useState({
+    name: "",
+    position: "",
+    price: "",
+    country: "",
+    amount: "",
+    sentOn: "",
+    raise: "",
+    raise_two: "",
+    skill: "",
+    skill_two: "",
+    vetting: "",
+    vetting_two: "",
+    yearOfExperience: "",
+    yearOfExperience_two: "",
+    workType: "",
+    monthlySalary: "",
+    bonusGiven: "",
+    effectiveOn: "",
+    effectiveOn_two: "",
+  });
   const [loading, setLoading] = useState(true);
   const [showBouns, setShowBouns] = useState(true);
 
@@ -48,14 +68,12 @@ export default function DeveloperDetails() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
-
-  const longText = "Experienced in writing custom Python code to extend Django applications, collaborating with other developers, and integrating third-party services and APIs. Highly skilled Python Django Developer with a proven track record of developing and maintaining complex web applications. Achieved a 20% increase in user engagement, resulting in a revenue boost of $50,000, while reducing development time by 30% and improving overall code quality.";
-
+  const longText =
+    "Experienced in writing custom Python code to extend Django applications, collaborating with other developers, and integrating third-party services and APIs. Highly skilled Python Django Developer with a proven track record of developing and maintaining complex web applications. Achieved a 20% increase in user engagement, resulting in a revenue boost of $50,000, while reducing development time by 30% and improving overall code quality.";
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
-
 
   const openModal = () => {
     setIsOpen(true);
@@ -74,12 +92,12 @@ export default function DeveloperDetails() {
 
   useEffect(() => {
     // console.log(router?.query, "queryyy");
-    
-    setUserData(prevUserData => ({
+
+    setUserData((prevUserData) => ({
       ...prevUserData,
-      ...router.query
+      ...router.query,
     }));
-    
+
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500);
@@ -99,7 +117,6 @@ export default function DeveloperDetails() {
       senton: `${userData?.sentOn}`,
     },
   ];
-
 
   const BenefitsData = [
     {
@@ -145,9 +162,7 @@ export default function DeveloperDetails() {
       amount_two: `${userData?.raise_two} `,
       effective_on: `${userData?.effectiveOn} `,
       effective_on_two: `${userData?.effectiveOn_two} `,
-
     },
-
   ];
   const VettingResult = [
     {
@@ -279,7 +294,9 @@ export default function DeveloperDetails() {
       },
     },
   };
-
+  const tooltipContent2 = (
+    <span className="text-xs ">{Strings.POPUP_TEXT_TWO}</span>
+  );
   return loading ? (
     <div>
       <Loader />
@@ -310,11 +327,13 @@ export default function DeveloperDetails() {
             <text className="text-red-600 dark:text-blue-300">
               {Strings.DEVELOPERS}
             </text>
-            <text className="mx-2">{">" + " " + Strings.DEVELOPER_DETAILS}</text>
+            <text className="mx-2">
+              {">" + " " + Strings.DEVELOPER_DETAILS}
+            </text>
           </div>
           <div className="flex space-x-2 xs:hidden ">
             <button className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]">
-              <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
+              <text className="text-black dark:text-[#fff] dark:group-hover:text-white-dark ltr:pl-3 rtl:pr-3">
                 {Strings.REPLACMENT_REQUSET}
               </text>
               {/* <text className="mx-2">
@@ -328,7 +347,7 @@ export default function DeveloperDetails() {
                 Ask for replacement
               </text>
             </button>
-            
+
             <button
               onClick={openModal}
               className="nav-item group flex items-center rounded-full  bg-white px-[15px] py-2 shadow-md dark:bg-[#8d3f42]"
@@ -412,11 +431,10 @@ export default function DeveloperDetails() {
           <div className="w-full pl-2.5">
             <div className=" flex flex-col items-start">
               <div className="flex  w-full justify-between pr-3">
-                <div className="flex items-center space-x-1-">
+                <div className="space-x-1- flex items-center">
                   <text className="text-base font-semibold text-black dark:text-white">
                     {userData?.name}
                   </text>
-
                 </div>
                 <div className=" xs:hidden md:flex">
                   <button className="mr-2 flex items-center  px-2 py-1.5 shadow-sm dark:shadow">
@@ -432,7 +450,9 @@ export default function DeveloperDetails() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <text className="text-[#000] dark:text-[#fff]">compliantly hired</text>
+                    <text className="text-[#000] dark:text-[#fff]">
+                      compliantly hired
+                    </text>
                   </button>
                   <button className="mr-[-5px] flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
                     <svg
@@ -447,13 +467,15 @@ export default function DeveloperDetails() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <text className="text-[#000] dark:text-[#fff]">{"eremotehire certified"}</text>
+                    <text className="text-[#000] dark:text-[#fff]">
+                      {"eremotehire certified"}
+                    </text>
                   </button>
                 </div>
               </div>
               <div className="flex w-full items-center justify-between">
                 <div className="  px-2- py-0.5">
-                  <text className="text-sm  dark:text-white text-black">
+                  <text className="text-sm  text-black dark:text-white">
                     {userData?.position}
                   </text>
                 </div>
@@ -483,7 +505,7 @@ export default function DeveloperDetails() {
                   <text className="mx-1">{userData?.country}</text>
                 </div>
                 <text className="text-lg font-semibold text-black dark:text-white">
-                  ${userData?.price}/month
+                  {userData?.price}
                 </text>
               </div>
             </div>
@@ -493,39 +515,42 @@ export default function DeveloperDetails() {
         {/* < tabbar section > */}
 
         <Tab.Group>
-          
-
-          <Tab.List className="mt-3 flex md:flex-wrap border-b border-opacity-25 border-[#8D3F42] overflow-x-scroll md:overflow-x-auto">
-            {["Overview", "Bonus history", "Raise history","Benifits",`${userData?.name}'s details`,"Settings"].map(
-              (tab, index) => (
-                <Tab key={index}>
-                  {({ selected }) => (
-                    <button
-                      className={`text-[15px] xs:w-[130px] md:w-full p-4   ${selected
-                        ? "border-b-2 border-[#8D3F42] bg-red-900- outline-none bg-[#8D3F42] bg-opacity-[.25] p-2 rounded-t-[5px] text-white "
+          <Tab.List className="mt-3 flex overflow-x-scroll border-b border-[#8D3F42] border-opacity-25 md:flex-wrap md:overflow-x-auto">
+            {[
+              "Overview",
+              "Bonus history",
+              "Raise history",
+              "Benifits",
+              `${userData?.name}'s details`,
+              "Settings",
+            ].map((tab, index) => (
+              <Tab key={index}>
+                {({ selected }) => (
+                  <button
+                    className={`p-4 text-[15px] xs:w-[130px] md:w-full   ${
+                      selected
+                        ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 text-white outline-none "
                         : ""
-                        } `}
-                      // onClick={() => setSelectedTabIndex(index)}
-                    >
-                      {tab}
-                    </button>
-                  )}
-                </Tab>
-              )
-            )}
+                    } `}
+                    // onClick={() => setSelectedTabIndex(index)}
+                  >
+                    {tab}
+                  </button>
+                )}
+              </Tab>
+            ))}
           </Tab.List>
-
 
           <Tab.Panels>
             {/* < Overview tab section > */}
 
             <Tab.Panel>
               <div>
-                <div className="mt-3 flex xs:flex-col md:flex-row md:justify-between xs:justify-center items-center xs:space-y-2 md:space-y-0">
+                <div className="mt-3 flex items-center xs:flex-col xs:justify-center xs:space-y-2 md:flex-row md:justify-between md:space-y-0">
                   {useroverview.map((item) => {
                     return (
-                      <div className="w-full md:max-w-[18rem] xs:mx-width-[24rem] mx-[10px] justify-between    rounded-[10px]  bg-white shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000]   dark:shadow-none ">
-                        <div className="px-4 py-7 ">
+                      <div className="xs:mx-width-[24rem] mx-[10px] w-full justify-between rounded-[10px] bg-white  shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000] dark:shadow-none   md:max-w-[18rem] ">
+                        <div className="px-4 py-7">
                           <div className="flex items-center justify-center">
                             <p className="text-center text-white-dark">
                               {item.title}
@@ -547,7 +572,7 @@ export default function DeveloperDetails() {
                               </svg>
                             )}
                           </div>
-                          <h5 className=" mt-1 text-center text-xl font-semibold text-[#3b3f5c] dark:text-white-light">
+                          <h5 className=" mt-1 text-center text-xl font-semibold text-[#3b3f5c] dark:text-white">
                             {item.value}
                           </h5>
                           {item.title === "BOUNS GIVEN" && (
@@ -561,24 +586,11 @@ export default function DeveloperDetails() {
                   })}
                 </div>
                 <div className="flex  justify-between xs:flex-col md:flex-row">
-                  <div className="mt-8 justify-between  rounded-[10px]  bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:w-2/4 md:mx-[10px] ">
+                  <div className="mt-8 justify-between  rounded-[10px]  bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:mx-[10px] md:w-2/4 ">
                     <div className="flex items-center justify-between">
                       <div className="mb-4 mt-2 flex items-center">
                         <h1 className="mr-2 font-bold">PERFORMANCE</h1>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          className="h-6 w-6"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                          />
-                        </svg>
+                        <ExclamationCircleOutlined rev={undefined} />
                       </div>
                       <select className="rounded-lg bg-transparent py-1.5">
                         <option value="This Month">This Month</option>
@@ -592,7 +604,9 @@ export default function DeveloperDetails() {
                     />
                   </div>
                   <div className="mt-8 justify-between rounded-[10px] bg-white p-2   shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:mx-[10px] md:w-2/4 ">
-                    <h1 className="text-lg font-bold">WEEKLY SUMMARIES</h1>
+                    <h1 className="text-lg font-bold text-black dark:text-white">
+                      WEEKLY SUMMARIES
+                    </h1>
                     <p className=" my-1 text-white-dark">
                       Weekly summeries data is only available from Dec 26th,2022
                       & beyond.
@@ -600,8 +614,8 @@ export default function DeveloperDetails() {
                     <div className="scrollbar-thin scrollbar-track-[#010314]  scrollbar-thumb-[#1a2941] no-scrollbar  flex h-72 flex-col overflow-y-scroll">
                       {weeklywork.map((items) => {
                         return (
-                          <div className="mt-8 justify-between  rounded-lg border border-white-light bg-white   p-2 px-4 py-2 shadow-[4px_6px_10px_-3px_#bfc9d4] dark:border-[#8D3F42] dark:bg-[#000]  dark:shadow-sm">
-                            <div className="flex justify-between ">
+                          <div className="mt-8 justify-between  rounded-lg border border-white-light bg-white   p-2 px-4 py-2 shadow-[4px_6px_10px_-3px_#bfc9d4] dark:border-gray-500 dark:bg-[#000]  dark:shadow-sm">
+                            <div className="flex justify-between text-black dark:text-white">
                               <text className="text-lg font-bold">
                                 {items.work}
                               </text>
@@ -612,7 +626,9 @@ export default function DeveloperDetails() {
                               </div>
                             </div>
                             <div>
-                              <text>{items.status}</text>
+                              <text className="text-black dark:text-white">
+                                {items.status}
+                              </text>
                             </div>
                           </div>
                         );
@@ -626,7 +642,7 @@ export default function DeveloperDetails() {
             {/* < Bouns tab section > */}
             <Tab.Panel>
               <table className="table-hover mt-3">
-                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white">
+                <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white">
                   <tr>
                     <th>Developer</th>
                     <th>Role</th>
@@ -648,12 +664,14 @@ export default function DeveloperDetails() {
                             {/* {data?.senton} */}
                             <ul>
                               <li>
-                                {new Date(data.senton).toLocaleDateString("en-US", {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                })
-                                }
+                                {new Date(data.senton).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                  }
+                                )}
                               </li>
                             </ul>
                           </td>
@@ -673,7 +691,7 @@ export default function DeveloperDetails() {
 
             <Tab.Panel>
               <table className="table-hover mt-3">
-                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white">
+                <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white">
                   <tr>
                     <th>Developer</th>
                     <th>Role</th>
@@ -699,17 +717,18 @@ export default function DeveloperDetails() {
                               {/* {data?.senton} */}
                               <ul>
                                 <li>
-                                  {new Date(data.effective_on).toLocaleDateString("en-US", {
+                                  {new Date(
+                                    data.effective_on
+                                  ).toLocaleDateString("en-US", {
                                     year: "numeric",
                                     month: "short",
                                     day: "numeric",
-                                  })
-                                  }
+                                  })}
                                 </li>
                               </ul>
                             </td>
-
-                          </tr><tr key={index}>
+                          </tr>
+                          <tr key={index}>
                             <td>{userData?.name}</td>
                             <td>{userData?.position}</td>
 
@@ -722,21 +741,18 @@ export default function DeveloperDetails() {
                               {/* {data?.senton} */}
                               <ul>
                                 <li>
-                                  {new Date(data.effective_on_two).toLocaleDateString("en-US", {
+                                  {new Date(
+                                    data.effective_on_two
+                                  ).toLocaleDateString("en-US", {
                                     year: "numeric",
                                     month: "short",
                                     day: "numeric",
-                                  })
-                                  }
+                                  })}
                                 </li>
                               </ul>
                             </td>
-
-
-
-
-
-                          </tr></>
+                          </tr>
+                        </>
                       );
                     })
                   ) : (
@@ -745,11 +761,6 @@ export default function DeveloperDetails() {
                     </div>
                   )}
                 </tbody>
-
-
-
-
-
               </table>
             </Tab.Panel>
 
@@ -768,20 +779,7 @@ export default function DeveloperDetails() {
                       <div className="mx-2 my-2 flex items-center space-x-2 rounded-full border px-2.5 py-2 shadow-md">
                         <img src={items.img} className="h-10 w-10" />
                         <text className="text-md font-bold">{items.title}</text>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          className="h-6 w-6"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                          />
-                        </svg>
+                        <ExclamationCircleOutlined rev={undefined} />
                       </div>
                     );
                   })}
@@ -791,15 +789,16 @@ export default function DeveloperDetails() {
             <Tab.Panel>
               <div>
                 <Tab.Group>
-                  <Tab.List className="flex- mt-3 inline-flex  flex-wrap rounded-[10px] bg-white dark:bg-[#000] ">
+                  <Tab.List className="flex- mt-3 inline-flex h-12 w-[350px] flex-wrap items-center justify-center rounded-[10px] bg-white dark:bg-[#000] ">
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${selected
-                            ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
-                            : ""
-                            }
-                    border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                          className={`${
+                            selected
+                              ? " ml-[2px] rounded-[30px] bg-[#8D3F42] px-[15px]  py-[5px] text-white !outline-none dark:!border-b-black dark:text-white "
+                              : ""
+                          }
+                    border- block- -mb-[1px] flex h-10 items-center border-transparent p-4 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           {Strings.VETTING}
                         </button>
@@ -808,11 +807,12 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${selected
-                            ? "nav-item group flex items-center rounded-[30px]  px-[15px] py-2 shadow-md dark:bg-[#8d3f42]"
-                            : ""
-                            }
-                    border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                          className={`${
+                            selected
+                              ? "nav-item group flex items-center rounded-[30px] bg-[#8d3f42]  px-[15px] py-2 text-white shadow-md"
+                              : ""
+                          }
+                    border- block- -mb-[1px] flex h-10 items-center  border-transparent p-4 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           About
                         </button>
@@ -821,11 +821,12 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${selected
-                            ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
-                            : ""
-                            }
-                    border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                          className={`${
+                            selected
+                              ? " mr-[2px] rounded-[30px] bg-[#8D3F42]  px-[5px] py-[5px] text-white !outline-none dark:!border-b-black "
+                              : ""
+                          }
+                    border- block- -mb-[1px] flex h-10 items-center  border-transparent p-4 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           Experience
                         </button>
@@ -837,19 +838,18 @@ export default function DeveloperDetails() {
                       <div className="mt-3">
                         <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] xs:h-[450px] md:h-[430px] ">
                           <div className="p-8">
-                            <p className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  "
-                            >
+                            <p className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  ">
                               Vetted Technical Skill
                             </p>
-                            <p className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
-                            >
-                              These are the skill we have explicity vetted for in the technical interview
+                            <p className="text-[16px] font-semibold leading-normal text-black dark:text-gray-400 ">
+                              These are the skill we have explicity vetted for
+                              in the technical interview
                             </p>
                           </div>
-                          <div className="md:ml-8 xs:mx-[10px]  md:w-[500px] border border-[#8D3F42] border-opacity-25 rounded-[10px]">
+                          <div className="rounded-[10px] border  border-[#8D3F42] border-opacity-25 xs:mx-[10px] md:ml-8 md:w-[500px]">
                             <div className="relative overflow-x-auto  ">
                               <table className="table-hover mt-3-">
-                                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white ">
+                                <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white ">
                                   <tr className="xs:text-[12px] md:text-[14px]">
                                     <th>SKILL</th>
                                     <th>VETTING RESULT</th>
@@ -862,16 +862,25 @@ export default function DeveloperDetails() {
                                       return (
                                         <tr key={index}>
                                           <td>{data.skill}</td>
-                                          <td className={`bg-red-900- ${index === 0 ? "text-green-800 p-2 rounded-[10px]" :
-                                            index === 1 ? "text-yellow-800 p-2 rounded-[10px]" :
-                                              index === 2 ? "bg-green-600" :
-                                                index === 3 ? "bg-yellow-400" :
-                                                  ""
-                                            }`}>
+                                          <td
+                                            className={`bg-red-900- ${
+                                              index === 0
+                                                ? "rounded-[10px] p-2 text-green-800"
+                                                : index === 1
+                                                ? "rounded-[10px] p-2 text-yellow-800"
+                                                : index === 2
+                                                ? "bg-green-600"
+                                                : index === 3
+                                                ? "bg-yellow-400"
+                                                : ""
+                                            }`}
+                                          >
                                             {data.vetting_result}
                                           </td>
 
-                                          <td>{data.yearOfExperience}+ years</td>
+                                          <td>
+                                            {data.yearOfExperience}+ years
+                                          </td>
                                         </tr>
                                       );
                                     })
@@ -904,7 +913,7 @@ export default function DeveloperDetails() {
                               className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  "
                             />
                             <LabelComponent
-                              className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
+                              className="text-[16px] font-semibold leading-normal text-black dark:text-gray-400 "
                               label="The developer also has these skills,however,these have not been vetted by eremotehire "
                             />
                           </div>
@@ -953,12 +962,11 @@ export default function DeveloperDetails() {
                               className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  "
                             />
                             <LabelComponent
-                              className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
+                              className="text-[16px] font-semibold leading-normal text-black dark:text-gray-400 "
                               label="Our assessemnet of the developer's soft skills.we largely emphasize this part of our vetting process"
                             />
                           </div>
-                          <div className="xs:pl-[20px] md:pl-8">
-                          </div>
+                          <div className="xs:pl-[20px] md:pl-8"></div>
                           <div className="p-8">
                             <LabelComponent
                               className="text-[20px] font-bold text-black dark:text-white"
@@ -974,189 +982,168 @@ export default function DeveloperDetails() {
                     </Tab.Panel>
 
                     <Tab.Panel>
-                    <div className="mt-3">
-                      <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
-                        <div className="p-8">
-                          <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">About Mihir</h2>
-                          <div>
-                            {isExpanded ? (
-                              <div>
-                                {longText}
-                                <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_Less}</button>
-                              </div>
-                            ) : (
-                              <div>
-                                {longText.slice(0, 256)} {/* Display first 100 characters */}
-                                <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_More}</button>
-                              </div>
-                            )}
-                          </div>
-                          <div className="py-2.5 px-4 text-[16px] text-[#000] text-[#fff] font-normal bg-[#8D3F42] mt-[20px] rounded-3xl inline-flex items-center">
-                            <button className="">
-                              {Strings.Background_checked}
-
-                            </button>
-                            <div className="relative">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                className="h-6 w-6 ml-[10px] cursor-pointer"
-                                onMouseEnter={() => setTooltipVisible(true)}
-                                onMouseLeave={() => setTooltipVisible(false)}
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                                />
-                              </svg>
-                              {isTooltipVisible && (
-                                <p className="bg-white border w-[300px] rounded-xl h-[100x]- absolute md:top-[-20px] md:left-[50px] xs:top-[40px] xs:left-[-185px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
-                                  {Strings.POPUP_TEXT_TWO}
-                                </p>
+                      <div className="mt-3">
+                        <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
+                          <div className="p-8">
+                            <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
+                              About Mihir
+                            </h2>
+                            <div>
+                              {isExpanded ? (
+                                <div>
+                                  {longText}
+                                  <button
+                                    onClick={toggleExpand}
+                                    className="text-[16px] font-bold text-[#8D3F42]"
+                                  >
+                                    {Strings.Read_Less}
+                                  </button>
+                                </div>
+                              ) : (
+                                <div>
+                                  {longText.slice(0, 256)}{" "}
+                                  {/* Display first 100 characters */}
+                                  <button
+                                    onClick={toggleExpand}
+                                    className="text-[16px] font-bold text-[#8D3F42]"
+                                  >
+                                    {Strings.Read_More}
+                                  </button>
+                                </div>
                               )}
                             </div>
-
+                            <div className="mt-[20px] inline-flex items-center rounded-3xl bg-[#8D3F42] px-4 py-2.5 text-[16px] font-normal text-[#fff]">
+                              <button className="">
+                                {Strings.Background_checked}
+                              </button>
+                              <div className="ml-1">
+                                <Tooltip
+                                  title={tooltipContent2}
+                                  placement="right"
+                                >
+                                  <ExclamationCircleOutlined rev={undefined} />
+                                </Tooltip>
+                              </div>
+                            </div>
                           </div>
-
                         </div>
 
-
-                      </div>
-
-                      <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
-                        <div className="p-8">
-                          <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">Education</h2>
-                          <div className="border border-[#8D3F42] p-4 rounded-xl flex items-center gap-3">
-                            <div>
-                              <img src={Images.RAHULSAHAI} className="w-[100px] h-[100px]" />
-                            </div>
-                            <div>
-                              <h2 className="text-lg font-medium mb-2 text-[#000] dark:text-[#fff]">Bachelor of Science - BS, Information Technology</h2>
-                              <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">University of Mumbai</h3>
-                              <p className="text-m mb-2 text-[#000] dark:text-[#fff]">Jun 2016 - May 2019</p>
-
-                            </div>
-
-                          </div>
-
-
-
-                        </div>
-
-
-                      </div>
-
-
-
-                    </div>
-                  </Tab.Panel>
-
-                  <Tab.Panel>
-                    <>
-                      <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
-                        <div className="p-8">
-                          <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">Experience
-                          </h2>
-                          <div className="border border-[#8D3F42] p-4 rounded-xl  gap-3">
-                            <div className="flex  xs:flex-col md:flex-row">
+                        <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
+                          <div className="p-8">
+                            <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
+                              Education
+                            </h2>
+                            <div className="flex items-center gap-3 rounded-xl border border-[#8D3F42] p-4">
                               <div>
-                                <img src={Images.RAHULSAHAI} className="w-[100px] h-[100px]" />
+                                <img
+                                  src={Images.RAHULSAHAI}
+                                  className="h-[100px] w-[100px]"
+                                />
                               </div>
-                              <div className="flex-1 pl-4" >
-                                <div className="flex bg-red-900- xs:my-[10px] md:my-0 bg-full- md:flex-row xs:flex-col md:justify-between md:items-center">
-                                  <div className="text-lg font-medium md:mb-2 text-[#000] dark:text-[#fff]">Full Stack Developer at ANTRIX INFOTECH
-                                  </div>
-                                  <div> Jun 2019 - Present
-
-                                  </div>
-                                </div>
-
-                                <div className="mb-[10px]">
-                                  <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">TECH STACKS USED
-                                  </h3>
-                                  <div >
-                                    <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full mx-[10px]-">React</span>
-                                    <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full ml-[5px]">node</span>
-                                    <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full ml-[5px]">Material UI</span>
-                                  </div>
-
-                                </div>
-                                <div className="mt-2">
-                                  <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">RESPONSIBILITIES</h3>
-                                  <ul className="text-sm mt-2 font-light ml-[1.2rem] ">
-                                    <li className="list-disc">Worked on different MES and WMS software products</li>
-                                    <li className="list-disc">Handled product task using react js and node js
-                                    </li>
-                                  </ul>
-                                </div>
-
-
+                              <div>
+                                <h2 className="mb-2 text-lg font-medium text-[#000] dark:text-[#fff]">
+                                  Bachelor of Science - BS, Information
+                                  Technology
+                                </h2>
+                                <h3 className="mb-2 text-sm text-[#000] dark:text-[#fff]">
+                                  University of Mumbai
+                                </h3>
+                                <p className="text-m mb-2 text-[#000] dark:text-[#fff]">
+                                  Jun 2016 - May 2019
+                                </p>
                               </div>
                             </div>
-
                           </div>
-
-
-
                         </div>
-
-
                       </div>
-                    </>
+                    </Tab.Panel>
 
+                    <Tab.Panel>
+                      <>
+                        <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
+                          <div className="p-8">
+                            <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
+                              Experience
+                            </h2>
+                            <div className="gap-3 rounded-xl border border-[#8D3F42]  p-4">
+                              <div className="flex  xs:flex-col md:flex-row">
+                                <div>
+                                  <img
+                                    src={Images.RAHULSAHAI}
+                                    className="h-[100px] w-[100px]"
+                                  />
+                                </div>
+                                <div className="flex-1 pl-4">
+                                  <div className="bg-red-900- bg-full- flex xs:my-[10px] xs:flex-col md:my-0 md:flex-row md:items-center md:justify-between">
+                                    <div className="text-lg font-medium text-[#000] dark:text-[#fff] md:mb-2">
+                                      Full Stack Developer at ANTRIX INFOTECH
+                                    </div>
+                                    <div> Jun 2019 - Present</div>
+                                  </div>
 
-
-                  </Tab.Panel>
-                    
+                                  <div className="mb-[10px]">
+                                    <h3 className="mb-2 text-sm text-[#000] dark:text-[#fff]">
+                                      TECH STACKS USED
+                                    </h3>
+                                    <div>
+                                      <span className="mx-[10px]- rounded-full bg-[#8D3F42]  bg-opacity-[.25] px-2.5 py-1.5 text-xs text-[#000] dark:text-[#fff]">
+                                        React
+                                      </span>
+                                      <span className="ml-[5px] rounded-full bg-[#8D3F42]  bg-opacity-[.25] px-2.5 py-1.5 text-xs text-[#000] dark:text-[#fff]">
+                                        node
+                                      </span>
+                                      <span className="ml-[5px] rounded-full bg-[#8D3F42]  bg-opacity-[.25] px-2.5 py-1.5 text-xs text-[#000] dark:text-[#fff]">
+                                        Material UI
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="mt-2">
+                                    <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">
+                                      RESPONSIBILITIES
+                                    </h3>
+                                    <ul className="ml-[1.2rem] mt-2 text-sm font-light ">
+                                      <li className="list-disc">
+                                        Worked on different MES and WMS software
+                                        products
+                                      </li>
+                                      <li className="list-disc">
+                                        Handled product task using react js and
+                                        node js
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    </Tab.Panel>
                   </Tab.Panels>
                 </Tab.Group>
               </div>
             </Tab.Panel>
             <Tab.Panel>
               <div className="my-6 flex w-full flex-col items-center justify-center rounded-xl bg-white px-4 py-3 shadow-md  hover:border dark:bg-[#000] dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42] ">
-                <div className="mx-2 my-2 flex  w-1/2 items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md">
+                <div className="mx-2 my-2 flex items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md xs:w-full md:w-1/2">
                   <div className="flex items-center space-x-1">
                     <text>Time Tracker</text>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                      />
-                    </svg>
+                    <ExclamationCircleOutlined rev={undefined} />
                   </div>
-                  <Switch defaultChecked onChange={onChange} />
+                  <Switch
+                    onChange={onChange}
+                    className=" bg-gray-300 font-bold text-black-dark-light"
+                  />
                 </div>
-                <div className="mx-2 my-2 flex  w-1/2 items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md">
+                <div className="mx-2 my-2 flex items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md xs:w-full md:w-1/2">
                   <div className="flex items-center space-x-1">
                     <text>Weekly Summaries</text>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                      />
-                    </svg>
+                    <ExclamationCircleOutlined rev={undefined} />
                   </div>
-                  <Switch defaultChecked onChange={onChange} />
+                  <Switch
+                    onChange={onChange}
+                    className="mx-2 bg-gray-300 font-bold text-black-dark-light"
+                  />
                 </div>
               </div>
             </Tab.Panel>

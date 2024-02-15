@@ -74,10 +74,19 @@ const technicalvetting: React.FC = () => {
       ctrlKey: any;
       shiftKey: any;
       keyCode: number;
+      metaKey: any;
       preventDefault: () => void;
     }) {
       if (
-        event.ctrlKey &&
+        (event.ctrlKey || event.metaKey) &&
+        event.shiftKey &&
+        (event.keyCode === 73 || event.keyCode === 67)
+      ) {
+        event.preventDefault();
+        alert("Please open this page desktop only");
+      }
+      if (
+        (event.ctrlKey || event.metaKey) &&
         event.shiftKey &&
         (event.keyCode === 73 || event.keyCode === 67)
       ) {
