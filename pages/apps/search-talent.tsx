@@ -3,17 +3,15 @@ import { useEffect, useState } from "react";
 import Loader from "../../components/Layouts/Loader";
 import React from "react";
 import { Images, Strings } from "../../constants";
-import Search from "antd/es/input/Search";
-import Filtermodal  from "../../components/filter-popup";
-import Link  from "next/link";
-import  { FireOutlined } from  "@ant-design/icons";
-import Loaderr from "../../components/Layouts/Loader";
-import { string } from "yup/lib/locale";
+// import Search from "antd/es/input/Search";
+import Filtermodal from "../../components/filter-popup";
+import Link from "next/link";
+// import  { FireOutlined } from  "@ant-design/icons";
+// import Loaderr from "../../components/Layouts/Loader";
+// import { string } from "yup/lib/locale";
 
 export default function SearchTalent() {
   const [loading, setLoading] = useState(true);
-
-  
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("skills");
   const [isOpen, setIsOpen] = useState(false);
@@ -364,7 +362,7 @@ export default function SearchTalent() {
               stroke="currentColor"
               className="h-6 w-6 text-[#8D3F42]"
             >
-               <path
+              <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 d="M19.5 8.25l-7.5 7.5-7.5-7.5"
@@ -378,8 +376,8 @@ export default function SearchTalent() {
             <Filtermodal isOpen={isOpen} closeModal={closeModal} />
           </div>
           <div className=" ml-[10px] flex items-center  rounded-[10px] border bg-transparent p-3 xs:px-2 xs:py-1 text-white transition duration-300 ease-in-out  dark:shadow xs:text-sm">
-            <img src={Images.BARS_FILTER} className="w-[20px]  text-white"/>
-            
+            <img src={Images.BARS_FILTER} className="w-[20px]  text-white" />
+
 
             <button className=" px-[10px] text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
               {Strings.SORT_BY}
@@ -399,6 +397,7 @@ export default function SearchTalent() {
               />
             </svg>
           </div>
+
           <div className=" ml-[10px] flex items-center  rounded-[10px] border bg-transparent p-3  xs:py-1 text-white transition duration-300 ease-in-out  dark:shadow xs:text-[14px]">
             <button className="text-[16px] xs:text-[10px] leading-normal text-black dark:text-white">
               {Strings.INTERVIEW_REQUEST}
@@ -406,7 +405,7 @@ export default function SearchTalent() {
 
             <label className=" relative ml-[10px] cursor-pointer items-center">
               <input type="checkbox" value="" className="peer sr-only" />
-              <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#8D3F42] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#8D3F42] rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-[#8D3F42]"></div>
+              <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#8D3F42] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-[#8D3F42]"></div>
             </label>
           </div>
         </div>
@@ -445,7 +444,7 @@ export default function SearchTalent() {
                             {item.name}
                           </div>
                           <div className="flex ">
-                          {/* <div className=" xs:text-[10px] xl:text-[14px] font-semibold text-black dark:text-white flex justify-center items-center xs:hidden md:block">
+                            {/* <div className=" xs:text-[10px] xl:text-[14px] font-semibold text-black dark:text-white flex justify-center items-center xs:hidden md:block">
                             {item.interview}
                             <FireOutlined rev={undefined} className="text-[#E25822] ml-[5px]"/>
                           </div> */}
@@ -466,7 +465,7 @@ export default function SearchTalent() {
                             <button
                               key={index}
                               className=" mr-1 flex items-center justify-center  rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-center text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
-                              //   onClick={() => handleSkillClick(skill)}
+                            //   onClick={() => handleSkillClick(skill)}
                             >
                               {skill}
                             </button>

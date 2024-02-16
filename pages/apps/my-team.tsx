@@ -14,8 +14,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import React from "react";
 
-
-
 interface UserData {
   vettingResult: any;
   raiseHistory: any;
@@ -79,7 +77,7 @@ export default function Payout() {
   useEffect(() => {
     // Define headers object
     const headers = {
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA3ODAzNTc1LCJleHAiOjE3MDc4MDcxNzV9.wyYOxTzA2pwEldXzJUpmIj4sFSAKRJ56bkvY48XGWCA'
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDA5IiwiZW1haWxJZCI6IjE5OTh0cml2ZWRpcmFqQGdtYWlsLmNvbSIsImlhdCI6MTcwNzk4MjU2OSwiZXhwIjoxNzA3OTg2MTY5fQ._3dP00vkAoWLvtC1mU44VRzvg8AilAtAfFJXKDMpLPQ'
     };
 
     const fetchData = async () => {
@@ -130,9 +128,6 @@ export default function Payout() {
 
     fetchData();
   }, []);
-
-
-
 
   return loading ? (
     <div>
@@ -194,9 +189,7 @@ export default function Payout() {
                 </button>
               )}
             </Tab>
-
           </Tab.List>
-
 
           <Tab.Panels>
             <Tab.Panel>
@@ -346,12 +339,9 @@ export default function Payout() {
                           {Strings.Hire_New_Talent}
                         </text>
                       </button>
-
                     </div>
-
                   </div>
                 )}
-
               </div>
             </Tab.Panel>
             {/* < Recommendtion tab section > */}
@@ -386,16 +376,10 @@ export default function Payout() {
                             "getRecommendation-details"
                           )
                         }
-
-
-
                         className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md ">
                         <div className="rounded-full bg-blue-300- p-2-">
                           {/* <Image src={item.userData.profilePicture} alt="profile-pic" width={100} height={100} className="w-[50px] h-[50px] rounded-full" /> */}
                           <img src={item.userData.profilePicture} alt="profile" className="w-[130px] md:h-[120px] xs:h-[95px] rounded-full" />
-
-
-
 
                         </div>
                         <div className="w-full pl-2.5">
@@ -461,20 +445,15 @@ export default function Payout() {
                             </div>
                           </div>
                         </div>
-
-
-
-                  
-                        
                       </button>
                     );
                   })
                 ) : (
-                  <><div>
-                    <p className="dark:text-white text-[#000] text-[18px] my-[5px]">These are the recommendations based on your requirements</p>
-
-                  </div>
-                  <div className="  flex w-full items-center justify-center h-[70vh]">
+                  <>
+                    <div>
+                      <p className="dark:text-white text-[#000] text-[18px] my-[5px]">These are the recommendations based on your requirements</p>
+                    </div>
+                    <div className="  flex w-full items-center justify-center h-[70vh]">
                       <div className="flex items-center flex-col">
                         <img src={Images.NOT_FOUND} alt="Payment_logo" className="w-[150px] h-[150px]" />
                         <h1 className="leading-normal text-xl font-bold dark:text-white text-[#000]">No hand picked</h1>
@@ -495,28 +474,18 @@ export default function Payout() {
                               stroke-linejoin="round"
                               d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
-
                           <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
                             {Strings.Hire_New_Talent}
                           </text>
                         </button>
-
                       </div>
-
                     </div></>
-
                 )}
               </div>
             </Tab.Panel>
           </Tab.Panels>
-
-
         </Tab.Group>
-
-
-
-      </div >
+      </div>
     </div>
-
   );
 }
