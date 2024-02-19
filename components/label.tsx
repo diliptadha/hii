@@ -2,7 +2,7 @@ import React from "react";
 
 interface LabelProps {
   className?: string;
-  label?: string;
+  label?: string | string[];
   onPress?: () => void;
 }
 export const LabelComponent: React.FC<LabelProps> = ({
@@ -12,10 +12,10 @@ export const LabelComponent: React.FC<LabelProps> = ({
   ...props
 }) => {
   return (
-      <div>
-        <text className={className} onClick={onPress} {...props}>
-          {label}
-        </text>
-      </div>
+    <div>
+      <text className={className} onClick={onPress} {...props}>
+        {label}
+      </text>
+    </div>
   );
 };

@@ -1,15 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Dropdown from "../../components/Dropdown";
 import { Fragment } from "react";
-import Image from "next/image";
 import { Images, Strings } from "../../constants";
-import Link from "next/link";
 import Loader from "../../components/Layouts/Loader";
-import { ReactSortable } from "react-sortablejs";
-import Select from "react-select";
 import { Tab } from "@headlessui/react";
-import { t } from "i18next";
 import { useRouter } from "next/router";
 import axios from "axios";
 import React from "react";
@@ -23,6 +16,19 @@ interface UserData {
   totalBonusGiven: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
   monthlySalary: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
   userData: any;
+  educationDetails: any;
+  course: string;
+  department: string;
+  university: string;
+  startDate: string;
+  endDate: string;
+  experienceDetails: any;
+  responsibility: any;
+  companyName: any;
+  techStack: any;
+  startDate2: any;
+  endDate2: any;
+  summary: any;
   hiring_status: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
   firstName: string;
   country: string;
@@ -32,6 +38,10 @@ interface UserData {
     workingHoursInDay: number;
   };
   typeOfEngagement: string;
+  skill: string;
+  yearOfExperience: string;
+  monthlyPayment: number | boolean | readonly number[] | readonly boolean[] | null | undefined;
+  verifiedAiTools: string
 }
 
 interface BonusHistory {
@@ -52,6 +62,19 @@ interface VettingResult {
   yearOfExperience: string;
 }
 
+interface EducationDetail {
+  course: any;
+}
+
+interface ExperienceDetails {
+  startDate: string;
+  endDate: string;
+}
+
+interface TeckStack {
+  teckStack: any;
+}
+
 interface UserItem {
   userData: UserData;
   hiring_status: string;
@@ -59,7 +82,10 @@ interface UserItem {
   totalBonusGiven: string;
   bonusHistory?: BonusHistory[];
   raiseHistory?: RaiseHistory[];
+  educationDetails?: EducationDetail[];
   vettingResult?: VettingResult[];
+  experienceDetails?: ExperienceDetails[];
+  techStack?: TeckStack[];
   profile_process?: string;
 }
 
@@ -77,16 +103,14 @@ export default function Payout() {
   }, []);
 
   useEffect(() => {
-    // Define headers object
     const headers = {
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4MDg3Njk4LCJleHAiOjE3MDgwOTEyOTh9.MwVS5MhjA6hV6GYAUP-vX25AM4uTHul9sjnp88zDXxM'
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDA5IiwiZW1haWxJZCI6IjE5OTh0cml2ZWRpcmFqQGdtYWlsLmNvbSIsImlhdCI6MTcwODM0NDg0MCwiZXhwIjoxNzA4MzQ4NDQwfQ.0XRcFEyyT1PXl2e4otFpL8G9wbWYGHi0VBJd9H4NX-U'
     };
 
     const fetchData = async () => {
       try {
-        // Fetch hired data
         const hiredResponse = await axios.get(
-          "https://api.eremotehire.com/myteam/getHiredData?userId=RH_0000001",
+          `${process.env.NEXT_PUBLIC_API_URL}myteam/getHiredData?userId=RH_0000012`,
           { headers }
         );
 
@@ -96,7 +120,6 @@ export default function Payout() {
             : [hiredResponse.data.hiredData];
 
           setUserdata(hiredDataToSet);
-          console.log("Hired Data:", hiredDataToSet);
         } else {
           console.error(
             "Hired data received is not in the expected format:",
@@ -116,7 +139,6 @@ export default function Payout() {
             : [recommendationResponse.data.recommendationData];
 
           setUserdataa(recommendationDataToSet);
-          console.log("Recommendation Data:", recommendationDataToSet);
         } else {
           console.error(
             "Recommendation data received is not in the expected format:",
@@ -144,7 +166,7 @@ export default function Payout() {
         {/* < heading section > */}
         <div className="flex items-center justify-between  ">
           <h1 className="text-3xl font-bold dark:text-[#fff] text-[#000] ">My Team</h1>
-          <button className="nav-item grou- mt-[20px]- flex items-center rounded-full text-base  bg-white md:px-8 xs:px-[10px] py-4 shadow-md dark:bg-[#8d3f42]">
+          <button className="nav-item grou- mt-[20px]- flex items-center rounded-full text-base bg-white md:px-8 xs:px-[10px] py-4 shadow-md dark:bg-[#8d3f42]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -221,16 +243,16 @@ export default function Payout() {
                                 bonusGiven: item?.totalBonusGiven,
                                 sentOn: item?.bonusHistory?.map((ele: { date: any; }) => ele?.date),
                                 amount: item.bonusHistory ? item.bonusHistory.map((ele: { bonusAmount: any; }) => ele?.bonusAmount) : [],
-                                raise: item?.raiseHistory?.[0]?.raiseAmount,
-                                raise_two: item?.raiseHistory?.[1]?.raiseAmount,
-                                effectiveOn: item?.raiseHistory?.[0]?.effectiveOn,
-                                effectiveOn_two: item?.raiseHistory?.[1]?.effectiveOn,
-                                skill: item?.vettingResult?.[0]?.skill,
-                                skill_two: item?.vettingResult?.[1]?.skill,
-                                vetting: item?.vettingResult?.[0]?.vettingResult,
-                                vetting_two: item?.vettingResult?.[1]?.vettingResult,
-                                yearOfExperience: item?.vettingResult?.[0]?.yearOfExperience,
-                                yearOfExperience_two: item?.vettingResult?.[1]?.yearOfExperience
+                                raise: item?.raiseHistory?.raiseAmount,
+                                raise_two: item?.raiseHistory?.raiseAmount,
+                                effectiveOn: item?.raiseHistory?.effectiveOn,
+                                effectiveOn_two: item?.raiseHistory?.effectiveOn,
+                                skill: item?.vettingResult?.skill,
+                                skill_two: item?.vettingResult?.skill,
+                                vetting: item?.vettingResult?.vettingResult,
+                                vetting_two: item?.vettingResult?.vettingResult,
+                                yearOfExperience: item?.vettingResult?.yearOfExperience,
+                                yearOfExperience_two: item?.vettingResult?.yearOfExperience,
                               },
                             },
                             "/apps/developer-details"
@@ -259,24 +281,7 @@ export default function Payout() {
                                 <text className="text-base font-semibold text-black dark:text-white leading-normal">
                                   {item.userData.firstName}
                                 </text>
-                                {/* {item.profile_process === "verify" && (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="green"
-                                  className="h-6 w-6"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
-                              )} */}
                               </div>
-                              {/* <text className="text-lg font-semibold text-black dark:text-white">
-                            {item.userData.hourlyRate}
-                          </text> */}
                             </div>
                             <div className=" px-2- py-0.5-">
                               <text className="text-sm  dark:text-white text-[#000] ">
@@ -358,7 +363,7 @@ export default function Payout() {
             <Tab.Panel>
               <div className="mt-5">
                 {userdataa?.length > 0 ? (
-                  userdataa.map((item, inedx) => {
+                  userdataa.map((item: UserData) => {
                     return (
                       <button
                         onClick={() =>
@@ -374,13 +379,26 @@ export default function Payout() {
                                 technicalInterviewNotes: item.userData.technicalInterviewNotes,
                                 softSkillAssessment: item.userData.softSkillAssessment,
                                 otherTechnicalSkills: item.userData.techStack,
-                                verifiedAiTools: item.userData.verifiedAiTools,
                                 skill: item.vettingResult[0]?.skill,
                                 skill_two: item.vettingResult[1]?.skill,
-                                vettingResult: item.vettingResult[0].vettingResult,
-                                vettingResult_two: item.vettingResult[1].vettingResult,
-                                yearOfExperience: item.vettingResult[0].yearOfExperience,
-                                yearOfExperience_two: item.vettingResult[1].yearOfExperience
+                                vettingResult: item.vettingResult[0]?.vettingResult,
+                                vettingResult_two: item.vettingResult[1]?.vettingResult,
+                                yearOfExperience: item.vettingResult[0]?.yearOfExperience,
+                                yearOfExperience_two: item.vettingResult[1]?.yearOfExperience,
+                                educationDetails: item.educationDetails.course,
+                                course: item.educationDetails[0]?.course,
+                                department: item.educationDetails[0]?.department,
+                                university: item.educationDetails[0]?.university,
+                                startDate: item.educationDetails[0]?.startDate,
+                                endDate: item.educationDetails[0]?.endDate,
+                                companyName: item.experienceDetails[0]?.companyName,
+                                responsibility: item.experienceDetails[0]?.responsibility,
+                                teckStack: item.experienceDetails[0]?.techStack,
+                                verifiedAiTools: item?.userData?.verifiedAiTools,
+                                startDate2: item.experienceDetails[0]?.startDate,
+                                endDate2: item.experienceDetails[0]?.endDate,
+                                summary: item.userData?.summary,
+                                monthlyPayment: item.monthlyPayment,
                               },
                             },
                             "getRecommendation-details"
@@ -390,13 +408,8 @@ export default function Payout() {
 
 
                         className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md ">
-                        <div className="rounded-full bg-blue-300- p-2-">
-                          {/* <Image src={item.userData.profilePicture} alt="profile-pic" width={100} height={100} className="w-[50px] h-[50px] rounded-full" /> */}
-                          <img src={item.userData.profilePicture} alt="profile" className="w-[130px] md:h-[120px] xs:h-[95px] rounded-full" />
-
-
-
-
+                        <div className="bg-blue-300- w-[100px] h-[90px]">
+                          <img src={item.userData.profilePicture} alt="profile" className="rounded-[50%] w-[100%] h-[100%] overflow-hidden" />
                         </div>
                         <div className="w-full pl-2.5">
                           <div className=" flex flex-col items-start">
@@ -405,24 +418,7 @@ export default function Payout() {
                                 <text className="text-base font-semibold text-black dark:text-white leading-normal">
                                   {item.userData.firstName}
                                 </text>
-                                {/* {item.profile_process === "verify" && (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="green"
-                                  className="h-6 w-6"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
-                              )} */}
                               </div>
-                              {/* <text className="text-lg font-semibold text-black dark:text-white">
-                            {item.userData.hourlyRate}
-                          </text> */}
                             </div>
                             <div className=" px-2- py-0.5-">
                               <text className="text-sm  dark:text-white text-[#000] ">
@@ -455,7 +451,16 @@ export default function Payout() {
 
                               <div>
                                 <text className="text-lg  text-black dark:text-white font-bold">
-                                  ${item.userData.hourlyRate}/month
+                                  {item?.monthlyPayment != null && !isNaN(Number(item?.monthlyPayment)) ? (
+                                    <>
+                                      {Number(item?.monthlyPayment) >= 1000
+                                        ? `$${(Number(item?.monthlyPayment) / 1000).toFixed(1)}k`
+                                        : `$${item.monthlyPayment}`}
+                                      /month
+                                    </>
+                                  ) : (
+                                    "Monthly payment not available"
+                                  )}
                                 </text>
                               </div>
                             </div>
