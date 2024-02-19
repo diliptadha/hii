@@ -435,7 +435,7 @@ export default function SearchTalent() {
             <>
               <button className="my-2 flex w-full flex-col items-center justify-center rounded-xl bg-white px-4 py-3 shadow-md outline-none   dark:bg-[#000] dark:shadow-md">
                 <div className="flex w-full items-center justify-center  ">
-                  <div className="rounded-full ">{item.img_logo}</div>
+                  <div className="rounded-full">{item.img_logo}</div>
                   <div className="w-full pl-2.5">
                     <div className=" flex flex-col items-start">
                       <div className="flex  w-full justify-between pr-3">
@@ -459,13 +459,13 @@ export default function SearchTalent() {
                           {item.position}
                         </text>
                       </div>
-                      <div className="flex w-full items-center justify-between">
+                      <div className="flex  w-full xs:flex-start xs:flex-col md:flex-row md:items-center justify-between">
                         <div className="flex items-center">
                           {item.skills.map((skill, index) => (
                             <button
                               key={index}
-                              className=" mr-1 flex items-center justify-center  rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-center text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
-                            //   onClick={() => handleSkillClick(skill)}
+                              className=" mr-1 flex items-center justify-center rounded-full  border-none bg-[#8D3F42] px-2 py-1.5 text-center text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
+                              //   onClick={() => handleSkillClick(skill)}
                             >
                               {skill}
                             </button>

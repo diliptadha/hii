@@ -871,7 +871,7 @@ thead {
   filter: brightness(0) invert(1); /* Change color to white */
 }
 
-
-
-
+.hover-scale-svg:hover svg {
+  transform: scale(1.50); 
+}
 
