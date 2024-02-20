@@ -1,15 +1,3 @@
-import { useEffect, useState } from "react";
-
-import Loader from "../../components/Layouts/Loader";
-import React from "react";
-import { useRouter } from "next/router";
-import { Images, Strings } from "../../constants";
-import { Fragment } from "react";
-import { Tab } from "@headlessui/react";
-import { Bar } from "react-chartjs-2";
-import Select from "react-select";
-import GiveBounsModal from "../../components/Give-Bouns-Modal";
-
 import {
   ArcElement,
   BarElement,
@@ -19,26 +7,82 @@ import {
   LineElement,
   LinearScale,
   PointElement,
-  Tooltip,
 } from "chart.js";
+import { Images, Strings } from "../../constants";
+import { format, isValid, parseISO } from "date-fns";
+import { useEffect, useState } from "react";
 
+import { Bar } from "react-chartjs-2";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Fragment } from "react";
+import GiveBounsModal from "../../components/Give-Bouns-Modal";
+import GiveRaiseModal from "../../components/Give-Raise-Modal";
+import { LabelComponent } from "../../components/label";
+import Loader from "../../components/Layouts/Loader";
+import React from "react";
+import Select from "react-select";
+import { Switch } from "antd";
+import { Tab } from "@headlessui/react";
+import { Tooltip } from "antd";
+import { useRouter } from "next/router";
+
+interface EducationDetail {
+  course: string;
+  department: string;
+  startDate: string;
+  endDate: string;
+  university: string;
+}
+
+interface ExperienceDetail {
+  companyName: string;
+  startDate: string;
+  endDate: string;
+  techStack: string[];
+  responsibility: string;
+}
+
+interface SalaryDisplayProps {
+  salary: number;
+}
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
   BarElement,
-  Tooltip,
+
   ArcElement,
   Legend
 );
-import { Switch } from "antd";
-import GiveRaiseModal from "../../components/Give-Raise-Modal";
-import { LabelComponent } from "../../components/label";
 
 export default function DeveloperDetails() {
   const router = useRouter();
-  const [userData, setUserData] = useState({ name: "", position: "", price: "", country: "", amount: "", sentOn: "", raise: "", raise_two: "", skill: "", skill_two: "", vetting: "", vetting_two: "", yearOfExperience: "", yearOfExperience_two: "", workType: "", monthlySalary: "", bonusGiven: "", effectiveOn: "", effectiveOn_two: "" });
+  const [userData, setUserData] = useState({
+    name: "",
+    position: "",
+    price: "",
+    country: "",
+    amount: "",
+    sentOn: "",
+    raise: "",
+    raise_two: "",
+    skill: "",
+    skill_two: "",
+    vetting: "",
+    vetting_two: "",
+    yearOfExperience: "",
+    yearOfExperience_two: "",
+    workType: "",
+    monthlySalary: "",
+    bonusGiven: "",
+    effectiveOn: "",
+    effectiveOn_two: "",
+    educationDetails: [] as EducationDetail[],
+    experienceDetails: [] as ExperienceDetail[],
+    profilePicture: "",
+    summary: "",
+  });
   const [loading, setLoading] = useState(true);
   const [showBouns, setShowBouns] = useState(true);
 
@@ -48,14 +92,11 @@ export default function DeveloperDetails() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
-
-  const longText = "Experienced in writing custom Python code to extend Django applications, collaborating with other developers, and integrating third-party services and APIs. Highly skilled Python Django Developer with a proven track record of developing and maintaining complex web applications. Achieved a 20% increase in user engagement, resulting in a revenue boost of $50,000, while reducing development time by 30% and improving overall code quality.";
-
+  const longText = ` ${userData?.summary}`;
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
-
 
   const openModal = () => {
     setIsOpen(true);
@@ -71,13 +112,11 @@ export default function DeveloperDetails() {
   const closeModall = () => {
     setIsOpenn(false);
   };
-
+  // console.log(router?.query, "queryyy");
   useEffect(() => {
-    // console.log(router?.query, "queryyy");
-
-    setUserData(prevUserData => ({
+    setUserData((prevUserData) => ({
       ...prevUserData,
-      ...router.query
+      ...router.query,
     }));
 
     const timer = setTimeout(() => {
@@ -99,7 +138,6 @@ export default function DeveloperDetails() {
       senton: `${userData?.sentOn}`,
     },
   ];
-
 
   const BenefitsData = [
     {
@@ -145,9 +183,7 @@ export default function DeveloperDetails() {
       amount_two: `${userData?.raise_two} `,
       effective_on: `${userData?.effectiveOn} `,
       effective_on_two: `${userData?.effectiveOn_two} `,
-
     },
-
   ];
   const VettingResult = [
     {
@@ -184,9 +220,21 @@ export default function DeveloperDetails() {
 
   const useroverview = [
     { id: 0, title: "HOURS WORKED", value: `8` },
-    { id: 1, title: "WORK TYPE", value: `${userData.workType}` },
-    { id: 2, title: "MONTHLY SALARY", value: `${userData.monthlySalary}` },
-    { id: 3, title: "BOUNS GIVEN", value: `${userData.bonusGiven}` },
+    {
+      id: 1,
+      title: "WORK TYPE",
+      value: userData.workType ? userData.workType : "-",
+    },
+    {
+      id: 2,
+      title: "MONTHLY SALARY",
+      value: userData.monthlySalary ? `$${userData.monthlySalary}` : "-",
+    },
+    {
+      id: 3,
+      title: "BONUS GIVEN",
+      value: userData.bonusGiven ? userData.bonusGiven : "-",
+    },
   ];
   // console.log("hyyyyyyy", userData);
 
@@ -279,6 +327,85 @@ export default function DeveloperDetails() {
       },
     },
   };
+  const tooltipContent2 = (
+    <span className="text-xs ">{Strings.POPUP_TEXT_TWO}</span>
+  );
+  const [educationDetails, setEducationDetails] = useState<EducationDetail[]>(
+    []
+  );
+  const [experienceDetails, setExperienceDetails] = useState<
+    ExperienceDetail[]
+  >([]);
+
+  useEffect(() => {
+    const { educationDetails, experienceDetails } = router.query;
+
+    if (
+      typeof educationDetails === "string" &&
+      typeof experienceDetails === "string"
+    ) {
+      setEducationDetails(JSON.parse(educationDetails || "[]"));
+      setExperienceDetails(JSON.parse(experienceDetails || "[]"));
+    } else {
+      console.error(
+        "Invalid query parameters: educationDetails and experienceDetails must be strings."
+      );
+    }
+  }, [router.query]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // January is 0!
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  let formatstartDate = "";
+  if (userData.effectiveOn_two) {
+    const dateObject = parseISO(userData.effectiveOn_two);
+    if (isValid(dateObject)) {
+      formatstartDate = format(dateObject, "MMM yyyy");
+    } else {
+      console.error("Invalid date:", userData.effectiveOn_two);
+    }
+  }
+
+  let formatEndDate = "";
+  if (userData.effectiveOn) {
+    const dateObject = parseISO(userData.effectiveOn);
+    if (isValid(dateObject)) {
+      formatEndDate = format(dateObject, "MMM yyyy");
+    } else {
+      console.error("Invalid date:", userData.effectiveOn);
+    }
+  }
+
+  function formatDate1(dateString: string) {
+    if (!dateString) {
+      return "Present";
+    }
+
+    let formattedDate = "";
+    const dateObject = parseISO(dateString); // Parse ISO-formatted date string
+    if (isValid(dateObject)) {
+      formattedDate = format(dateObject, "MMM yyyy"); // Format date
+    } else {
+      console.error("Invalid date:", dateString);
+    }
+
+    return formattedDate;
+  }
+
+  function SalaryDisplay({ salary }: SalaryDisplayProps) {
+    const salaryInK =
+      salary >= 1000 ? `${(salary / 1000).toFixed(1)}k` : salary;
+    return (
+      <div className="text-lg font-semibold text-black dark:text-white">
+        ${salaryInK}/month
+      </div>
+    );
+  }
 
   return loading ? (
     <div>
@@ -310,11 +437,13 @@ export default function DeveloperDetails() {
             <text className="text-red-600 dark:text-blue-300">
               {Strings.DEVELOPERS}
             </text>
-            <text className="mx-2">{">" + " " + Strings.DEVELOPER_DETAILS}</text>
+            <text className="mx-2">
+              {">" + " " + Strings.DEVELOPER_DETAILS}
+            </text>
           </div>
           <div className="flex space-x-2 xs:hidden ">
             <button className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]">
-              <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
+              <text className="text-black dark:text-[#fff] dark:group-hover:text-white-dark ltr:pl-3 rtl:pr-3">
                 {Strings.REPLACMENT_REQUSET}
               </text>
               {/* <text className="mx-2">
@@ -348,7 +477,7 @@ export default function DeveloperDetails() {
                 />
               </svg>
 
-              <text className="ml-[5px] text-black dark:text-[#fff] dark:group-hover:text-white-dark">
+              <text className="ml-1 text-black dark:text-[#fff] dark:group-hover:text-white-dark">
                 {Strings.GIVE_BOUNS}
               </text>
             </button>
@@ -376,7 +505,7 @@ export default function DeveloperDetails() {
                 />
               </svg>
 
-              <text className="text-black  dark:text-[#fff] dark:group-hover:text-white-dark">
+              <text className="ml-1 text-black  dark:text-[#fff] dark:group-hover:text-white-dark">
                 {Strings.GIVE_RAISE}
               </text>
             </button>
@@ -395,28 +524,20 @@ export default function DeveloperDetails() {
 
         {/** < profile header > */}
         <button className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md  ">
-          <div className="rounded-full bg-blue-300 p-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="blue"
-              className="h-16 w-16"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.5 6a4.5  4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                clipRule="evenodd"
-              />
-            </svg>
+          <div className="rounded-full  p-2">
+            <img
+              src={userData.profilePicture || "/Images/Avtar.png"}
+              alt="profile"
+              className="rounded-full xs:h-[80px] xs:w-[110px] md:h-[110px] md:w-[120px]"
+            />
           </div>
           <div className="w-full pl-2.5">
             <div className=" flex flex-col items-start">
               <div className="flex  w-full justify-between pr-3">
-                <div className="flex items-center space-x-1-">
+                <div className="space-x-1- flex items-center">
                   <text className="text-base font-semibold text-black dark:text-white">
                     {userData?.name}
                   </text>
-
                 </div>
                 <div className=" xs:hidden md:flex">
                   <button className="mr-2 flex items-center  px-2 py-1.5 shadow-sm dark:shadow">
@@ -432,7 +553,9 @@ export default function DeveloperDetails() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <text className="text-[#000] dark:text-[#fff]">compliantly hired</text>
+                    <text className="text-[#000] dark:text-[#fff]">
+                      compliantly hired
+                    </text>
                   </button>
                   <button className="mr-[-5px] flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
                     <svg
@@ -447,13 +570,15 @@ export default function DeveloperDetails() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <text className="text-[#000] dark:text-[#fff]">{"eremotehire certified"}</text>
+                    <text className="text-[#000] dark:text-[#fff]">
+                      {"eremotehire certified"}
+                    </text>
                   </button>
                 </div>
               </div>
               <div className="flex w-full items-center justify-between">
                 <div className="  px-2- py-0.5">
-                  <text className="text-sm  dark:text-white text-black">
+                  <text className="text-sm  text-black dark:text-white">
                     {userData?.position}
                   </text>
                 </div>
@@ -461,29 +586,37 @@ export default function DeveloperDetails() {
               </div>
               <div className="flex  w-full items-center justify-between">
                 <div className="flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                    />
-                  </svg>
+                  {userData?.country ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                      />
+                    </svg>
+                  ) : null}
                   <text className="mx-1">{userData?.country}</text>
                 </div>
                 <text className="text-lg font-semibold text-black dark:text-white">
-                  ${userData?.price}/month
+                  <SalaryDisplay
+                    salary={
+                      userData?.monthlySalary
+                        ? parseFloat(userData.monthlySalary)
+                        : 0
+                    }
+                  />
                 </text>
               </div>
             </div>
@@ -493,38 +626,41 @@ export default function DeveloperDetails() {
         {/* < tabbar section > */}
 
         <Tab.Group>
-
-
-          <Tab.List className="mt-3 flex md:flex-wrap border-b border-opacity-25 border-[#8D3F42] overflow-x-scroll md:overflow-x-auto">
-            {["Overview", "Bonus history", "Raise history", "Benifits", `${userData?.name}'s details`, "Settings"].map(
-              (tab, index) => (
-                <Tab key={index}>
-                  {({ selected }) => (
-                    <button
-                      className={`text-[15px] xs:w-[130px] md:w-full p-4   ${selected
-                        ? "border-b-2 border-[#8D3F42] bg-red-900- outline-none bg-[#8D3F42] bg-opacity-[.25] p-2 rounded-t-[5px] text-white "
+          <Tab.List className="mt-3 flex overflow-x-scroll border-b border-[#8D3F42] border-opacity-25 md:flex-wrap md:overflow-x-auto">
+            {[
+              "Overview",
+              "Bonus history",
+              "Raise history",
+              "Benifits",
+              `${userData?.name ? `${userData.name}'s details` : "Details"}`,
+              "Settings",
+            ].map((tab, index) => (
+              <Tab key={index}>
+                {({ selected }) => (
+                  <button
+                    className={`p-4 text-[15px] xs:w-[130px] md:w-full   ${
+                      selected
+                        ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 text-white outline-none "
                         : ""
-                        } `}
+                    } `}
                     // onClick={() => setSelectedTabIndex(index)}
-                    >
-                      {tab}
-                    </button>
-                  )}
-                </Tab>
-              )
-            )}
+                  >
+                    {tab}
+                  </button>
+                )}
+              </Tab>
+            ))}
           </Tab.List>
-
 
           <Tab.Panels>
             {/* < Overview tab section > */}
 
             <Tab.Panel>
               <div>
-                <div className="mt-3 flex xs:flex-col md:flex-row md:justify-between xs:justify-center items-center xs:space-y-2 md:space-y-0">
+                <div className="mt-3 flex items-center xs:flex-col xs:justify-center xs:space-y-2 md:flex-row md:justify-between md:space-y-0">
                   {useroverview.map((item) => {
                     return (
-                      <div className="w-full md:max-w-[18rem] xs:mx-width-[24rem] mx-[10px] justify-between    rounded-[10px]  bg-white shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000]   dark:shadow-none ">
+                      <div className="xs:mx-width-[24rem] mx-[10px] w-full justify-between rounded-[10px]    bg-white  shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000] dark:shadow-none   md:max-w-[18rem] ">
                         <div className="px-4 py-7 ">
                           <div className="flex items-center justify-center">
                             <p className="text-center text-white-dark">
@@ -551,7 +687,10 @@ export default function DeveloperDetails() {
                             {item.value}
                           </h5>
                           {item.title === "BOUNS GIVEN" && (
-                            <h3 className="text-center text-blue-500">
+                            <h3
+                              onClick={openModal}
+                              className="cursor-pointer text-center text-blue-500"
+                            >
                               Give more bouns
                             </h3>
                           )}
@@ -561,7 +700,7 @@ export default function DeveloperDetails() {
                   })}
                 </div>
                 <div className="flex  justify-between xs:flex-col md:flex-row">
-                  <div className="mt-8 justify-between  rounded-[10px]  bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:w-2/4 md:mx-[10px] ">
+                  <div className="mt-8 justify-between  rounded-[10px]  bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:mx-[10px] md:w-2/4 ">
                     <div className="flex items-center justify-between">
                       <div className="mb-4 mt-2 flex items-center">
                         <h1 className="mr-2 font-bold">PERFORMANCE</h1>
@@ -626,7 +765,7 @@ export default function DeveloperDetails() {
             {/* < Bouns tab section > */}
             <Tab.Panel>
               <table className="table-hover mt-3">
-                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white">
+                <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white">
                   <tr>
                     <th>Developer</th>
                     <th>Role</th>
@@ -637,24 +776,26 @@ export default function DeveloperDetails() {
                 <tbody>
                   {BounsHistoryData?.length > 0 ? (
                     BounsHistoryData?.map((data, index) => {
+                      const sentOnDate = new Date(data?.senton);
+                      const formattedSentOn = sentOnDate.toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      );
                       return (
                         <tr key={index}>
-                          <td>{userData?.name}</td>
-                          <td>{userData?.position}</td>
+                          <td>{userData?.name || "-"}</td>
+                          <td>{userData?.position || "-"}</td>
 
-                          <td>{data?.amount}</td>
+                          <td>{data?.amount || "-"}</td>
 
                           <td>
                             {/* {data?.senton} */}
                             <ul>
-                              <li>
-                                {new Date(data.senton).toLocaleDateString("en-US", {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                })
-                                }
-                              </li>
+                              <li>{formattedSentOn || "-"}</li>
                             </ul>
                           </td>
                         </tr>
@@ -673,7 +814,7 @@ export default function DeveloperDetails() {
 
             <Tab.Panel>
               <table className="table-hover mt-3">
-                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white">
+                <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white">
                   <tr>
                     <th>Developer</th>
                     <th>Role</th>
@@ -682,74 +823,56 @@ export default function DeveloperDetails() {
                   </tr>
                 </thead>
                 <tbody>
-                  {RaiseHistory?.length > 0 ? (
-                    RaiseHistory?.map((data, index) => {
-                      return (
-                        <>
-                          <tr key={index}>
-                            <td>{userData?.name}</td>
-                            <td>{userData?.position}</td>
+                  {RaiseHistory && RaiseHistory.length > 0 ? (
+                    RaiseHistory.map((data, index) => (
+                      <>
+                        <tr key={index}>
+                          <td>{userData?.name || "-"}</td>
+                          <td>{userData?.position || "-"}</td>
 
-                            <td>
-                              <p>{data?.amount}</p>
-                              {/* <p>{data?.amount_two}</p> */}
-                            </td>
+                          <td>
+                            <p>{data?.amount || "-"}</p>
+                            {/* <p>{data?.amount_two}</p> */}
+                          </td>
 
-                            <td>
-                              {/* {data?.senton} */}
-                              <ul>
-                                <li>
-                                  {new Date(data.effective_on).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                  })
-                                  }
-                                </li>
-                              </ul>
-                            </td>
+                          <td>
+                            {/* {data?.senton} */}
+                            <ul>
+                              <li>{formatEndDate || "-"}</li>
+                            </ul>
+                          </td>
+                        </tr>
+                        <tr key={index}>
+                          <td>{userData?.name || "-"}</td>
+                          <td>{userData?.position || "-"}</td>
 
-                          </tr><tr key={index}>
-                            <td>{userData?.name}</td>
-                            <td>{userData?.position}</td>
+                          <td>
+                            {/* <p>{data?.amount}</p> */}
+                            <p>{data?.amount_two || "-"}</p>
+                          </td>
 
-                            <td>
-                              {/* <p>{data?.amount}</p> */}
-                              <p>{data?.amount_two}</p>
-                            </td>
-
-                            <td>
-                              {/* {data?.senton} */}
-                              <ul>
-                                <li>
-                                  {new Date(data.effective_on_two).toLocaleDateString("en-US", {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                  })
-                                  }
-                                </li>
-                              </ul>
-                            </td>
-
-
-
-
-
-                          </tr></>
-                      );
-                    })
+                          <td>
+                            {/* {data?.senton} */}
+                            <ul>
+                              <li>{formatstartDate || "-"}</li>
+                            </ul>
+                          </td>
+                        </tr>
+                      </>
+                    ))
                   ) : (
-                    <div className="absolute  flex w-full items-center justify-center">
-                      <h1 className="my-4">No data available</h1>
+                    <div className="flex flex-col items-center justify-center">
+                      <img
+                        src={Images.NOT_FOUND}
+                        alt="Payment_logo"
+                        className="h-[150px] w-[150px]"
+                      />
+                      <span className="text-base font-bold text-black dark:text-white">
+                        {Strings.No_records_found}
+                      </span>
                     </div>
                   )}
                 </tbody>
-
-
-
-
-
               </table>
             </Tab.Panel>
 
@@ -791,14 +914,15 @@ export default function DeveloperDetails() {
             <Tab.Panel>
               <div>
                 <Tab.Group>
-                  <Tab.List className="flex- mt-3 inline-flex  flex-wrap rounded-[10px] bg-white dark:bg-[#000] ">
+                  <Tab.List className="flex- mt-3 inline-flex h-12 flex-wrap items-center justify-center rounded-[10px] bg-white dark:bg-[#000] xs:w-full md:w-[350px] ">
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${selected
-                            ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
-                            : ""
-                            }
+                          className={`${
+                            selected
+                              ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
+                              : ""
+                          }
                     border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           {Strings.VETTING}
@@ -808,11 +932,12 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${selected
-                            ? "nav-item group flex items-center rounded-[30px]  px-[15px] py-2 shadow-md dark:bg-[#8d3f42]"
-                            : ""
-                            }
-                    border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                          className={`${
+                            selected
+                              ? "nav-item group flex items-center rounded-[30px] bg-[#8d3f42]  px-[15px] py-2 text-white shadow-md"
+                              : ""
+                          }
+                     -mb-[1px] flex h-10 items-center p-4 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           About
                         </button>
@@ -821,10 +946,11 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${selected
-                            ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
-                            : ""
-                            }
+                          className={`${
+                            selected
+                              ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
+                              : ""
+                          }
                     border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           Experience
@@ -837,19 +963,18 @@ export default function DeveloperDetails() {
                       <div className="mt-3">
                         <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] xs:h-[450px] md:h-[430px] ">
                           <div className="p-8">
-                            <p className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  "
-                            >
+                            <p className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  ">
                               Vetted Technical Skill
                             </p>
-                            <p className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
-                            >
-                              These are the skill we have explicity vetted for in the technical interview
+                            <p className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 ">
+                              These are the skill we have explicity vetted for
+                              in the technical interview
                             </p>
                           </div>
-                          <div className="md:ml-8 xs:mx-[10px]  md:w-[500px] border border-[#8D3F42] border-opacity-25 rounded-[10px]">
+                          <div className="rounded-[10px] border  border-[#8D3F42] border-opacity-25 xs:mx-[10px] md:ml-8 md:w-[500px]">
                             <div className="relative overflow-x-auto  ">
                               <table className="table-hover mt-3-">
-                                <thead className="sticky top-0 bg-opacity-[.1] bg-[#8D3F42] text-[#000] dark:text-white ">
+                                <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white ">
                                   <tr className="xs:text-[12px] md:text-[14px]">
                                     <th>SKILL</th>
                                     <th>VETTING RESULT</th>
@@ -861,17 +986,28 @@ export default function DeveloperDetails() {
                                     VettingResult?.map((data, index) => {
                                       return (
                                         <tr key={index}>
-                                          <td>{data.skill}</td>
-                                          <td className={`bg-red-900- ${index === 0 ? "text-green-800 p-2 rounded-[10px]" :
-                                            index === 1 ? "text-yellow-800 p-2 rounded-[10px]" :
-                                              index === 2 ? "bg-green-600" :
-                                                index === 3 ? "bg-yellow-400" :
-                                                  ""
-                                            }`}>
-                                            {data.vetting_result}
+                                          <td>{data.skill || "-"}</td>
+                                          <td
+                                            className={`bg-red-900-  ${
+                                              index === 0
+                                                ? "rounded-[10px] p-2 text-green-800"
+                                                : index === 1
+                                                ? "rounded-[10px] p-2 text-yellow-800"
+                                                : index === 2
+                                                ? "bg-green-600"
+                                                : index === 3
+                                                ? "bg-yellow-400"
+                                                : ""
+                                            }`}
+                                          >
+                                            {data.vetting_result || "-"}
                                           </td>
 
-                                          <td>{data.yearOfExperience}+ years</td>
+                                          <td>
+                                            {data.yearOfExperience
+                                              ? `${data.yearOfExperience}+ years`
+                                              : "-"}
+                                          </td>
                                         </tr>
                                       );
                                     })
@@ -957,8 +1093,7 @@ export default function DeveloperDetails() {
                               label="Our assessemnet of the developer's soft skills.we largely emphasize this part of our vetting process"
                             />
                           </div>
-                          <div className="xs:pl-[20px] md:pl-8">
-                          </div>
+                          <div className="xs:pl-[20px] md:pl-8"></div>
                           <div className="p-8">
                             <LabelComponent
                               className="text-[20px] font-bold text-black dark:text-white"
@@ -975,26 +1110,41 @@ export default function DeveloperDetails() {
 
                     <Tab.Panel>
                       <div className="mt-3">
-                        <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
+                        <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
                           <div className="p-8">
-                            <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">About Mihir</h2>
+                            <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
+                              About Mihir
+                            </h2>
                             <div>
-                              {isExpanded ? (
-                                <div>
-                                  {longText}
-                                  <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_Less}</button>
-                                </div>
+                              {userData?.summary ? (
+                                isExpanded ? (
+                                  <div>
+                                    {longText}
+                                    <button
+                                      onClick={toggleExpand}
+                                      className="text-[16px] font-bold text-[#8D3F42]"
+                                    >
+                                      {Strings.Read_Less}
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    {longText.slice(0, 256)}
+                                    <button
+                                      onClick={toggleExpand}
+                                      className="text-[16px] font-bold text-[#8D3F42]"
+                                    >
+                                      {Strings.Read_More}
+                                    </button>
+                                  </div>
+                                )
                               ) : (
-                                <div>
-                                  {longText.slice(0, 256)} {/* Display first 100 characters */}
-                                  <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_More}</button>
-                                </div>
+                                <div>Data is available</div>
                               )}
                             </div>
-                            <div className="py-2.5 px-4 text-[16px] text-[#000] text-[#fff] font-normal bg-[#8D3F42] mt-[20px] rounded-3xl inline-flex items-center">
+                            <div className="mt-[20px] inline-flex items-center  rounded-3xl bg-[#8D3F42] px-4 py-2.5 text-[16px] font-normal text-[#fff]">
                               <button className="">
                                 {Strings.Background_checked}
-
                               </button>
                               <div className="relative">
                                 <svg
@@ -1003,7 +1153,7 @@ export default function DeveloperDetails() {
                                   viewBox="0 0 24 24"
                                   stroke-width="1.5"
                                   stroke="currentColor"
-                                  className="h-6 w-6 ml-[10px] cursor-pointer"
+                                  className="ml-[10px] h-6 w-6 cursor-pointer"
                                   onMouseEnter={() => setTooltipVisible(true)}
                                   onMouseLeave={() => setTooltipVisible(false)}
                                 >
@@ -1014,104 +1164,143 @@ export default function DeveloperDetails() {
                                   />
                                 </svg>
                                 {isTooltipVisible && (
-                                  <p className="bg-white border w-[300px] rounded-xl h-[100x]- absolute md:top-[-20px] md:left-[50px] xs:top-[40px] xs:left-[-185px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
+                                  <p className="h-[100x]- overflow-none absolute z-50 w-[300px] rounded-xl border bg-white text-[14px] font-normal leading-normal text-[#000] xs:left-[-185px] xs:top-[40px] md:left-[50px] md:top-[-20px]">
                                     {Strings.POPUP_TEXT_TWO}
                                   </p>
                                 )}
                               </div>
-
                             </div>
-
                           </div>
-
-
                         </div>
 
-                        <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
+                        <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
                           <div className="p-8">
-                            <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">Education</h2>
-                            <div className="border border-[#8D3F42] p-4 rounded-xl flex items-center gap-3">
-                              <div>
-                                <img src={Images.RAHULSAHAI} className="w-[100px] h-[100px]" />
+                            <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
+                              Education
+                            </h2>
+                            <div className="flex items-center gap-3 rounded-xl border border-[#8D3F42] p-4">
+                              <div className="rounded-full">
+                                <img
+                                  src={
+                                    userData.profilePicture ||
+                                    "/Images/Avtar.png"
+                                  }
+                                  alt="profile"
+                                  className="rounded-full xs:h-[85px] xs:w-[95px] md:h-[120px] md:w-[120px]"
+                                />
                               </div>
                               <div>
-                                <h2 className="text-lg font-medium mb-2 text-[#000] dark:text-[#fff]">Bachelor of Science - BS, Information Technology</h2>
-                                <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">University of Mumbai</h3>
-                                <p className="text-m mb-2 text-[#000] dark:text-[#fff]">Jun 2016 - May 2019</p>
-
+                                {educationDetails.length > 0 ? (
+                                  educationDetails.map((education, index) => (
+                                    <div key={index}>
+                                      <h2 className="mb-2 text-lg font-medium text-[#000] dark:text-[#fff]">
+                                        {education?.course} -
+                                        {education?.department}
+                                      </h2>
+                                      <h3 className="mb-2 text-sm text-[#000] dark:text-[#fff]">
+                                        {education?.university}
+                                      </h3>
+                                      <p className="text-m mb-2 text-[#000] dark:text-[#fff]">
+                                        {formatDate(education?.startDate)}-
+                                        {formatDate(education?.endDate)}
+                                      </p>
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div className="flex w-full justify-center">
+                                    <p className=" text-base font-semibold">
+                                      No education details available
+                                    </p>
+                                  </div>
+                                )}
                               </div>
-
                             </div>
-
-
-
                           </div>
-
-
                         </div>
-
-
-
                       </div>
                     </Tab.Panel>
 
                     <Tab.Panel>
                       <>
-                        <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
+                        <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
                           <div className="p-8">
-                            <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">Experience
+                            <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
+                              Experience
                             </h2>
-                            <div className="border border-[#8D3F42] p-4 rounded-xl  gap-3">
+                            <div className="gap-3 rounded-xl border border-[#8D3F42]  p-4">
                               <div className="flex  xs:flex-col md:flex-row">
-                                <div>
-                                  <img src={Images.RAHULSAHAI} className="w-[100px] h-[100px]" />
+                                <div className="flex justify-center">
+                                  <img
+                                    src={
+                                      userData.profilePicture ||
+                                      "/Images/Avtar.png"
+                                    }
+                                    alt="profile"
+                                    className="rounded-full xs:h-[95px] xs:w-[95px] md:h-[120px] md:w-[120px]"
+                                  />
                                 </div>
-                                <div className="flex-1 pl-4" >
-                                  <div className="flex bg-red-900- xs:my-[10px] md:my-0 bg-full- md:flex-row xs:flex-col md:justify-between md:items-center">
-                                    <div className="text-lg font-medium md:mb-2 text-[#000] dark:text-[#fff]">Full Stack Developer at ANTRIX INFOTECH
+                                <div className="flex-1 pl-4">
+                                  {experienceDetails.length > 0 ? (
+                                    experienceDetails.map(
+                                      (experience, index) => (
+                                        <div key={index}>
+                                          <div className="bg-red-900- bg-full- flex xs:my-[10px] xs:flex-col md:my-0 md:flex-row md:items-center md:justify-between">
+                                            <div className="text-lg font-medium text-[#000] dark:text-[#fff] md:mb-2">
+                                              {experience?.companyName}
+                                            </div>
+                                            <div>
+                                              {formatDate1(
+                                                experience?.startDate
+                                              )}{" "}
+                                              -{" "}
+                                              {formatDate1(experience?.endDate)}
+                                            </div>
+                                          </div>
+
+                                          <div className="mb-[10px]">
+                                            <h3 className="mb-2 text-sm text-[#000] dark:text-[#fff]">
+                                              TECH STACKS USED
+                                            </h3>
+                                            <div>
+                                              {experience.techStack.map(
+                                                (tech, index) => (
+                                                  <span
+                                                    key={index}
+                                                    className="mx-[2px] rounded-full bg-[#8D3F42]  bg-opacity-[.25] px-2.5 py-1.5 text-xs text-[#000] dark:text-[#fff]"
+                                                  >
+                                                    {tech}
+                                                  </span>
+                                                )
+                                              )}
+                                            </div>
+                                          </div>
+                                          <div className="mt-2">
+                                            <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">
+                                              RESPONSIBILITIES
+                                            </h3>
+                                            <ul className="ml-[1.2rem] mt-2 text-sm font-light ">
+                                              <li className="list-disc">
+                                                {experience?.responsibility}
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      )
+                                    )
+                                  ) : (
+                                    <div className="flex h-full items-center">
+                                      <p className="font-semibold  xs:text-sm  md:text-base">
+                                        No experience details available
+                                      </p>
                                     </div>
-                                    <div> Jun 2019 - Present
-
-                                    </div>
-                                  </div>
-
-                                  <div className="mb-[10px]">
-                                    <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">TECH STACKS USED
-                                    </h3>
-                                    <div >
-                                      <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full mx-[10px]-">React</span>
-                                      <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full ml-[5px]">node</span>
-                                      <span className="text-xs dark:text-[#fff] text-[#000]  bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full ml-[5px]">Material UI</span>
-                                    </div>
-
-                                  </div>
-                                  <div className="mt-2">
-                                    <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">RESPONSIBILITIES</h3>
-                                    <ul className="text-sm mt-2 font-light ml-[1.2rem] ">
-                                      <li className="list-disc">Worked on different MES and WMS software products</li>
-                                      <li className="list-disc">Handled product task using react js and node js
-                                      </li>
-                                    </ul>
-                                  </div>
-
-
+                                  )}
                                 </div>
                               </div>
-
                             </div>
-
-
-
                           </div>
-
-
                         </div>
                       </>
-
-
-
                     </Tab.Panel>
-
                   </Tab.Panels>
                 </Tab.Group>
               </div>

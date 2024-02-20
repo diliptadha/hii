@@ -60,7 +60,8 @@ export const Images = {
   NoRecords: "/Images/Norecords.png",
   AGENCY: "/Images/AGENCY.svg",
   FORWARD_ARROW: "/Images/forward_arrow.svg",
-  ONBOARD: "/Images/Onboard.svg"
+  ONBOARD: "/Images/Onboard.svg",
+  Avtar: "/Images/Avtar.png",
 };
 export const Strings = {
   BACK: "Back",
@@ -360,7 +361,8 @@ export const Strings = {
   AGENCY: "Hire an agency",
   EREMOTELAB: "Hire eRemoteLab, a software development agency by eRemoteHire",
   FORM_AGENCY1: "Hire an agency, eRemoteLab",
-  FORM_AGENCY2: "With eRemoteLab, eRemoteHire's in-house software development agency, you can develop any software quickly with a project-based engagement.",
+  FORM_AGENCY2:
+    "With eRemoteLab, eRemoteHire's in-house software development agency, you can develop any software quickly with a project-based engagement.",
   ABOUT_PROJECT: "Tell us about your project",
   AGENCY_QUE1: "1. What are you looking for?*",
   AGENCY_QUE1A: "We offer web development, app development, UI/UX",
@@ -385,6 +387,11 @@ export const Strings = {
   FILL_TEXT: "Please fill this in",
   NOTHING_FOUND: "Nothing found",
   HANDPICKED_RECOMMENDATIONS: "No hand picked recommendations available",
-  CREATE_REQUIREMENT: "Create your first requirement to receive hand-picked recommendations.",
+  CREATE_REQUIREMENT:
+    "Create your first requirement to receive hand-picked recommendations.",
 
+  NO_HANDPICKED: "No hand picked",
+  RECOMMENDATIONS: "recommendations available",
+  CREATE_YOUR_REQUIREMENT: "Create your first requirement to receive",
+  HAND_PICKED: "hand-picked recommendations.",
 };
