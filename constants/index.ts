@@ -387,11 +387,4 @@ export const Strings = {
   HANDPICKED_RECOMMENDATIONS: "No hand picked recommendations available",
   CREATE_REQUIREMENT: "Create your first requirement to receive hand-picked recommendations.",
 
-  AT: "at",
-  RESPONSIBILITIES: "RESPONSIBILITIES",
-  EXPERIENCE: "Experience",
-  EDUCATION: "Education",
-  NO_DATA_AVAILABLE: "No data available",
-  YEARS: "+ years",
-  TECH_STACKS_USED: "TECH STACKS USED"
 };

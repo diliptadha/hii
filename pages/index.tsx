@@ -69,10 +69,8 @@ export default function Index() {
       setLoading(false);
     }, 500);
 
-    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4MDg3Njk4LCJleHAiOjE3MDgwOTEyOTh9.MwVS5MhjA6hV6GYAUP-vX25AM4uTHul9sjnp88zDXxM';
 
     const fetchData = async () => {
-
 
       try {
         const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4MDg3Njk4LCJleHAiOjE3MDgwOTEyOTh9.MwVS5MhjA6hV6GYAUP-vX25AM4uTHul9sjnp88zDXxM';
@@ -87,8 +85,7 @@ export default function Index() {
         console.error("Error fetching data:", error);
       }
     };
-
-    
+   
     fetchData();
 
     return () => clearTimeout(timer); 
@@ -160,8 +157,6 @@ export default function Index() {
 
     fetchData();
   }, []);
-
-
 
   const isDark = useSelector(
     (state: IRootState) =>

@@ -1,17 +1,14 @@
-import { Images, Strings } from "../../constants";
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { Fragment } from "react";
-import GiveBounsModal from "../../components/Give-Bouns-Modal";
-import GiveRaiseModal from "../../components/Give-Raise-Modal";
-import { LabelComponent } from "../../components/label";
+
 import Loader from "../../components/Layouts/Loader";
 import React from "react";
-import Select from "react-select";
-import { Switch } from "antd";
-import { Tab } from "@headlessui/react";
 import { useRouter } from "next/router";
+import { Images, Strings } from "../../constants";
+import { Fragment } from "react";
+import { Tab } from "@headlessui/react";
+import { Bar } from "react-chartjs-2";
+import Select from "react-select";
+import GiveBounsModal from "../../components/Give-Bouns-Modal";
 
 import {
   ArcElement,
@@ -22,9 +19,8 @@ import {
   LineElement,
   LinearScale,
   PointElement,
-  Tooltip
+  Tooltip,
 } from "chart.js";
-
 
 ChartJS.register(
   CategoryScale,
@@ -32,9 +28,13 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
+  Tooltip,
   ArcElement,
   Legend
 );
+import { Switch } from "antd";
+import GiveRaiseModal from "../../components/Give-Raise-Modal";
+import { LabelComponent } from "../../components/label";
 
 export default function DeveloperDetails() {
   const router = useRouter();
@@ -77,8 +77,7 @@ export default function DeveloperDetails() {
 
     setUserData(prevUserData => ({
       ...prevUserData,
-      ...router.query,
-      
+      ...router.query
     }));
 
     const timer = setTimeout(() => {
@@ -311,9 +310,7 @@ export default function DeveloperDetails() {
             <text className="text-red-600 dark:text-blue-300">
               {Strings.DEVELOPERS}
             </text>
-            <text className="mx-2">
-              {">" + " " + Strings.DEVELOPER_DETAILS},
-            </text>
+            <text className="mx-2">{">" + " " + Strings.DEVELOPER_DETAILS}</text>
           </div>
           <div className="flex space-x-2 xs:hidden ">
             <button className="nav-item group flex items-center rounded-lg  bg-white px-2 py-2 shadow-md dark:bg-[#8d3f42]">
@@ -984,15 +981,8 @@ export default function DeveloperDetails() {
                             <div>
                               {isExpanded ? (
                                 <div>
-                                  {longText}<>
-                                  {console.log('usage',userData)}</>
-                                  <button
-                                    onClick={toggleExpand}
-                                   
-                                    className="text-[16px] font-bold text-[#8D3F42]"
-                                  >
-                                    {Strings.Read_Less}
-                                  </button>
+                                  {longText}
+                                  <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_Less}</button>
                                 </div>
                               ) : (
                                 <div>

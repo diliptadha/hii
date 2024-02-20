@@ -104,7 +104,7 @@ export default function Payout() {
 
   useEffect(() => {
     const headers = {
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDA5IiwiZW1haWxJZCI6IjE5OTh0cml2ZWRpcmFqQGdtYWlsLmNvbSIsImlhdCI6MTcwODM0NDg0MCwiZXhwIjoxNzA4MzQ4NDQwfQ.0XRcFEyyT1PXl2e4otFpL8G9wbWYGHi0VBJd9H4NX-U'
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4MDg3Njk4LCJleHAiOjE3MDgwOTEyOTh9.MwVS5MhjA6hV6GYAUP-vX25AM4uTHul9sjnp88zDXxM'
     };
 
     const fetchData = async () => {
@@ -408,8 +408,13 @@ export default function Payout() {
 
 
                         className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md ">
-                        <div className="bg-blue-300- w-[100px] h-[90px]">
-                          <img src={item.userData.profilePicture} alt="profile" className="rounded-[50%] w-[100%] h-[100%] overflow-hidden" />
+                        <div className="rounded-full bg-blue-300- p-2-">
+                          {/* <Image src={item.userData.profilePicture} alt="profile-pic" width={100} height={100} className="w-[50px] h-[50px] rounded-full" /> */}
+                          <img src={item.userData.profilePicture} alt="profile" className="w-[130px] md:h-[120px] xs:h-[95px] rounded-full" />
+
+
+
+
                         </div>
                         <div className="w-full pl-2.5">
                           <div className=" flex flex-col items-start">
