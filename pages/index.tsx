@@ -25,7 +25,7 @@ export default function Index() {
     otherTechnicalSkills: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
     verifiedAiTools: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
     technicalInterviewNotes: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
-    monthlySalary: ReactNode;
+    monthlySalary: any;
     vettingResults: any;
     id: number;
     name: string;
@@ -37,6 +37,7 @@ export default function Index() {
     location: string;
     designation: string;
     rate: string;
+    monthlyPayment: any;
     overview?: {
       workingHoursInDay: string;
       workType: string;
@@ -55,7 +56,6 @@ export default function Index() {
     };
   }
 
-
   interface Managing {
     profilePicture: any,
     firstName: any,
@@ -73,7 +73,7 @@ export default function Index() {
     const fetchData = async () => {
 
       try {
-        const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4MDg3Njk4LCJleHAiOjE3MDgwOTEyOTh9.MwVS5MhjA6hV6GYAUP-vX25AM4uTHul9sjnp88zDXxM';
+        const token = `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`;
 
         const [successManagerResponse] = await Promise.all([
           axios.get(`${process.env.NEXT_PUBLIC_API_URL}devdashboard/getdeveloperManagerData?userId=RH_0000004`, { headers: { 'Authorization': token } }),
@@ -85,12 +85,11 @@ export default function Index() {
         console.error("Error fetching data:", error);
       }
     };
-   
+
     fetchData();
+    return () => clearTimeout(timer);
 
-    return () => clearTimeout(timer); 
-
-  }, []); 
+  }, []);
 
   useEffect(() => {
 
@@ -100,7 +99,7 @@ export default function Index() {
           `${process.env.NEXT_PUBLIC_API_URL}myteam/getHiredData?userId=RH_0000012`,
           {
             headers: {
-              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4MDg3Njk4LCJleHAiOjE3MDgwOTEyOTh9.MwVS5MhjA6hV6GYAUP-vX25AM4uTHul9sjnp88zDXxM'
+              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
             },
           }
         );
@@ -108,7 +107,7 @@ export default function Index() {
         if (response.data.hiredData) {
           const dataCount = Array.isArray(response.data.hiredData)
             ? response.data.hiredData.length
-            : 0; 
+            : 0;
           setHiredDataCount(dataCount);
         } else {
           console.error(
@@ -132,7 +131,7 @@ export default function Index() {
           `${process.env.NEXT_PUBLIC_API_URL}myteam/getRecommendationData`,
           {
             headers: {
-              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4MDg3Njk4LCJleHAiOjE3MDgwOTEyOTh9.MwVS5MhjA6hV6GYAUP-vX25AM4uTHul9sjnp88zDXxM'
+              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
             },
           }
         );
@@ -143,7 +142,6 @@ export default function Index() {
             : [response.data.recommendationData];
 
           setUserdataa(dataToSet);
-          console.log("User Data:", dataToSet);
         } else {
           console.error(
             "Data received is not in the expected format:",
@@ -206,7 +204,7 @@ export default function Index() {
           <div className="dark:border-gray-700 mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] lg:mr-[10px] xl:mr-[20px] xs:w-full sm:w-[350px]  lg:w-full lg:max-w-[475px] xl:max-w-[720px] ">
             <div>
               <a href="/apps/my-team">
-                <button className="dark:text-white mb-[15px] text-[14px] font-bold dark:text-white">
+                <button className="dark:text-white mb-[15px] text-[14px] font-bold">
                   {Strings.HIRED_ENGINEERS}
                 </button>
                 <button className="dark:text-white">
@@ -244,7 +242,7 @@ export default function Index() {
                             {managerData.firstName + " " + managerData.lastName}
                           </h5>
                         </a>
-                        <div className="flex flex-col sm:flex-col sm:flex-col xl:flex-row">
+                        <div className="flex flex-col sm:flex-col xl:flex-row">
                           <a href="#" className="mb-[5px] flex text-[16px] text-gray-500 dark:text-white">
                             {themeConfig.theme === "light" ? (
                               <img className="inline h-[20px] w-[20px] mr-[5px]" src={Images.MSG_WHITE} alt="logo" />
@@ -295,55 +293,49 @@ export default function Index() {
         </h3>
       </div>
       <div className="mt-5">
-      {userdataa?.length > 0 ? (
-                  userdataa.map((item, inedx) => {
-                    return (
-                      <button
-                        onClick={() =>
-                          router.push(
-                            {
-                              pathname: "/apps/getRecommendation-details",
-                              query: {
-                                name: item.userData.firstName,
-                                profile: item.userData.profilePicture,
-                                country: item.userData.country,
-                                position: item.userData.designation,
-                                monthlySalary: item.userData.hourlyRate,
-                                technicalInterviewNotes: item.userData.technicalInterviewNotes,
-                                softSkillAssessment: item.userData.softSkillAssessment,
-                                otherTechnicalSkills: item.userData.techStack,
-                                verifiedAiTools: item.userData.verifiedAiTools,
-                                skill: item.vettingResults?.[0]?.skill,
-                                skill_two: item.vettingResults?.[1]?.skill,
-                                vettingResult: item.vettingResults?.[0].vettingResult,
-                                vettingResult_two: item.vettingResults?.[1].vettingResult,
-                                yearOfExperience: item.vettingResults?.[0].yearOfExperience,
-                                yearOfExperience_two: item.vettingResults?.[1].yearOfExperience
-                              },
-                            },
-                            "getRecommendation-details"
-                          )
-                        }
+        {userdataa?.length > 0 ? (
+          userdataa.map((item, inedx) => {
+            return (
+              <button
+                onClick={() =>
+                  router.push(
+                    {
+                      pathname: "/apps/getRecommendation-details",
+                      query: {
+                        name: item.userData.firstName,
+                        profile: item.userData.profilePicture,
+                        country: item.userData.country,
+                        position: item.userData.designation,
+                        monthlySalary: item.userData.hourlyRate,
+                        technicalInterviewNotes: item.userData.technicalInterviewNotes,
+                        softSkillAssessment: item.userData.softSkillAssessment,
+                        otherTechnicalSkills: item.userData.techStack,
+                        verifiedAiTools: item.userData.verifiedAiTools,
+                        skill: item.vettingResults?.[0]?.skill,
+                        skill_two: item.vettingResults?.[1]?.skill,
+                        vettingResult: item.vettingResults?.[0].vettingResult,
+                        vettingResult_two: item.vettingResults?.[1].vettingResult,
+                        yearOfExperience: item.vettingResults?.[0].yearOfExperience,
+                        yearOfExperience_two: item.vettingResults?.[1].yearOfExperience,
+                        monthlyPayment: item?.monthlyPayment
+                      },
+                    },
+                    "getRecommendation-details"
+                  )
+                }
 
-
-
-                        className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md ">
-                        <div className="rounded-full bg-blue-300- p-2-">
-                          {/* <Image src={item.userData.profilePicture} alt="profile-pic" width={100} height={100} className="w-[50px] h-[50px] rounded-full" /> */}
-                          <img src={item.userData.profilePicture} alt="profile" className="w-[130px] md:h-[120px] xs:h-[95px] rounded-full" />
-
-
-
-
-                        </div>
-                        <div className="w-full pl-2.5">
-                          <div className=" flex flex-col items-start">
-                            <div className="flex  w-full justify-between pr-3">
-                              <div className="flex items-center space-x-1-">
-                                <text className="text-base font-semibold text-black dark:text-white leading-normal">
-                                  {item.userData.firstName}
-                                </text>
-                                {/* {item.profile_process === "verify" && (
+                className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md ">
+                <div className="rounded-full bg-blue-300- p-2-">
+                  <img src={item.userData.profilePicture} alt="profile" className="w-[130px] md:h-[120px] xs:h-[95px] rounded-full" />
+                </div>
+                <div className="w-full pl-2.5">
+                  <div className=" flex flex-col items-start">
+                    <div className="flex  w-full justify-between pr-3">
+                      <div className="flex items-center space-x-1-">
+                        <text className="text-base font-semibold text-black dark:text-white leading-normal">
+                          {item.userData.firstName}
+                        </text>
+                        {/* {item.profile_process === "verify" && (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -357,93 +349,98 @@ export default function Index() {
                                   />
                                 </svg>
                               )} */}
-                              </div>
-                              {/* <text className="text-lg font-semibold text-black dark:text-white">
+                      </div>
+                      {/* <text className="text-lg font-semibold text-black dark:text-white">
                             {item.userData.hourlyRate}
                           </text> */}
-                            </div>
-                            <div className=" px-2- py-0.5-">
-                              <text className="text-sm  dark:text-white text-[#000] ">
-                                {item.userData.designation}
-                              </text>
-                            </div>
-                            <div className="flex  w-full items-center justify-between">
-                              <div className="flex items-center">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="h-6 w-6"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                                  />
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                                  />
-                                </svg>
-                                <text className="mx-1-">{item.userData.country}</text>
-                              </div>
-
-                              <div>
-                                <text className="text-lg  text-black dark:text-white font-bold">
-                                  ${item.userData.hourlyRate}/month
-                                </text>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-
-
-                  
-                        
-                      </button>
-                    );
-                  })
-                ) : (
-                  <><div>
-                    {/* <p className="dark:text-white text-[#000] text-[18px] my-[5px]">These are the recommendations based on your requirements</p> */}
-
-                  </div>
-                  <div className="  flex w-full items-center justify-center h-[70vh]">
-                      <div className="flex items-center flex-col">
-                        <img src={Images.NOT_FOUND} alt="Payment_logo" className="w-[150px] h-[150px]" />
-                        <h1 className="leading-normal text-xl font-bold dark:text-white text-[#000]">No hand picked</h1>
-                        <p className="leading-normal text-[18px] font-bold dark:text-white text-[#000]">recommendations available</p>
-                        <p className="text-[16px] font-bold dark:text-white text-[#000]">Create your first requirement to receive </p>
-                        <p className="text-[16px] font-bold dark:text-white text-[#000] leading-normal">hand-picked recommendations.</p>
-                        <button className="nav-item grou- mt-[20px] flex items-center rounded-full text-base  bg-white px-8 py-4 shadow-md dark:bg-[#8d3f42]">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            className="h-6 w-6"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-
-                          <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
-                            {Strings.Hire_New_Talent}
-                          </text>
-                        </button>
-
+                    </div>
+                    <div className=" px-2- py-0.5-">
+                      <text className="text-sm  dark:text-white text-[#000] ">
+                        {item.userData.designation}
+                      </text>
+                    </div>
+                    <div className="flex  w-full items-center justify-between">
+                      <div className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="h-6 w-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                          />
+                        </svg>
+                        <text className="mx-1-">{item.userData.country}</text>
                       </div>
 
-                    </div></>
+                      <div>
+                        <text className="text-lg  font-bold text-black dark:text-white">
+                          {item?.monthlyPayment != null &&
+                            !isNaN(Number(item?.monthlyPayment)) ? (
+                            <>
+                              {Number(item?.monthlyPayment) >= 1000
+                                ? `$${(
+                                  Number(item?.monthlyPayment) / 1000
+                                ).toFixed(1)}k`
+                                : `$${item?.monthlyPayment}`}
+                              /month
+                            </>
+                          ) : (
+                            "Monthly payment not available"
+                          )}
+                        </text>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            );
+          })
+        ) : (
+          <>
+            <div>
 
-                )}
+            </div>
+            <div className="  flex w-full items-center justify-center h-[70vh]">
+              <div className="flex items-center flex-col">
+                <img src={Images.NOT_FOUND} alt="Payment_logo" className="w-[150px] h-[150px]" />
+                <h1 className="leading-normal text-xl font-bold dark:text-white text-[#000]">No hand picked</h1>
+                <p className="leading-normal text-[18px] font-bold dark:text-white text-[#000]">recommendations available</p>
+                <p className="text-[16px] font-bold dark:text-white text-[#000]">Create your first requirement to receive </p>
+                <p className="text-[16px] font-bold dark:text-white text-[#000] leading-normal">hand-picked recommendations.</p>
+                <button className="nav-item grou- mt-[20px] flex items-center rounded-full text-base  bg-white px-8 py-4 shadow-md dark:bg-[#8d3f42]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+
+                  <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
+                    {Strings.Hire_New_Talent}
+                  </text>
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

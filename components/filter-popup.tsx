@@ -123,13 +123,13 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                   htmlFor="countries"
                   className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Technical skills
+                  {Strings.TECHNICAL_SKILLS}
                 </label>
                 <div
                   className="flex w-full cursor-pointer items-center justify-between rounded-[10px] border border-[#8D3F42] px-4 py-[14px] text-[16px]"
                   onClick={toggleDropdown}
                 >
-                  Select
+                  {Strings.SELECT}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -222,26 +222,26 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 htmlFor="countries"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
-                Soft skills
+                {Strings.Soft_skills}
               </label>
               <select
                 id="countries"
                 className="block w-full rounded-lg border border-[#8d3f42] bg-transparent px-[10px] py-[14px] text-[16px] text-gray-900 outline-none dark:text-white "
               >
                 <option selected className="dark:text-black">
-                  Choose a skill
+                  {Strings.CHOOSE_SKILL}
                 </option>
                 <option value="US" className="dark:text-black">
-                  React
+                  {Strings.REACT}
                 </option>
                 <option value="CA" className="dark:text-black">
-                  JavaScript
+                  {Strings.JavaScript}
                 </option>
                 <option value="FR" className="dark:text-black">
-                  HTML
+                  {Strings.HTML}
                 </option>
                 <option value="DE" className="dark:text-black">
-                  CSS
+                  {Strings.CSS}
                 </option>
               </select>
             </div>
@@ -250,26 +250,26 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 htmlFor="countries"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
-                Country
+                {Strings.COUNTRY}
               </label>
               <select
                 id="countries"
                 className="block w-full rounded-lg border border-[#8d3f42] bg-transparent px-[12px] py-[14px] text-[16px] text-gray-900 outline-none dark:text-white"
               >
                 <option selected className="dark:text-black">
-                  Choose a country
+                  {Strings.CHOOSE_COUNTRY}
                 </option>
                 <option value="US" className="dark:text-black">
-                  United State
+                  {Strings.UNITED_STATE}
                 </option>
                 <option value="CA" className="dark:text-black">
-                  Canada
+                  {Strings.CANADA}
                 </option>
                 <option value="FR" className="dark:text-black">
-                  France
+                  {Strings.FRANCE}
                 </option>
                 <option value="DE" className="dark:text-black">
-                  Germany
+                  {Strings.GERMANY}
                 </option>
               </select>
             </div>
@@ -278,7 +278,7 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 htmlFor="countries"
                 className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
               >
-                Availability
+                {Strings.AVAILABILITY}
               </label>
               <div className="flex items-center rounded-[10px] border border-[#8D3F42] px-[10px] py-[16px] text-[16px]">
                 <input
@@ -291,13 +291,13 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                   htmlFor="link-checkbox"
                   className="ms-2 text-[16px] font-bold text-[#000] dark:text-white"
                 >
-                  Only consider vetted skills
+                  {Strings.ONLY_VETTED_SKILLS}
                 </label>
               </div>
             </div>
             <div className="mt-[30px]">
               <div className="mb-[14px] text-[16px] font-bold text-[#000] dark:text-[white]">
-                Price per hour
+                {Strings.PRICE_PER_HOUR}
               </div>
               <div className="slidecontainer">
                 <input
@@ -322,7 +322,7 @@ const Filtermodal = ({ isOpen, closeModal }) => {
                 className=" rounded-[25px] bg-white px-[20px] py-2 font-semibold text-[#000] shadow-md outline-none dark:bg-[#8d3f42] dark:text-[#fff]"
                 type="submit"
               >
-                Apply
+                {Strings.Apply}
               </button>
             </div>
 

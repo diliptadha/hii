@@ -47,7 +47,6 @@ const Optionmodal: React.FC<OptionmodalProps> = ({
           className={` mr-4-  font-outfit font-light xs:text-xl lg:[20px] text-gray-900 dark:text-white`}
         />
         </div>
-       
 
         {isSelected && (
           <div className="top-0 flex right-0 absolute w-full justify-end ">

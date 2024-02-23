@@ -1,4 +1,3 @@
-// import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { Images, Strings } from "@/constants";
 import { useEffect, useState } from "react";
@@ -12,10 +11,8 @@ import { useSelector } from 'react-redux';
 
 export default function Reports() {
   const [loading, setLoading] = useState(true);
-
   const [images, setImages] = useState<any>([]);
   const maxNumber = 69;
-
   const onChange = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
     setImages(imageList as never[]);
   };
@@ -34,7 +31,7 @@ export default function Reports() {
   ) : (
     <div className="">
       <h1 className="text-[30px] font-bold dark:text-white text-black lg:mb-10">{Strings.HIRE_NEW_TALENT}</h1>
-      <div className='dark:bg-red-200- dark:bg-[#000000] bg-white  w-full h-[70%] rounded bg-black xs:mt-[20px] md:my-[40px]'>
+      <div className='dark:bg-red-200- dark:bg-[#000000] bg-white  w-full h-[70%] rounded xs:mt-[20px] md:my-[40px]'>
         <section className=" flex  flex-col items-center justify-center space-y-5 xs:p-0 md:p-[40px]">
           <Link href="/apps/hiretopeng">
             <div className="justify-between dark:border-gray-700 xs:mt-4 m-auto xs:h-[90px] md:h-[140px] xs:w-[95%] md:w-[650px] dark:bg-gradient-to-l from-[#8D3F42] to-[#BC7666] flex items-center space-x-2 rounded-full border-none bg-white xs:p-4 md:p-6 shadow hover:shadow-lg- hover:shadow-[#8D3F42]- hover:scale-105   hover:ring-[#BC7666]- outline-none- dark:bg-[#000]  transition-shadow duration-500 hover-scale-svg">
@@ -109,7 +106,6 @@ export default function Reports() {
                 {/* <Hireagency /> */}
                 {/* <Link href="/apps/hireagency"> */}
                   <svg
-
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -147,7 +143,7 @@ export default function Reports() {
                   </h5>
                   <h5 className="  tracking-tight- font-semibold text-gray-400 dark:text-[#c8c8ef] xs:text-[10px] sm:text-[15px] xs:mt-1 leading-normal">
                     {Strings.TOP}
-                    Any talent you've sourced yourself, use eremotehire COR to handle complience, payroll,benifits and more at a fixed $490/month.
+                    {Strings.ANY_TALENT_HIRE}
                   </h5>
                 </div>
               </div>

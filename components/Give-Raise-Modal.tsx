@@ -5,43 +5,40 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Strings } from "../constants";
 import axios from "axios";
 
-const GiveRaiseModal = ({ isOpenn, closeModall }) => {
+interface GiveRaise {
+  closeModall: () => void;
+  isOpenn: any
+}
+
+const GiveRaiseModal: React.FC<GiveRaise> = ({ isOpenn, closeModall }) => {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-
   const [selectedOption, setSelectedOption] = useState<number>(1);
   const [defineSkills, setDefineSkills] = useState<boolean>(false);
   const [clickedNumber, setClickedNumber] = useState(null);
-  const [value, setValue] = useState<number>(0);
-
+  const [value, setValue] = useState<number | string>(0);
   const [customValue, setCustomValue] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [message, setMessage] = useState("");
-
   const initialDateString = "2023-12-31"; // Replace this with your actual date string
   const initialDate = new Date(initialDateString);
-
-  const [selectedDate, setSelectedDate] = useState(initialDate);
-  const handleMessageChange = (e) => {
+  const [selectedDate, setSelectedDate] = useState<Date>(initialDate);
+  const handleMessageChange = (e: any) => {
     setMessage(e.target.value);
   };
 
-  const handleInputChange = (event) => {
-    const newValue = parseInt(event.target.value, 10);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const parsedValue: number = parseInt(event.target.value, 10);
+    const newValue: number = isNaN(parsedValue) ? 0 : parsedValue;
     setValue(newValue);
   };
-  const handleDateChange = (date) => {
+  const handleDateChange = (date: Date) => {
     setSelectedDate(date);
   };
 
-  const gradientBackground = `linear-gradient(to right, #8d3f42 0%, #8d3f42 ${parseInt(
-    (value / 20) * 100
-  )}%, #DEE2E6 ${parseInt((value / 20) * 100)}%, #DEE2E6 100%)`;
-
-  const updateSliderValue = (value) => {
-    const sliderValue = document.getElementById("slider-value");
-    sliderValue.textContent = `$${value}/h`;
-  };
+  const gradientBackground = value !== undefined ?
+  `linear-gradient(to right, #8d3f42 0%, #8d3f42 ${((Number(value) / 20) * 100).toFixed(2)}%, #DEE2E6 ${((Number(value) / 20) * 100).toFixed(2)}%, #DEE2E6 100%)` :
+  'linear-gradient(to right, #8d3f42 0%, #DEE2E6 100%)';
 
   const currentDate = new Date();
   const day = currentDate.getDate().toString().padStart(2, "0");
@@ -51,7 +48,7 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
   // Format the date as "dd mm yyyy"
   const formattedDate = `${day}/${month}/${year}`;
 
-  const CustomDatePickerInput = ({ value, onClick }) => (
+  const CustomDatePickerInput = ({ value, onClick }: any) => (
     <div
       className="flex w-full  items-center justify-center  rounded-lg border border-[#8d3f42] bg-white p-2.5 text-sm  text-[#000] dark:bg-[#000] dark:text-white
      "
@@ -83,7 +80,7 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
   const handleSubmit = async () => {
     try {
       // Validate user input (add your validation logic here)
-      if (!value || isNaN(parseInt(value))) {
+      if (!value || isNaN(parseInt(value.toString()))) {
         // Handle invalid value
         console.error("Invalid value. Please enter a valid raise amount.");
         return;
@@ -91,7 +88,7 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
 
       if (
         selectedDate &&
-        !(selectedDate instanceof Date && !isNaN(selectedDate))
+        !(selectedDate instanceof Date && !isNaN(selectedDate.getTime()))
       ) {
         // Handle invalid date
         console.error("Invalid date. Please select a valid effective date.");
@@ -104,31 +101,28 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
           ? selectedDate.toISOString().split("T")[0]
           : null,
         currentRate: 10,
-        afterRaiseRate: 10 + parseInt(value),
+        afterRaiseRate: 10 + parseInt(value.toString()),
         messageRegardingRaise: message,
       };
 
-      console.log("Request Data:", raiseData);
-
       const response = await axios.post(
-        "https://api.eremotehire.com/myTeam/giveRaiseData",
+        `${process.env.NEXT_PUBLIC_API_URL}myTeam/giveRaiseData`,
         raiseData,
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDAzIiwiZW1haWxJZCI6Ik5pcmRvc2hQYXRpbEBnbWFpbC5jb20iLCJpYXQiOjE3MDI3MjY3ODcsImV4cCI6MTcwMjczMDM4N30.aI1D1PjRpLt6YayBwlHw7kVxBQwJWijMAt_XwLn_nuU",
+              `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             "Content-Type": "application/json",
           },
         }
       );
 
-      console.log("Response Data:", response.data);
       closeModall();
       // Optionally, display a success message to the user
       alert("Raise submitted successfully!");
 
       resetState();
-    } catch (error) {
+    } catch (error: any) {
       console.error(
         "API Error:",
         error.response ? error.response.data : error.message
@@ -148,7 +142,7 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
             </div>
             <div className="range-container my-4">
               <div className="mb-[14px] text-[16px] font-bold text-[#000] dark:text-[white]">
-                How much raise do you want to give to Mihir?
+                {Strings.HOW_MUCH_MIHIR}
               </div>
               <div className="slidecontainer flex items-center">
                 <div className="chrome">
@@ -173,7 +167,7 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
 
             <div>
               <div className="mb-[14px] text-[16px] font-bold text-[#000] dark:text-[white]">
-                When is this raise effective?
+                {Strings.WHEN_RAISE_EFFECTIVE}
               </div>
               <div>
                 <DatePicker
@@ -212,7 +206,7 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
 
                   <LabelComponent
                     className=" mt-1 text-center text-[18px] font-bold leading-normal text-[#3b3f5c] dark:text-white-light"
-                    label={`$${10 + parseInt(value)}/h`}
+                    label={`$${10 + parseInt(value.toString())}/h`}
                   />
                   <LabelComponent
                     className=" mt-1 text-center text-[16px] font-normal leading-normal text-[#3b3f5c] dark:text-white-light"
@@ -235,8 +229,8 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
                   id="message"
                   value={message}
                   onChange={handleMessageChange}
-                  rows="4"
-                  class="mt-[10px] block w-full rounded-lg border-2 border-[#8d3f42]  bg-white p-2.5 text-sm outline-none dark:bg-[#000]"
+                  rows={4}
+                  className="mt-[10px] block w-full rounded-lg border-2 border-[#8d3f42]  bg-white p-2.5 text-sm outline-none dark:bg-[#000]"
                   placeholder="Write your thoughts here..."
                 ></textarea>
               </div>
@@ -248,7 +242,7 @@ const GiveRaiseModal = ({ isOpenn, closeModall }) => {
                 className=" rounded-[25px] bg-white px-[20px] py-2 font-semibold text-[#000] shadow-md outline-none dark:bg-[#8d3f42] dark:text-[#fff]"
                 type="submit"
               >
-                Submit
+                {Strings.Submit}
               </button>
             </div>
 

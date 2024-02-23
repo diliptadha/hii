@@ -7,7 +7,6 @@ import { Images, Strings } from "@/constants";
 import Link from "next/link";
 import axios from "axios";
 
-
 const formhireagency = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedWorktypes, setSelectedWorktypes] = useState<string[]>([]);
@@ -15,15 +14,13 @@ const formhireagency = () => {
   const [hasSelectedOption, setHasSelectedOption] = useState(true);
   const [hasSelectedOption1, setHasSelectedOption1] = useState(true);
   const [activeModalPage, setActiveModalPage] = useState(1);
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [message, setMessage] = useState("");
   const maxWords = 501;
   const [showWarning, setShowWarning] = useState(false);
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<any>(null);
-
   const [files, setFiles] = useState<any>([]);
-  // const [rememberMe, setRememberMe] = useState(false);
   const themeConfig = useSelector((state: IRootState) => state.themeConfig);
 
   const generateRandomId = () => {
@@ -31,12 +28,12 @@ const formhireagency = () => {
     const randomId = "RH_0000012"; // Change 1000000 to the desired maximum value
     return randomId.toString(); // Convert to string if needed
   };
-  
- 
+
+
   const handleFormSubmit = async () => {
-  
+
     const userId = generateRandomId();
-  
+
     const formData = new FormData();
     formData.append("userId", userId);
     formData.append("projectType", selectedWorktypes.join(", "));
@@ -44,93 +41,27 @@ const formhireagency = () => {
     formData.append("projectDescription", message);
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-          formData.append("files", files[i]);
+        formData.append("files", files[i]);
       }
-  }
-  
-    console.log(formData, "dataaaaaa");
-  
+    }
+
     try {
       const response = await axios.post(
-        `https://api.eremotehire.com/clientdashboard/addERemoteLabData`,
+        `${process.env.NEXT_PUBLIC_API_URL}clientdashboard/addERemoteLabData`,
         formData,
         {
           headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA3OTA0NTk2LCJleHAiOjE3MDc5MDgxOTZ9.TqPVi0_p-NFM8sgfa3ClY1lmUTJHNLau5PenavxC9PM",
+              `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             "Content-Type": "multipart/form-data",
           },
         }
       );
-  
-      console.log(response.data);
+
     } catch (error) {
       console.error(error);
     }
   };
-  
-//   const handleFormSubmit = () => {
-//     const userId = generateRandomId();
-//     const selectedWorktypesString = selectedWorktypes?.map(type => type.toString()).join(", ");
-
-//     let projectDocumentValue: (string | ArrayBuffer | null)[] = []; // Removed type annotation
-
-//     if (files.length > 0) {
-//         const reader = new FileReader();
-//         reader.onloadend = () => {
-//             const fileData = reader.result;
-//             projectDocumentValue.push(fileData);
-
-//             sendData(userId, selectedWorktypesString, projectBudget, message, projectDocumentValue);
-//         };
-//         reader.readAsDataURL(files[0]); 
-//     } else {
-//         sendData(userId, selectedWorktypesString, projectBudget, message, projectDocumentValue);
-//     }
-// };
-
-// const sendData = (userId: string, selectedWorktypesString: string, projectBudget: string | null, message: string, projectDocumentValue: (string | ArrayBuffer | null)[]) => {
-//     const data = JSON.stringify({
-//         userId: userId,
-//         projectType: selectedWorktypesString,
-//         projectBudget: projectBudget,
-//         projectDescription: message,
-//         projectDocument: projectDocumentValue,
-//     });
-
-//     try {
-//         const config = {
-//             method: "post",
-//             maxBodyLength: Infinity,
-//             url: "https://api.eremotehire.com/clientdashboard/addERemoteLabData",
-//             headers: {
-//                 Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA3OTAwODU2LCJleHAiOjE3MDc5MDQ0NTZ9.Uxb622pkPa8cr0ASLQyOa7OAlIieSPfE7RAADZV2MsU",
-//                 "Content-Type": "application/json", // Change content type to JSON
-//             },
-//             data: data,
-//         };
-
-
-//         axios
-//             .request(config)
-//             .then((response) => {
-//                 console.log(JSON.stringify(response.data));
-//             })
-//             .catch((error) => {
-//                 console.error("Request failed:", error.response.status, error.response.data);
-//             });
-//     } catch(error) {
-//         console.error("Error:", error);
-//     }
-// };
-
-
-  // const generateRandomId = () => {
-  //   // Generate a random ID (example: a 6-digit number)
-  //   const randomId = "RH_0000012"; // Change 1000000 to the desired maximum value
-  //   return randomId.toString(); // Convert to string if needed
-  // };
-
 
   useEffect(() => {
     if (isOpen) {
@@ -144,7 +75,6 @@ const formhireagency = () => {
     setIsOpen(!isOpen);
   };
 
-  
   const handleWorktypeToggle = (worktype: string) => {
     const isSelected = selectedWorktypes.includes(worktype);
 
@@ -176,26 +106,11 @@ const formhireagency = () => {
 
   const handleChange = (e: any) => {
     e.preventDefault();
-    // console.log("File has been added");
     if (e.target.files && e.target.files[0]) {
-      // console.log(e.target.files);
       setFiles([e.target.files[0]]);
     }
     setFiles((prevState: any) => [e.target.files[0]]);
   };
-
-  // const handleChange = (e: any) => {
-
-  //   e.preventDefault();
-  //   console.log(e.target.files[0], "File has been added");
-  //   setFiles(e.target.files[0])
-    
-  //   // if (e.target.files && e.target.files[0]) {
-  //   //   console.log(e.target.files);
-  //   //   setFiles([e.target.files[0]]);
-  //   // }
-  //   // setFiles((prevState: any) => [e.target.files[0]]);
-  // }; 
 
   const handleDrop = (e: any) => {
     e.preventDefault();
@@ -240,38 +155,10 @@ const formhireagency = () => {
     inputRef.current.click();
   };
 
-
-  // const handleRememberMeToggle = () => {
-  //   setRememberMe(!rememberMe);
-  // };
-
-  // const handleFormSubmit = async () => {
-  //   // e.preventDefault();
-
-  // }
-
   return (
     <div>
       <div className="flex justify-center">
-        {/* <button
-          onClick={openModal}
-          className="rounded-full bg-gradient-to-t from-tosca to-contessa py-5 px-10 hover:from-gray-950 hover:to-CodGray"
-        >
-          <LabelComponent
-            label={Strings.HIRE_A_TOP_ENGINEER}
-            className="font-outfit font-light xs:text-xl lg:text-2xl text-white"
-          />
-        </button> */}
-        {/* <Image
-          src={Images.ARROWLONGTOSCO}
-          width={40}
-          height={40}
-          alt="Rahullogo"
-          onClick={openModal}
-          className="cursor-pointer"
-        /> */}
       </div>
-
       <div
         className="  
         flex h-full items-center justify-center bg-balck bg-opacity-90- group- fixed- z-50- xs:left-[20px]- xs:right-[20px]- xs:top-[80px]- md:left-[30px]-  md:right-[30px]- md:top-[80px]-  lg:left-[290px]- lg:top-[90px]- xl:top-[80px]- "
@@ -308,7 +195,7 @@ const formhireagency = () => {
                     className={`mr-14 pt-1 h-8 w-8 rounded-full border-2 border-[#000] text-[16px] font-semibold dark:border-white ${isWorktypeSelected("website") ? "bg-black dark:bg-white text-white dark:text-black" : "text-black dark:text-white"
                       }`}
                   >
-                    A
+                    {Strings.A}
                   </div>
                   <div className=" mr-7 font-semibold text-gray-900 dark:text-white xs:text-base lg:text-[20px]">
                     {Strings.WEBSITE}
@@ -334,7 +221,7 @@ const formhireagency = () => {
                     className={`mr-14 pt-1 h-8 w-8 rounded-full border-2 border-[#000] text-[16px] font-semibold dark:border-white ${isWorktypeSelected("app") ? "bg-black dark:bg-white text-white dark:text-black" : "text-black dark:text-white"
                       }`}
                   >
-                    B
+                    {Strings.B}
                   </div>
                   <div className="mr-7 font-semibold text-gray-900 dark:text-white xs:text-base lg:text-[20px]">
                     {Strings.APP}
@@ -360,7 +247,7 @@ const formhireagency = () => {
                     className={`mr-14 p-1 h-8 w-8 rounded-full border-2 border-[#000] text-[16px] font-semibold dark:border-white ${isWorktypeSelected("ui/ux") ? "bg-black dark:bg-white text-white dark:text-black" : "text-black dark:text-white"
                       }`}
                   >
-                    C
+                    {Strings.C}
                   </div>
                   <div className="mr-7 font-semibold text-gray-900 dark:text-white xs:text-base lg:text-[20px]">
                     {Strings.UI_UX}
@@ -409,7 +296,6 @@ const formhireagency = () => {
                   <RightOutlined rev={undefined} />
                 </button>
               </div>
-
             </div>
           )}
 
@@ -440,7 +326,7 @@ const formhireagency = () => {
                       } ${projectBudget === "$15-50k" ? "text-white dark:text-black" : "text-black dark:text-white"
                       }`}
                   >
-                    A
+                    {Strings.A}
                   </div>
                   <div className="m-auto font-semibold text-gray-900 dark:text-white xs:text-base lg:text-[20px]">
                     {Strings.Q2_OP1}
@@ -472,7 +358,7 @@ const formhireagency = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    B
+                    {Strings.B}
                   </div>
                   <div className="m-auto font-semibold text-gray-900 dark:text-white xs:text-base lg:text-[20px]">
                     {Strings.Q2_OP2}
@@ -511,7 +397,7 @@ const formhireagency = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    C
+                    {Strings.C}
                   </div>
                   <div className="m-auto font-semibold text-gray-900 dark:text-white xs:text-base lg:text-[20px]">
                     {Strings.Q2_OP3}
@@ -538,7 +424,6 @@ const formhireagency = () => {
                     } else {
                       setprojectBudget("500k+");
                       setHasSelectedOption1(true);
-
                     }
                   }}
                 >
@@ -605,7 +490,6 @@ const formhireagency = () => {
               </div>
 
               <div>
-
                 <textarea
                   id="message"
                   rows={4}
@@ -625,9 +509,6 @@ const formhireagency = () => {
                 </div>
               </div>
 
-              {/* <p className="font-outfit text-sm font-medium text-gray-900 dark:text-white">
-                  {Strings.SHIFT_ENTER}
-                </p> */}
               <div className="flex justify-end space-x-[1px] ">
                 <button
                   className="flex items-center justify-center rounded-l-full bg-gradient-to-t from-[#8D3F42] to-[#BC7666] px-3 py-2 text-gray-900 hover:from-gray-600 hover:to-gray-600 dark:text-white"
@@ -661,7 +542,6 @@ const formhireagency = () => {
           )}
           {activeModalPage === 4 && (
             <div>
-
               <div className="">
                 <div className="space-y-7 ">
                   <div className="">
@@ -669,7 +549,6 @@ const formhireagency = () => {
                       {Strings.AGENCY_QUE4}
                     </p>
                   </div>
-                  {/* <div className="mt-12 h-56 w-full rounded-lg border-2 border-CodGray border-dashed bg-tundora"></div> */}
                   <div className="flex items-center justify-center  ">
                     <form
                       className={`${dragActive ? "bg-neutral-700" : "bg-tundora"
@@ -722,14 +601,11 @@ const formhireagency = () => {
                   </div>
                   <p className="border border-[#8d3f42]"></p>
 
-
                   <div className="flex flex-col items-center justify-center h-full">
                     <button
                       onClick={() => {
-
                         setActiveModalPage(activeModalPage + 1);
-                        handleFormSubmit(); 
-                        console.log("file sent");
+                        handleFormSubmit();
                       }}
 
                       className={`font-outfit from-tosca to-contessa hover:from-[#8D3F42] hover:to-[#BC7666] hover:border-none rounded-full  border-2 bg-gradient-to-t px-5 py-2 text-lg font-semibold  border:black border:red-600 dark:text-white`}
@@ -761,23 +637,12 @@ const formhireagency = () => {
                       <RightOutlined rev={undefined} />
                     </button>
                   </div>
-
                 </div>
               </div>
             </div>
           )}
           {activeModalPage === 5 && (
             <div className="flex justify-center">
-              {/* <button
-                  className="rounded-l-full bg-gray-400 py-1 px-3 hover:bg-gray-600"
-                  onClick={() => {
-                    if (activeModalPage > 1) {
-                      setActiveModalPage(activeModalPage - 1);
-                    }
-                  }}
-                >
-                  <LeftOutlined />
-                </button> */}
               <div className=" space-y-4 text-center">
                 <div className="font-outfit bg-gradient-to-r from-[#8d3f42] to-[#bc7666] bg-clip-text font-bold text-transparent xs:text-[30px] xl:text-6xl">
                   {Strings.THANK_YOU_FOR}
@@ -790,16 +655,12 @@ const formhireagency = () => {
           )}
         </div>
       </div>
-
     </div>
   );
 };
 
 export default formhireagency;
-
-
-
-function setNameError(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
+// function setNameError(arg0: boolean) {
+//   throw new Error("Function not implemented.");
+// }
 

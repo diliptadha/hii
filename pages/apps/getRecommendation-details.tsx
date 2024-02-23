@@ -19,7 +19,6 @@ import {
 import { LabelComponent } from "../../components/label";
 import { format, isValid, parseISO } from 'date-fns';
 
-
 ChartJS.register(
   CategoryScale,
   LinearScale,

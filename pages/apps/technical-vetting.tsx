@@ -1,6 +1,5 @@
 import "react-phone-input-2/lib/style.css";
 import "react-phone-input-2/lib/material.css";
-
 import {
   AudioOutlined,
   ClockCircleOutlined,
@@ -11,13 +10,10 @@ import {
 import { Images, Strings } from "@/constants";
 import React, { useEffect, useRef, useState } from "react";
 import router, { useRouter } from "next/router";
-
 import BlankLayout from "@/components/Layouts/BlankLayout";
 import Image from "next/image";
 import ModalComponent from "@/components/Layouts/Modal";
 import PhoneInput from "react-phone-input-2";
-
-// import { AudioContext } from "audio-context-polyfill";
 
 const generateUniqueId = () => {
   return "_" + Math.random().toString(36).substr(2, 9);
@@ -46,11 +42,8 @@ const technicalvetting: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [isOpen1, setIsOpen1] = useState(false);
-  // const [inputLevel, setInputLevel] = useState<number>(0);
-  // const [transcript, setTranscript] = useState<string>("");
   const [time, setTime] = useState(120);
   const [codingtime, setCodingTime] = useState(15 * 60);
-  // let mediaRecorder: MediaRecorder | null = null;
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [code, setCode] = useState("");
@@ -126,7 +119,7 @@ const technicalvetting: React.FC = () => {
 
     requestMediaPermissions();
 
-    return () => {};
+    return () => { };
   }, [confirmationShown]);
 
   useEffect(() => {
@@ -137,19 +130,6 @@ const technicalvetting: React.FC = () => {
       setConfirmationShown(userConfirmed);
     }
   }, []);
-  // useEffect(() => {
-  //   const checkWindowOpener = () => {
-  //     if (window.opener) {
-  //       window.opener.location.reload();
-  //       window.close();
-  //     }
-  //   };
-  //   checkWindowOpener();
-  //   window.addEventListener("beforeunload", checkWindowOpener);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", checkWindowOpener);
-  //   };
-  // }, []);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -166,19 +146,6 @@ const technicalvetting: React.FC = () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
-  // useEffect(() => {
-  //   const handleVisibilityChange = () => {
-  //     if (document.hidden) {
-  //       alert("Please focus on this tab. Switching tabs is not allowed.");
-  //     }
-  //   };
-
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-
-  //   return () => {
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //   };
-  // }, []);
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       const message =
@@ -195,7 +162,7 @@ const technicalvetting: React.FC = () => {
   }, []);
 
   const compileCode = async () => {
-    const response = await fetch("http://localhost:3001/compile", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}compile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -214,7 +181,6 @@ const technicalvetting: React.FC = () => {
           if (prevTime === 1) {
             setTime(120);
             setStep((prevStep) => prevStep + 1);
-            // setIsModalVisible(true);
           }
           return prevTime > 0 ? prevTime - 1 : 0;
         });
@@ -225,7 +191,6 @@ const technicalvetting: React.FC = () => {
         setCodingTime((prevTime) => {
           if (prevTime === 1) {
             setStep(step + 1);
-            // setIsModalVisible(true);
           }
           return prevTime > 0 ? prevTime - 1 : 0;
         });
@@ -251,12 +216,9 @@ const technicalvetting: React.FC = () => {
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: "audio/wav" });
         const reader = new FileReader();
-        console.log("Recorded audio blob:", blob);
-        // You can save the blob or send it to the server
         reader.onloadend = () => {
           const audioDataURL = reader.result as string;
           transcribeAudio(audioDataURL);
-          console.log("Recorded Data:", audioDataURL);
         };
 
         reader.readAsDataURL(blob);
@@ -288,8 +250,6 @@ const technicalvetting: React.FC = () => {
         audioBuffer
       );
 
-      /// <reference lib="dom" />
-
       const SpeechRecognition =
         (window as any).SpeechRecognition ||
         (window as any).webkitSpeechRecognition;
@@ -300,11 +260,9 @@ const technicalvetting: React.FC = () => {
 
       recognition.onresult = (event: { results: { transcript: any }[][] }) => {
         const transcription = event.results[0][0].transcript;
-        console.log("Transcription:", transcription);
       };
 
       recognition.onerror = (event: { error: any }) => {
-        console.error("Speech recognition error:", event.error);
       };
 
       audioBufferSource.connect(audioContext.destination);
@@ -327,58 +285,6 @@ const technicalvetting: React.FC = () => {
   const seconds = time % 60;
   const codingminutes = Math.floor(codingtime / 60);
   const codingseconds = codingtime % 60;
-
-  // const startRecording = async () => {
-  //   try {
-  //     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  //     mediaRecorder = new MediaRecorder(stream);
-
-  //     mediaRecorder.ondataavailable = async (event) => {
-  //       const audioData = event.data;
-  //       const audioBuffer = await audioData.arrayBuffer();
-  //       const audioArray = new Float32Array(audioBuffer);
-  //       const averageAmplitude =
-  //         audioArray.reduce((acc, val) => acc + Math.abs(val), 0) /
-  //         audioArray.length;
-  //       setInputLevel(averageAmplitude);
-
-  //       const recognition = new (window as any).SpeechRecognition();
-
-  //       recognition.onresult = (result: {
-  //         results: { transcript: any }[][];
-  //       }) => {
-  //         const transcript = result.results[0][0].transcript;
-  //         setTranscript(transcript);
-  //         console.log("Speech Recognition Result:", transcript);
-  //       };
-
-  //       recognition.onerror = (error: any) => {
-  //         console.error("Speech Recognition Error:", error);
-  //       };
-
-  //       recognition.start();
-  //       recognition.onend = () => {
-  //         recognition.stop();
-  //       };
-  //     };
-
-  //     mediaRecorder.start();
-  //   } catch (error) {
-  //     console.error("Error accessing microphone:", error);
-  //   }
-  // };
-
-  // const stopRecording = () => {
-  //   if (mediaRecorder) {
-  //     mediaRecorder.stop();
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   return () => {
-  //     stopRecording();
-  //   };
-  // }, []);
 
   const openModal = () => {
     setIsOpen(!isOpen);
@@ -441,7 +347,6 @@ const technicalvetting: React.FC = () => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (isValidURL) {
-      console.log("Valid LinkedIn URL:", linkedinURL);
     } else {
       console.log("Invalid LinkedIn URL");
     }
@@ -450,15 +355,12 @@ const technicalvetting: React.FC = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSubmit(e);
-      console.log("hagsdhgfdhwfqd");
     }
   };
 
   const handleChange = (e: any) => {
     e.preventDefault();
-    console.log("File has been added");
     if (e.target.files && e.target.files[0]) {
-      console.log(e.target.files);
       setFiles([e.target.files[0]]);
     }
     setFiles((prevState: any) => [e.target.files[0]]);
@@ -615,9 +517,8 @@ const technicalvetting: React.FC = () => {
                   type="text"
                   required
                   placeholder="Your Name"
-                  className={`rounded-lg border-[2px] p-2 py-5 text-black outline-none xs:w-full xs:text-base md:w-[600px] lg:text-xl xl:w-[900px] xl:text-2xl ${
-                    nameError ? "border-red-500" : ""
-                  }`}
+                  className={`rounded-lg border-[2px] p-2 py-5 text-black outline-none xs:w-full xs:text-base md:w-[600px] lg:text-xl xl:w-[900px] xl:text-2xl ${nameError ? "border-red-500" : ""
+                    }`}
                   value={name}
                   onChange={(e) => {
                     const inputValue = e.target.value;
@@ -698,11 +599,10 @@ const technicalvetting: React.FC = () => {
                     }
                   }}
                   disabled={email === "" || !isEmailValid}
-                  className={`flex w-28 items-center justify-end rounded-full bg-[#8d3f42] px-2 text-lg text-white xs:h-12 xl:h-14 ${
-                    email === "" || !isEmailValid
+                  className={`flex w-28 items-center justify-end rounded-full bg-[#8d3f42] px-2 text-lg text-white xs:h-12 xl:h-14 ${email === "" || !isEmailValid
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-gray-950 "
-                  }`}
+                    }`}
                 >
                   {Strings.Next}
                   <div className="ml-2 flex h-10 w-10 items-center justify-center rounded-full border-transparent bg-slate-500 bg-opacity-[20%]">
@@ -904,9 +804,8 @@ const technicalvetting: React.FC = () => {
                   type="text"
                   required
                   placeholder="Enter your Linkedin link here"
-                  className={` rounded-lg border-[2px] p-2 py-5 text-black outline-none xs:w-full xs:text-base md:w-[600px] lg:text-xl xl:w-[900px] ${
-                    isValidURL ? "" : "border-red-500"
-                  }`}
+                  className={` rounded-lg border-[2px] p-2 py-5 text-black outline-none xs:w-full xs:text-base md:w-[600px] lg:text-xl xl:w-[900px] ${isValidURL ? "" : "border-red-500"
+                    }`}
                   value={linkedinURL}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
@@ -936,11 +835,10 @@ const technicalvetting: React.FC = () => {
                     setStep(step + 1);
                   }}
                   disabled={!isValidURL || linkedinURL === ""}
-                  className={`flex w-28 items-center justify-end rounded-full bg-[#8d3f42] px-2 text-lg text-white xs:h-12 xl:h-14 ${
-                    linkedinURL === "" || !isValidURL
+                  className={`flex w-28 items-center justify-end rounded-full bg-[#8d3f42] px-2 text-lg text-white xs:h-12 xl:h-14 ${linkedinURL === "" || !isValidURL
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-gray-950"
-                  }`}
+                    }`}
                 >
                   {Strings.Next}
                   <div className="ml-2 flex h-10 w-10 items-center justify-center rounded-full border-transparent bg-slate-500 bg-opacity-[20%]">
@@ -965,12 +863,10 @@ const technicalvetting: React.FC = () => {
                     {Strings.Q7}
                   </p>
                 </div>
-                {/* <div className="mt-12 h-56 w-full rounded-lg border-2 border-CodGray border-dashed bg-tundora"></div> */}
                 <div className="flex items-center justify-center  ">
                   <form
-                    className={`${
-                      dragActive ? "bg-slate-500 bg-opacity-[20%]" : "bg-white"
-                    }  flex min-h-[15rem] flex-col items-center justify-center  rounded-lg border-2 border-dashed p-4 text-center xs:w-[320px] md:w-[600px] xl:w-[900px]`}
+                    className={`${dragActive ? "bg-slate-500 bg-opacity-[20%]" : "bg-white"
+                      }  flex min-h-[15rem] flex-col items-center justify-center  rounded-lg border-2 border-dashed p-4 text-center xs:w-[320px] md:w-[600px] xl:w-[900px]`}
                     onDragEnter={handleDragEnter}
                     onSubmit={(e) => e.preventDefault()}
                     onDrop={handleDrop}
@@ -1014,12 +910,6 @@ const technicalvetting: React.FC = () => {
                         </div>
                       ))}
                     </div>
-                    {/* <button
-className="bg-black rounded-lg p-2 mt-3 w-auto"
-onClick={handleSubmitFile}
->
-<span className="p-2 text-white">Submit</span>
-</button> */}
                   </form>
                 </div>
                 <p className="border"></p>
@@ -1041,11 +931,10 @@ onClick={handleSubmitFile}
                         setStep(step + 1);
                       }}
                       disabled={files.length === 0}
-                      className={`flex h-14  items-center justify-end rounded-full bg-[#8d3f42] px-2 text-lg text-white disabled:opacity-50 xs:h-12 xs:w-28 md:w-[8rem] xl:h-14 ${
-                        files.length === 0
+                      className={`flex h-14  items-center justify-end rounded-full bg-[#8d3f42] px-2 text-lg text-white disabled:opacity-50 xs:h-12 xs:w-28 md:w-[8rem] xl:h-14 ${files.length === 0
                           ? "cursor-not-allowed hover:bg-[#8d3f42]"
                           : "hover:bg-gray-950 "
-                      }`}
+                        }`}
                     >
                       {Strings.Submit}
                       <div className="ml-2 flex items-center justify-center rounded-full border-transparent bg-slate-500 bg-opacity-[20%] xs:h-8 xs:w-8 md:h-10 md:w-10">
@@ -1195,7 +1084,7 @@ onClick={handleSubmitFile}
                       }}
                       className="flex w-36 items-center justify-center rounded-full bg-[#8d3f42] p-2 text-lg text-white  hover:bg-[#161616] "
                     >
-                      Start test now
+                      {Strings.Start_test_now}
                     </button>
                   </div>
                 </div>
@@ -1220,12 +1109,6 @@ onClick={handleSubmitFile}
                       {Strings.Your_microphone}
                     </option>
                     <option value="">{Strings.Default_Macbook}</option>
-                    {/* <option value="">
-                    {Strings.Default_Macbook}
-                    </option>
-                    <option value="">
-                    {Strings.Default_Macbook}
-                    </option> */}
                   </select>
                   <p className="text-lg font-semibold text-black">
                     {Strings.Speak_and_pause}
@@ -1233,16 +1116,11 @@ onClick={handleSubmitFile}
                   <p className="mt-5 text-base font-semibold text-black">
                     {Strings.Input_level}
                   </p>
-                  {/* <p className="mt-2 w-[480px] rounded-lg border-2 p-3">
-                    {inputLevel}
-                  </p> */}
                   <p className="mt-2 w-[480px] rounded-lg border-2 p-3 ">
-                    {/* {transcript} */}
                     <p className="w-[450px] border-[15px] border-dashed border-[#8d3f42] border-opacity-[20%]"></p>
                   </p>
                   <div className="mt-5 flex justify-end space-x-2">
                     <button
-                      // onClick={startRecording}
                       className="w-20 rounded-full bg-[#8d3f42] bg-opacity-[60%] p-3 font-semibold text-white"
                     >
                       {Strings.Speak}
@@ -2003,11 +1881,6 @@ onClick={handleSubmitFile}
           </div>
         </BlankLayout>
       )}
-      {/* // ): (
-      //   <BlankLayout>
-      //     fgd
-      //   </BlankLayout>
-      // )} */}
     </>
   );
 };

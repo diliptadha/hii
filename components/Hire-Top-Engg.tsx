@@ -1,7 +1,6 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Images, Strings } from "../constants";
 import React, { useEffect, useState } from "react";
-
 import { IRootState } from "@/store";
 import Image from "next/image";
 import { LabelComponent } from "../components/label";
@@ -41,20 +40,6 @@ const Hiretopengineer = () => {
   const [selectedFind, setSelectedFind] = useState<string[]>([]);
   const [isError, setIsError] = useState(false);
   const themeConfig = useSelector((state: IRootState) => state.themeConfig);
-  // const [worktype, setWorktype] = useState(null);
-  // const sendDataToServer = (workType: React.SetStateAction<string | null>) => {
-  // Do something with the selected workType, such as storing it in state
-  // console.log(workType);}
-  // const tokens = JSON.parse(token);
-  // const userId = JSON.parse(userid);
-
-  // const handleWorkTypeButtonClick = (type: React.SetStateAction<string | null>) => {
-  //   if (data.WorkType === type) {
-  //     setData((data) => ({ ...data, WorkType: null }));
-  //   } else {
-  //     setData((data) => ({ ...data, WorkType: type }));
-  //   }
-  // };
 
   const handleSubmit = () => {
     let data = JSON.stringify({
@@ -68,15 +53,14 @@ const Hiretopengineer = () => {
       message: message,
       findUs: selectedFind,
     });
-    console.log(data, "dataaaaaa");
 
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "https://api.eremotehire.com/hiretopengineer/addHireData",
+      url: `${process.env.NEXT_PUBLIC_API_URL}hiretopengineer/addHireData`,
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3B0b3hfMDAwMDAwMSIsInRva2VuX3ZlcnNpb24iOjg1LCJpYXQiOjE2OTE4NDQwNTAsImV4cCI6MTY5MTg0NzY1MH0.IDhGTQU8feTBM67SRj_Rmg0ohXVPRnZWK_jm3MqqUhY",
+          `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
         "Content-Type": "application/json",
       },
       data: data,
@@ -85,7 +69,6 @@ const Hiretopengineer = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
       })
       .catch((error) => {
         console.log(error);
@@ -230,38 +213,6 @@ const Hiretopengineer = () => {
       label: "Blockchain",
       imageSrc: themeConfig.theme === "light" ? Images.Blockchain : Images.Blockchain_Black
     },
-    
-
-
-    // {themeConfig.theme === "light" ? (
-    //   <Image
-    //   src={Images.FAV_ICON_BROWAN}
-    //   width={60}
-    //   height={60}
-    //   alt="Rahullogo"
-    //   className=''
-    // />
-    //      ) : (
-           
-    //        <Image
-    //        src={Images.FAV_ICON_BROWAN}
-    //        width={60}
-    //        height={60}
-    //        alt="Rahullogo"
-    //        className=''
-    //      />
-    //      )}
-
-
-
-
-
-
-
-
-
-
-
     ...additionalOptions,
     {
       id: 9,
@@ -404,15 +355,6 @@ const Hiretopengineer = () => {
   return (
     <div>
       <div className="flex justify-center">
-        {/* <button
-          onClick={openModal}
-          className="rounded-full bg-gradient-to-t from-tosca to-contessa py-5 px-10 hover:from-gray-950 hover:to-CodGray"
-        >
-          <LabelComponent
-            label={Strings.HIRE_A_TOP_ENGINEER}
-            className="font-outfit font-light xs:text-xl lg:text-2xl text-white"
-          />
-        </button> */}
         <Image
           src={Images.ARROWLONGTOSCO}
           width={40}
@@ -426,10 +368,6 @@ const Hiretopengineer = () => {
         <div
           className="  
         bg-balck bg-opacity-90- group fixed z-50 flex h-full items-center justify-center  xs:left-[20px] xs:right-[20px]  xs:top-[80px] md:left-[30px] md:right-[30px] md:top-[80px] lg:left-[290px] lg:top-[90px] xl:top-[80px]"
-
-          // className={`sidebar shadow-[5px_0_25px_0_rgba(94,92,154,0.1)]- fixed bottom-0 top-0 z-50 h-full min-h-screen w-[260px] transition-all duration-300 ${
-          //     semidark ? "text-white-dark" : ""
-          //   }`}
         >
           <div className=" fixed xs:right-1 xs:top-[80px] md:right-2 md:top-[80px] xl:right-[3rem] xl:top-[70px]">
             <button
@@ -464,15 +402,13 @@ const Hiretopengineer = () => {
                     }}
                   >
                     <button
-                      className={` mr-14 h-8 w-8 rounded-full  border-2 border-[#000] text-[16px] font-semibold dark:border-white ${
-                        worktype === "fullTime" ? " bg-black dark:bg-white" : ""
-                      } ${
-                        worktype === "fullTime"
+                      className={` mr-14 h-8 w-8 rounded-full  border-2 border-[#000] text-[16px] font-semibold dark:border-white ${worktype === "fullTime" ? " bg-black dark:bg-white" : ""
+                        } ${worktype === "fullTime"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
-                      A
+                      {Strings.A}
                     </button>
                     <p className="mr-7 font-semibold text-gray-900 dark:text-white xs:text-base lg:text-[20px]">
                       {Strings.FULL_TIME}
@@ -498,18 +434,16 @@ const Hiretopengineer = () => {
                         setWorktype("partTime");
                       }
                     }}
-                    // onClick={() => "partTime"}
+                  // onClick={() => "partTime"}
                   >
                     <button
-                      className={`  mr-14 h-8 w-8 rounded-full  border-2 border-[#000] font-semibold dark:border-white text-[16px]${
-                        worktype === "partTime" ? " bg-black dark:bg-white" : ""
-                      } ${
-                        worktype === "partTime"
+                      className={`  mr-14 h-8 w-8 rounded-full  border-2 border-[#000] font-semibold dark:border-white text-[16px]${worktype === "partTime" ? " bg-black dark:bg-white" : ""
+                        } ${worktype === "partTime"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
-                      B
+                      {Strings.B}
                     </button>
                     <p className="mr-7 font-semibold  text-gray-900  dark:text-white xs:text-base lg:text-[20px]">
                       {Strings.PART_TIME}
@@ -566,9 +500,6 @@ const Hiretopengineer = () => {
                   <p className="font-outfit font-bold text-gray-900 dark:text-white xs:text-xl md:text-2xl lg:text-[24px]">
                     {Strings.QUS_2}
                   </p>
-                  {/* <p className="font-outfit font-semibold text-gray-900 dark:text-white xs:text-lg md:text-xl lg:text-[16px]">
-                    {Strings.QUS_2}
-                  </p> */}
                 </div>
                 <p className="font-outfit my-5 text-sm font-medium text-gray-900 dark:text-white">
                   {Strings.CHOOSE_AS_MANY_AS_YOU_LIKE}
@@ -653,23 +584,21 @@ const Hiretopengineer = () => {
                     }}
                   >
                     <button
-                      className={` h-8 w-8 rounded-full   border-2 border-[#000] text-[20px] font-semibold dark:border-white  xs:mr-16 md:mr-[10px] xl:mr-16 ${
-                        noOfSoftEngineer === "1-2"
+                      className={` h-8 w-8 rounded-full   border-2 border-[#000] text-[20px] font-semibold dark:border-white  xs:mr-16 md:mr-[10px] xl:mr-16 ${noOfSoftEngineer === "1-2"
                           ? " bg-black dark:bg-white"
                           : ""
-                      } ${
-                        noOfSoftEngineer === "1-2"
+                        } ${noOfSoftEngineer === "1-2"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
-                      A
+                      {Strings.A}
                     </button>
                     <p className="font-semibold text-gray-900 dark:text-white xs:mr-16 xs:text-base lg:mr-[50px] lg:text-lg xl:mr-20">
                       1-2
                     </p>
                     {noOfSoftEngineer === "1-2" ||
-                    setnoOfSoftEngineer === null ? (
+                      setnoOfSoftEngineer === null ? (
                       <Image
                         src={Images.checkIcon}
                         alt="/"
@@ -692,23 +621,21 @@ const Hiretopengineer = () => {
                     }}
                   >
                     <button
-                      className={` h-8 w-8 rounded-full border-2 border-[#000] text-[20px] font-semibold dark:border-white xs:mr-16  md:mr-[10px] xl:mr-16 ${
-                        noOfSoftEngineer === "2-5"
+                      className={` h-8 w-8 rounded-full border-2 border-[#000] text-[20px] font-semibold dark:border-white xs:mr-16  md:mr-[10px] xl:mr-16 ${noOfSoftEngineer === "2-5"
                           ? " bg-black dark:bg-white"
                           : ""
-                      } ${
-                        noOfSoftEngineer === "2-5"
+                        } ${noOfSoftEngineer === "2-5"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
-                      B
+                      {Strings.B}
                     </button>
                     <p className="font-semibold text-gray-900 dark:text-white xs:mr-16 xs:text-base lg:mr-[50px] lg:text-lg xl:mr-20">
                       2-5
                     </p>
                     {noOfSoftEngineer === "2-5" ||
-                    setnoOfSoftEngineer === null ? (
+                      setnoOfSoftEngineer === null ? (
                       <Image
                         src={Images.checkIcon}
                         alt="/"
@@ -731,23 +658,21 @@ const Hiretopengineer = () => {
                     }}
                   >
                     <button
-                      className={` h-8 w-8 rounded-full border-2 border-[#000] text-[20px] font-semibold dark:border-white xs:mr-16  md:mr-[10px] xl:mr-16 ${
-                        noOfSoftEngineer === "5+"
+                      className={` h-8 w-8 rounded-full border-2 border-[#000] text-[20px] font-semibold dark:border-white xs:mr-16  md:mr-[10px] xl:mr-16 ${noOfSoftEngineer === "5+"
                           ? " bg-black dark:bg-white"
                           : ""
-                      } ${
-                        noOfSoftEngineer === "5+"
+                        } ${noOfSoftEngineer === "5+"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
-                      C
+                      {Strings.C}
                     </button>
                     <p className="font-semibold text-gray-900 dark:text-white xs:mr-16 xs:text-base lg:mr-[50px] lg:text-lg xl:mr-20">
                       5+
                     </p>
                     {noOfSoftEngineer === "5+" ||
-                    setnoOfSoftEngineer === null ? (
+                      setnoOfSoftEngineer === null ? (
                       <Image
                         src={Images.checkIcon}
                         alt="/"
@@ -808,9 +733,8 @@ const Hiretopengineer = () => {
                     type="text"
                     required
                     placeholder="Type your answer here..."
-                    className={`border-Cod_Gray rounded-lg border-[1px] border-[#000]   bg-white p-2 py-5 outline-none dark:border-white dark:bg-[#000] xs:w-full xs:text-base md:w-[600px] lg:text-[16px] xl:w-[900px] ${
-                      fnameError ? "border-red-500" : ""
-                    }`}
+                    className={`border-Cod_Gray rounded-lg border-[1px] border-[#000]   bg-white p-2 py-5 outline-none dark:border-white dark:bg-[#000] xs:w-full xs:text-base md:w-[600px] lg:text-[16px] xl:w-[900px] ${fnameError ? "border-red-500" : ""
+                      }`}
                     // name="FirstName"
                     value={fname}
                     // onChange={handle}
@@ -863,9 +787,8 @@ const Hiretopengineer = () => {
                   <input
                     type="text"
                     placeholder="Type your answer here..."
-                    className={`border-Cod_Gray bg-white- rounded-lg border-[1px]  border-[#000] p-2 py-5 outline-none dark:border-white dark:bg-[#000] xs:w-full xs:text-base md:w-[600px] lg:text-[16px] xl:w-[900px] ${
-                      lastNameError ? "border-red-500" : ""
-                    }`}
+                    className={`border-Cod_Gray bg-white- rounded-lg border-[1px]  border-[#000] p-2 py-5 outline-none dark:border-white dark:bg-[#000] xs:w-full xs:text-base md:w-[600px] lg:text-[16px] xl:w-[900px] ${lastNameError ? "border-red-500" : ""
+                      }`}
                     value={lastName}
                     name="LastName"
                     // onChange={handle}
@@ -958,11 +881,10 @@ const Hiretopengineer = () => {
                       }
                     }}
                     disabled={companyEmail === "" || !isEmailValid}
-                    className={`flex items-center justify-center rounded-r-full bg-gradient-to-t from-[#8D3F42] to-[#BC7666] px-3 py-2  text-gray-900 dark:text-white ${
-                      companyEmail === "" || !isEmailValid
+                    className={`flex items-center justify-center rounded-r-full bg-gradient-to-t from-[#8D3F42] to-[#BC7666] px-3 py-2  text-gray-900 dark:text-white ${companyEmail === "" || !isEmailValid
                         ? "cursor-not-allowed opacity-50"
                         : "hover:from-gray-600 hover:to-gray-600"
-                    }`}
+                      }`}
                   >
                     <RightOutlined rev={undefined} />
                   </button>
@@ -991,13 +913,11 @@ const Hiretopengineer = () => {
                     }}
                   >
                     <button
-                      className={`mr-16 h-8 w-8  rounded-full border-2 border-[#000] text-lg font-semibold dark:border-white ${
-                        noOfEmployee === "1-10" ? " bg-black dark:bg-white" : ""
-                      } ${
-                        noOfEmployee === "1-10"
+                      className={`mr-16 h-8 w-8  rounded-full border-2 border-[#000] text-lg font-semibold dark:border-white ${noOfEmployee === "1-10" ? " bg-black dark:bg-white" : ""
+                        } ${noOfEmployee === "1-10"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
                       A
                     </button>
@@ -1027,15 +947,13 @@ const Hiretopengineer = () => {
                     }}
                   >
                     <button
-                      className={`mr-16 h-8 w-8  rounded-full border-2 border-[#000] text-lg font-semibold dark:border-white ${
-                        noOfEmployee === "10-50"
+                      className={`mr-16 h-8 w-8  rounded-full border-2 border-[#000] text-lg font-semibold dark:border-white ${noOfEmployee === "10-50"
                           ? " bg-black dark:bg-white"
                           : ""
-                      } ${
-                        noOfEmployee === "10-50"
+                        } ${noOfEmployee === "10-50"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
                       B
                     </button>
@@ -1065,13 +983,11 @@ const Hiretopengineer = () => {
                     }}
                   >
                     <button
-                      className={` mr-[70px] h-8 w-8  rounded-full border-2 border-[#000] text-lg font-semibold dark:border-white ${
-                        noOfEmployee === "50+" ? " bg-black dark:bg-white" : ""
-                      } ${
-                        noOfEmployee === "50+"
+                      className={` mr-[70px] h-8 w-8  rounded-full border-2 border-[#000] text-lg font-semibold dark:border-white ${noOfEmployee === "50+" ? " bg-black dark:bg-white" : ""
+                        } ${noOfEmployee === "50+"
                           ? "text-white dark:text-black"
                           : "text-black dark:text-white"
-                      }`}
+                        }`}
                     >
                       C
                     </button>
@@ -1219,20 +1135,8 @@ const Hiretopengineer = () => {
                   </div>
                 )}
 
-                {/* {findus.length === 0 && !isOtherSelected2 && (
-                  <p className="font-outfit text-red-500">
-                    Please select an option
-                  </p>
-                )} */}
-
                 <div className="flex justify-center">
                   <button
-                    // onClick={() => {
-                    //   if (findus.length > 0 ) {
-                    //     setActiveModalPage(activeModalPage + 1);
-                    //     handleSubmit();
-                    //   }
-                    // }}
                     onClick={() => {
                       handleSubmit();
                       if (!(findus.length === 0 && !isOtherSelected2)) {
@@ -1240,12 +1144,11 @@ const Hiretopengineer = () => {
                       }
                     }}
                     disabled={findus.length === 0 && !isOtherSelected2}
-                    className={`font-outfit from-tosca to-contessa hover:to-CodGray rounded-full  border-2 border-[#000] bg-gradient-to-t px-5 py-2 text-lg font-semibold  dark:border-white dark:text-white ${
-                      findus.length === 0 && !isOtherSelected2
+                    className={`font-outfit from-tosca to-contessa hover:to-CodGray rounded-full  border-2 border-[#000] bg-gradient-to-t px-5 py-2 text-lg font-semibold  dark:border-white dark:text-white ${findus.length === 0 && !isOtherSelected2
                         ? "opacity-50"
                         : ""
-                    }`}
-                    // disabled={findus.length > 0 }
+                      }`}
+                  // disabled={findus.length > 0 }
                   >
                     {Strings.SUBMIT}
                   </button>
@@ -1278,16 +1181,6 @@ const Hiretopengineer = () => {
             )}
             {activeModalPage === 10 && (
               <div className="flex justify-center">
-                {/* <button
-                  className="rounded-l-full bg-gray-400 py-1 px-3 hover:bg-gray-600"
-                  onClick={() => {
-                    if (activeModalPage > 1) {
-                      setActiveModalPage(activeModalPage - 1);
-                    }
-                  }}
-                >
-                  <LeftOutlined />
-                </button> */}
                 <div className=" space-y-4 text-center">
                   <div className="font-outfit bg-gradient-to-r from-[#8d3f42] to-[#bc7666] bg-clip-text font-bold text-transparent xs:text-[30px] xl:text-6xl">
                     {Strings.THANK_YOU_FOR}

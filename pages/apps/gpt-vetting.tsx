@@ -1,5 +1,4 @@
 import "react-datepicker/dist/react-datepicker.css";
-
 import {
   ArrowLeftOutlined,
   CalendarOutlined,
@@ -33,7 +32,6 @@ import Upgradeplane, {
   UpgradeplaneProps,
 } from "@/components/Layouts/Upgradeplane";
 import dayjs, { Dayjs } from "dayjs";
-
 import { Checkbox } from "antd";
 import type { CheckboxProps } from "antd";
 import DatePicker from "react-datepicker";
@@ -167,7 +165,6 @@ const gptvetting: React.FC = () => {
     null
   );
   const [archivedData, setArchivedData] = useState<any[]>([]);
-  // const [tableData2, setTableData2] = useState<TableRowData[]>([]);
   const [popoverIndex, setPopoverIndex] = useState<number | null>(null);
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
   const [copied, setCopied] = useState(false);
@@ -530,8 +527,6 @@ const gptvetting: React.FC = () => {
     pdf.text(`Name: ${selectedRowData?.name}`, 10, 20);
     pdf.text(`Email: parth@gmail.in`, 10, 30);
     pdf.text(`Date: ${selectedRowData?.teston}`, 10, 40);
-    // pdf.text(`${reportRef.current.innerText}`, 10, 80);
-
     pdf.save(`${selectedRowData?.name}'s report.pdf`);
   };
 
@@ -570,20 +565,6 @@ const gptvetting: React.FC = () => {
       document.body.style.overflow = "";
     }
   }, [isOpen]);
-  // useEffect(() => {
-  //   if (isModalOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "";
-  //   }
-  // }, [isModalOpen]);
-  // useEffect(() => {
-  //   if (upgradeplan) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "";
-  //   }
-  // }, [upgradeplan]);
 
   const openModal = () => {
     setIsOpen(!isOpen);
@@ -617,37 +598,6 @@ const gptvetting: React.FC = () => {
     setManagetests(false);
     setManagesavedtests(false);
   };
-
-  // const initialTableData2: TableData2[] = [
-  //   {
-  //     name: "Parth Pandya",
-  //     test: "Self defined skills",
-  //     dateTaken: "Des 02, 2025",
-  //     mainTechStacks: `Web framework angular(senior)\njavascript(junior)\nReact(mid-level)`,
-  //     softSkills: "Average",
-  //     proctoringResult: "N/A",
-  //   },
-  //   {
-  //     name: "Nirdosh Patil",
-  //     test: "Self defined skills",
-  //     dateTaken: "Des 02, 2025",
-  //     mainTechStacks: `Web framework angular(senior)\njavascript(junior)\nReact(mid-level)`,
-  //     softSkills: "Average",
-  //     proctoringResult: "N/A",
-  //   },
-  //   {
-  //     name: "Sagar Panchal",
-  //     test: "Self defined skills",
-  //     dateTaken: "Des 02, 2025",
-  //     mainTechStacks: `Web framework angular(senior)\njavascript(junior)\nReact(mid-level)`,
-  //     softSkills: "Average",
-  //     proctoringResult: "N/A",
-  //   },
-  // ];
-
-  // useEffect(() => {
-  //   setTableData2(initialTableData2 as TableRowData[]);
-  // }, []);
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -703,71 +653,6 @@ const gptvetting: React.FC = () => {
             </svg>
           </p>
         </div>
-        {/* <div className="flex items-center xs:block md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="xs:text:xs transform cursor-pointer font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white xl:text-sm"
-          >
-            <MenuOutlined />
-          </button>
-        </div>
-        {showMenu && (
-          <div
-            ref={menuRef}
-            className="absolute right-0 top-16 z-10  flex h-[160px] w-[220px] items-center justify-center  rounded-md bg-white  py-2 shadow-lg dark:bg-gray-800"
-          >
-            <div className="space-y-2 text-center">
-              <p className="flex ">
-                <button
-                  onClick={handleButtonClick}
-                  className="mr-1 flex transform cursor-pointer items-center text-sm font-normal text-[#8d3f42] transition-transform hover:scale-105 dark:text-white"
-                >
-                  {Strings.Customize_content}
-                </button>
-
-                <Tooltip title={tooltipContent2} placement="bottom">
-                  <ExclamationCircleOutlined rev={undefined} />
-                </Tooltip>
-              </p>
-
-              <Customizecontent
-                customizecontent={customizecontent}
-                setCustomizecontent={setCustomizecontent}
-              />
-              <p className="border "></p>
-              <button
-                onClick={handleButtonClick1}
-                className="transform cursor-pointer text-sm font-normal text-[#8d3f42] transition-transform hover:scale-105 dark:text-white"
-              >
-                {Strings.Manage_saved_tests}
-              </button>
-              <Managetests
-                managesavedtests={managesavedtests}
-                setManagesavedtests={setManagesavedtests}
-              />
-              <p className="border"></p>
-              <button
-                onClick={handleButtonClick2}
-                className="nav-item h-10- w-28- rounded-full- bg-[#8d3f42]- shadow-lg- dark:bg-white- group
-             flex transform items-center justify-center transition-transform hover:scale-105"
-              >
-                <text className="text-sm font-normal text-[#8d3f42] dark:text-white">
-                  {Strings.Quick_demo}
-                </text>
-              </button>
-              <Quickdamo quickdemo={quickdemo} setQuickdemo={setQuickdemo} />
-              <p className="border"></p>
-              <button
-                onClick={openModal}
-                className="h-10-  w-[150px]- rounded-full- border- border-[#8D3F42]- bg-white- text-[#8D3F42]- hover:bg-[#8D3F42]- dark:border-transparent- dark:bg-[#8D3F42]- dark:text-white- dark:hover:bg-white- dark:hover:text-[#8D3F42]- flex items-center  justify-center text-sm font-normal text-white"
-              >
-                <text className=" text-[#8d3f42] dark:text-white">
-                  {Strings.Inviteacandidate}
-                </text>
-              </button>
-            </div>
-          </div>
-        )} */}
         <div className="flex items-center  xs:flex-col sm:space-x-1 md:flex-row xl:space-x-2">
           <div className="flex xs:space-x-1 xl:space-x-2">
             {" "}
@@ -786,10 +671,6 @@ const gptvetting: React.FC = () => {
               customizecontent={customizecontent}
               setCustomizecontent={setCustomizecontent}
             />
-            {/* <div className="h-4 border-2 border-l border-white-dark"></div>
-          <h1 className="transform cursor-pointer text-sm font-semibold text-[#8d3f42] transition-transform hover:scale-105 dark:text-white">
-            Manage access
-          </h1> */}
             <div className="xs:hidden- md:block- h-4 border-2 border-l border-white-dark"></div>
             <button
               onClick={handleButtonClick1}
@@ -834,11 +715,6 @@ const gptvetting: React.FC = () => {
             <div className="min-h-auto no-scrollbar max-h-[600px] overflow-y-scroll rounded-2xl bg-white  p-4 xs:w-[310px] md:w-[500px]">
               <div
                 className="xs:ml-[250px] md:fixed md:ml-[500px]"
-                // className={`fixed  ${
-                //   defineSkills
-                //     ? "xlg:top-[400px] lg:top-[60px] xl:top-[70px]"
-                //     : "xlg:top-[600px] lg:top-[120px] xl:top-[160px]"
-                // } xl:right-[500px]`}
               >
                 <button
                   className="flex h-8 w-8 items-center justify-center rounded-full border-transparent bg-white text-black opacity-[80%]"
@@ -909,25 +785,14 @@ const gptvetting: React.FC = () => {
                         placeholder={`Enter skill #${index + 1}`}
                         className="rounded-lg border-2 p-3 outline-none xs:mr-1 xs:w-[140px] md:mr-0 md:w-[200px]"
                       />
-
-                      {/* <select className="w-[250px] rounded-lg border-2 text-sm outline-none">
-                      <option disabled selected hidden>
-                        Level of difficulty
-                      </option>
-                      <option value="Junior">Junior</option>
-                      <option value="Mid Level">Mid Level</option>
-                      <option value="Senior">Senior</option>
-                    </select> */}
-
                       <select
                         value={skill.level}
                         onChange={(e) => {
                           handleLevelChange(index, e.target.value);
                           console.log(`Level ${index + 1}: ${e.target.value}`);
                         }}
-                        className={`rounded-lg border-2 px-1 outline-none xs:w-[140px] xs:text-xs md:w-[230px] md:text-sm ${
-                          index === 0 ? "mr-[26px]" : ""
-                        }`}
+                        className={`rounded-lg border-2 px-1 outline-none xs:w-[140px] xs:text-xs md:w-[230px] md:text-sm ${index === 0 ? "mr-[26px]" : ""
+                          }`}
                       >
                         <option disabled={!index} value="">
                           {Strings.Level_of_difficulty}
@@ -1080,11 +945,10 @@ const gptvetting: React.FC = () => {
           <Tab as={Fragment}>
             {({ selected }) => (
               <button
-                className={`${
-                  selected
+                className={`${selected
                     ? "rounded-t-md !border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white "
                     : ""
-                }
+                  }
                     -mb-[1px] block border border-transparent dark:hover:border-b-black dark:hover:text-white xs:p-2 xs:py-1 md:p-4 md:py-3`}
               >
                 {Strings.Reports}({totalRecords})
@@ -1094,11 +958,10 @@ const gptvetting: React.FC = () => {
           <Tab as={Fragment}>
             {({ selected }) => (
               <button
-                className={`${
-                  selected
+                className={`${selected
                     ? "rounded-t-md !border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
                     : ""
-                }
+                  }
                     -mb-[1px] block border border-transparent dark:hover:border-b-black dark:hover:text-white xs:p-2 xs:py-1 md:p-4 md:py-3`}
               >
                 {Strings.Contected}({connectedRows.length})
@@ -1108,11 +971,10 @@ const gptvetting: React.FC = () => {
           <Tab as={Fragment}>
             {({ selected }) => (
               <button
-                className={`${
-                  selected
+                className={`${selected
                     ? "rounded-t-md !border-white-light !border-b-white text-black !outline-none dark:!border-[#8D3F42] dark:!border-b-black dark:text-white"
                     : ""
-                }
+                  }
                     -mb-[1px] block border border-transparent dark:hover:border-b-black dark:hover:text-white xs:p-2 xs:py-1 md:p-4 md:py-3`}
               >
                 {Strings.Archived}({archivedData.length})
@@ -1193,9 +1055,8 @@ const gptvetting: React.FC = () => {
                             </div>
                             <div
                               className={`mt-2 flex w-[220px] items-center justify-center
-                               rounded-full bg-gray-200 text-sm font-normal text-black ${
-                                 isChecked ? "visible" : "hidden"
-                               }`}
+                               rounded-full bg-gray-200 text-sm font-normal text-black ${isChecked ? "visible" : "hidden"
+                                }`}
                             >
                               {Strings.Candidate_self_defined_skills}
                               <CloseOutlined
@@ -1221,51 +1082,6 @@ const gptvetting: React.FC = () => {
                           </div>
                         )}
                         <p className="mt-4 text-black">{Strings.Date_taken}</p>
-
-                        {/* <div className="mt-2 text-base font-semibold">
-                          <Space direction="vertical" size={12}>
-                            <RangePicker
-                              size={size}
-                              className="custom-datepicker custom-range-picker mt-2 p-4 xs:w-[280px] md:w-[460px]"
-                              dateRender={customDateRender}
-                              picker="date" // Set the picker to 'date' to only show date picker
-                              dropdownClassName="custom-date-picker-dropdown" 
-                            />
-                          </Space>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DateRangePicker
-                              value={value}
-                              onChange={(newValue) => setValue(newValue)}
-                              className="custom-date-range-picker"
-                            />
-                            <div className="custom-date-range-picker-labels">
-                              <TextField
-                                label="Start Date"
-                                variant="outlined"
-                                value={value[0]}
-                                onChange={(e) =>
-                                  setValue([
-                                    e.target.value as unknown as Date,
-                                    value[1],
-                                  ])
-                                }
-                              />
-                              <TextField
-                                label="End Date"
-                                variant="outlined"
-                                value={value[1]}
-                                onChange={(e) =>
-                                  setValue([
-                                    value[0],
-                                    e.target.value as unknown as Date,
-                                  ])
-                                }
-                              />
-                            </div>
-                          </LocalizationProvider>
-                         
-
-                        </div>  */}
                         <div className="mt-2 flex items-center xs:flex-col md:flex-row">
                           <div className="relative flex items-center">
                             <DatePicker
@@ -1342,9 +1158,8 @@ const gptvetting: React.FC = () => {
                       <div className="my-7 flex justify-center">
                         <div className="flex w-[250px] justify-center rounded-lg border-2 p-4 text-black">
                           <p
-                            className={`text-base ${
-                              !yearly ? "font-semibold" : ""
-                            }`}
+                            className={`text-base ${!yearly ? "font-semibold" : ""
+                              }`}
                           >
                             {Strings.Monthly}
                           </p>
@@ -1353,9 +1168,8 @@ const gptvetting: React.FC = () => {
                             className="mx-2 bg-gray-300 font-bold text-black-dark-light"
                           />
                           <p
-                            className={`text-base ${
-                              yearly ? "font-semibold" : ""
-                            }`}
+                            className={`text-base ${yearly ? "font-semibold" : ""
+                              }`}
                           >
                             {Strings.Yearly}
                           </p>
@@ -1444,30 +1258,17 @@ const gptvetting: React.FC = () => {
                               {svgVisibleArray[
                                 currentPage * perPage + index
                               ] && (
-                                <Image
-                                  src={Images.Contacted}
-                                  alt="/"
-                                  height={14}
-                                  width={14}
-                                  className="ml-2"
-                                />
-                              )}
+                                  <Image
+                                    src={Images.Contacted}
+                                    alt="/"
+                                    height={14}
+                                    width={14}
+                                    className="ml-2"
+                                  />
+                                )}
                             </th>
                             <td className="px-6 py-4">{rowData.test}</td>
                             <td className="px-6 py-4">{rowData.dateTaken}</td>
-                            {/* <td
-                            className={`whitespace-nowrap ${
-                              rowData.mainTechStacks === "(junior)"
-                                ? "text-slate-500"
-                                : rowData.mainTechStacks === "(senior)"
-                                ? "text-[#008000]"
-                                : rowData.mainTechStacks === "(mid-level)"
-                                ? "text-[#FFFF00]"
-                                : "text-white"
-                            }`}
-                          >
-                            {rowData.mainTechStacks}
-                          </td> */}
                             <td
                               style={getSkillLevelColor(rowData.mainTechStacks)}
                               className="px-6 py-4 "
@@ -1808,13 +1609,13 @@ const gptvetting: React.FC = () => {
                               <div className="mt-5 flex justify-between">
                                 <div>
                                   <h1 className="text-base font-bold">
-                                    Report id: 007
+                                    {Strings.REPORT_ID}
                                   </h1>
                                   <h1 className="text-base font-bold">
                                     name: {selectedRowData?.name}
                                   </h1>
                                   <h1 className="text-base font-bold">
-                                    Email: parth@gmail.in
+                                    {Strings.PARTH_MAIL}
                                   </h1>
                                 </div>
                                 <h1 className=" text-base font-bold">
@@ -1823,59 +1624,40 @@ const gptvetting: React.FC = () => {
                               </div>
                               <p className="my-5 border"></p>
                               <h1 className="text-lg font-bold text-slate-500">
-                                TECHNICAL RESULTS
+                                {Strings.TECHNICAL_SKILLS}
                               </h1>
                               <p ref={reportRef} className="space-y-7">
                                 <p className="text-lg font-bold text-black">
-                                  Node.js
+                                  {Strings.Node_js}
                                 </p>
                                 <p className="text-base font-bold">
-                                  Self rating intermediate
+                                  {Strings.SELF_RATING_INTERMIDIATE}
                                 </p>
                                 <p className="text-base font-bold text-lime-500">
-                                  Al assessment:
+                                  {Strings.AI_ASSESMENT}
                                 </p>
                                 <p>
-                                  Roting by Al Date: 02 Aug 2023 The candidate's
-                                  responses to the interview questions were
-                                  unprofessional and disrespectful. They did not
-                                  provide any relevant or meaningful information
-                                  about event-driven programming in Node.js or
-                                  how to handle memory leaks. Their lack of
-                                  interest and knowledge in these areas
-                                  indicates a low level of expertise in node.js.
-                                  Based on their responses, the candidate can be
-                                  rated as Not experienced.
+                                  {Strings.GPT_PARA}
                                 </p>
-                                <p>Rating by Al: Not experienced</p>
+                                <p>{Strings.RATING_BY_AI}</p>
                                 <p className="text-lg font-bold text-black">
-                                  React.Js
+                                  {Strings.React_js}
                                 </p>
                                 <p className="text-base font-bold">
-                                  Self rating: beginner
+                                  {Strings.SELF_RATING_BEGIN}
                                 </p>
                                 <p className="text-base font-bold text-lime-500">
-                                  Al assessment:
+                                  {Strings.AI_ASSESMENT}
                                 </p>
                                 <p>
-                                  The candidate has a beginner level of
-                                  experience in React.js. They have a basic
-                                  understanding of state management using
-                                  useState and useEffect hooks. However, their
-                                  explanation is not clear and lacks depth. They
-                                  mention automating state changes using loops
-                                  or timers, which is not the recommended
-                                  approach in React.js. The candidate's
-                                  explanation of the virtual DOM is also lacking
-                                  clarity and does not demonstrate a strong
-                                  understanding of the concept. Archive
+                                  {Strings.RATING_AI_PARA}
                                 </p>
                               </p>
                               <div className="mt-5 flex justify-end">
                                 <p className="text-base font-normal text-black">
-                                  Powered by
+                                  {Strings.POWERED_BY}
                                   <span className="ml-1 text-[#8d3f42]">
-                                    eRemoteHire
+                                    {Strings.EREMOTEHIRE}
                                   </span>
                                 </p>
                               </div>

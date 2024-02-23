@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
-
 import Loader from "../../components/Layouts/Loader";
 import React from "react";
 import { Images, Strings } from "../../constants";
-// import Search from "antd/es/input/Search";
 import Filtermodal from "../../components/filter-popup";
 import Link from "next/link";
-// import  { FireOutlined } from  "@ant-design/icons";
-// import Loaderr from "../../components/Layouts/Loader";
-// import { string } from "yup/lib/locale";
 
 export default function SearchTalent() {
   const [loading, setLoading] = useState(true);
@@ -270,19 +265,6 @@ export default function SearchTalent() {
     );
   });
 
-  //   const nameCount = filteredTalent.filter((item) =>
-  //     item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  //   ).length;
-
-  //   const skillCount = filteredTalent.reduce(
-  //     (count, item) =>
-  //       count +
-  //       item.skills.filter((skill) =>
-  //         skill.toLowerCase().includes(searchQuery.toLowerCase())
-  //       ).length,
-  //     0
-  //   );
-
   return loading ? (
     <div>
       <Loader />
@@ -417,14 +399,6 @@ export default function SearchTalent() {
               <p>{` ${filteredTalent.length} results found`}</p>
             )}
           </p>
-          {/* <p>{`Skills Found: ${filteredTalent.reduce(
-            (count, item) =>
-              count +
-              item.skills.filter((skill) =>
-                skill.toLowerCase().includes(searchQuery.toLowerCase())
-              ).length,
-            0
-          )}`}</p> */}
         </div>
       )}
       {filteredTalent.length === 0 ? (
@@ -444,15 +418,8 @@ export default function SearchTalent() {
                             {item.name}
                           </div>
                           <div className="flex ">
-                            {/* <div className=" xs:text-[10px] xl:text-[14px] font-semibold text-black dark:text-white flex justify-center items-center xs:hidden md:block">
-                            {item.interview}
-                            <FireOutlined rev={undefined} className="text-[#E25822] ml-[5px]"/>
-                          </div> */}
                           </div>
                         </div>
-                        {/* <text className="text-lg font-semibold text-black dark:text-white">
-                              {item.price}
-                            </text> */}
                       </div>
                       <div className="mb-[5px]">
                         <text className="text-[14px] leading-normal text-black dark:text-white">
@@ -471,7 +438,7 @@ export default function SearchTalent() {
                             </button>
                           ))}
                         </div>
-                        <button className="flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
+                        <button className="flex items-center rounded-xl border border-black px-2 py-1.5 mt-[10px] md:mt-[1px] shadow-sm dark:shadow">
                           <text>{item.rate}</text>
                         </button>
                       </div>

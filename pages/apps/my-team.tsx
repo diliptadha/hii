@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
 import { Images, Strings } from "../../constants";
-
 import Image from "next/image";
 import Loader from "../../components/Layouts/Loader";
 import React from "react";
@@ -14,35 +13,35 @@ interface UserData {
   experienceDetails: any;
   educationDetails: any;
   summary:
-    | string
-    | number
-    | boolean
-    | readonly string[]
-    | readonly number[]
-    | readonly boolean[]
-    | null
-    | undefined;
+  | string
+  | number
+  | boolean
+  | readonly string[]
+  | readonly number[]
+  | readonly boolean[]
+  | null
+  | undefined;
   vettingResult: any;
   raiseHistory: any;
   bonusHistory: any;
   totalBonusGiven:
-    | string
-    | number
-    | boolean
-    | readonly string[]
-    | readonly number[]
-    | readonly boolean[]
-    | null
-    | undefined;
+  | string
+  | number
+  | boolean
+  | readonly string[]
+  | readonly number[]
+  | readonly boolean[]
+  | null
+  | undefined;
   monthlySalary:
-    | string
-    | number
-    | boolean
-    | readonly string[]
-    | readonly number[]
-    | readonly boolean[]
-    | null
-    | undefined;
+  | string
+  | number
+  | boolean
+  | readonly string[]
+  | readonly number[]
+  | readonly boolean[]
+  | null
+  | undefined;
   userData: any;
 
   course: string;
@@ -56,16 +55,15 @@ interface UserData {
   techStack: any;
   startDate2: any;
   endDate2: any;
-  // summary: any;
   hiring_status:
-    | string
-    | number
-    | boolean
-    | readonly string[]
-    | readonly number[]
-    | readonly boolean[]
-    | null
-    | undefined;
+  | string
+  | number
+  | boolean
+  | readonly string[]
+  | readonly number[]
+  | readonly boolean[]
+  | null
+  | undefined;
 
   firstName: string;
   country: string;
@@ -78,12 +76,12 @@ interface UserData {
   skill: string;
   yearOfExperience: string;
   monthlyPayment:
-    | number
-    | boolean
-    | readonly number[]
-    | readonly boolean[]
-    | null
-    | undefined;
+  | number
+  | boolean
+  | readonly number[]
+  | readonly boolean[]
+  | null
+  | undefined;
   verifiedAiTools: string;
   profilePicture: string;
 }
@@ -146,10 +144,7 @@ export default function Payout() {
   }, []);
 
   useEffect(() => {
-    const headers = {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDEyIiwiZW1haWxJZCI6ImhhcGFuaWRoYXJtaXRAZ21haWwuY29tIiwiaWF0IjoxNzA4NDMzMzIzLCJleHAiOjE3MDg0MzY5MjN9.zN37LyIv0Iph-jSijnVVzzqz9LSMTKXmGNx0QqwZakM",
-    };
+    const headers = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`};    
 
     const fetchData = async () => {
       try {
@@ -157,7 +152,6 @@ export default function Payout() {
           `${process.env.NEXT_PUBLIC_API_URL}myteam/getHiredData?userId=RH_0000012`,
           { headers }
         );
-        console.log(hiredResponse.data);
         if (hiredResponse.data.hiredData) {
           const hiredDataToSet = Array.isArray(hiredResponse.data.hiredData)
             ? hiredResponse.data.hiredData
@@ -173,7 +167,7 @@ export default function Payout() {
 
         // Fetch recommendation data
         const recommendationResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}myteam/getRecommendationData?userId=RH_0000001`,
+          `${process.env.NEXT_PUBLIC_API_URL}myteam/getRecommendationData`,
           { headers }
         );
 
@@ -209,7 +203,7 @@ export default function Payout() {
         {/* < heading section > */}
         <div className="flex items-center justify-between  ">
           <h1 className="text-3xl font-bold text-[#000] dark:text-[#fff] ">
-            My Team
+           {Strings.MY_TEAM}
           </h1>
           <a href="/apps/hire-new-talent">
             <button className="nav-item grou- mt-[20px]- flex items-center rounded-full bg-white  py-4 text-base shadow-md dark:bg-[#8d3f42] xs:px-[10px] md:px-8">
@@ -240,11 +234,10 @@ export default function Payout() {
             <Tab as={Fragment}>
               {({ selected }) => (
                 <button
-                  className={` text-[15px] text-[#000] dark:text-white ${
-                    selected
-                      ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 outline-none  "
-                      : ""
-                  }
+                  className={` text-[15px] text-[#000] dark:text-white ${selected
+                    ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 outline-none  "
+                    : ""
+                    }
                   px-4 py-3`}
                 >
                   {Strings.HIRED}
@@ -254,11 +247,10 @@ export default function Payout() {
             <Tab as={Fragment}>
               {({ selected }) => (
                 <button
-                  className={`${
-                    selected
-                      ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 outline-none   "
-                      : ""
-                  }
+                  className={`${selected
+                    ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 outline-none   "
+                    : ""
+                    }
                   px-4 py-3 text-[15px] text-[#000] dark:text-white`}
                 >
                   {Strings.Recommendation}
@@ -288,16 +280,14 @@ export default function Payout() {
                                 workingHoursInDay:
                                   item?.userData?.overview?.workingHoursInDay,
                                 workType: item?.userData?.typeOfEngagement,
-                                monthlySalary: item?.monthlySalary,
+                                monthlySalary: item?.monthlySalary?.toLocaleString(),
                                 bonusGiven: item?.totalBonusGiven,
-                                sentOn: item?.bonusHistory?.map(
-                                  (ele: { date: any }) => ele?.date
-                                ),
+                                sentOn: item?.bonusHistory[0]?.date,
                                 amount: item.bonusHistory
                                   ? item.bonusHistory.map(
-                                      (ele: { bonusAmount: any }) =>
-                                        ele?.bonusAmount
-                                    )
+                                    (ele: { bonusAmount: any }) =>
+                                      ele?.bonusAmount
+                                  )
                                   : [],
                                 raise: item?.raiseHistory?.[0]?.raiseAmount,
                                 raise_two: item?.raiseHistory?.[1]?.raiseAmount,
@@ -380,7 +370,19 @@ export default function Payout() {
 
                               <div>
                                 <text className="text-lg  font-bold text-black dark:text-white">
-                                  ${item.userData.hourlyRate}/month
+                                  {item?.monthlySalary != null &&
+                                    !isNaN(Number(item?.monthlySalary)) ? (
+                                    <>
+                                      {Number(item?.monthlySalary) >= 1000
+                                        ? `$${(
+                                          Number(item?.monthlySalary) / 1000
+                                        ).toFixed(1)}k`
+                                        : `$${item?.monthlySalary}`}
+                                      /month
+                                    </>
+                                  ) : (
+                                    "Monthly payment not available"
+                                  )}
                                 </text>
                               </div>
                             </div>
@@ -398,14 +400,14 @@ export default function Payout() {
                         className="h-[150px] w-[150px]"
                       />
                       <h1 className="my-4 text-[22px] font-bold text-[#000] dark:text-white">
-                        No data found!
+                        {Strings.NOTHING_FOUND}
                       </h1>
                       <p className="text-[18px] font-bold text-[#000] dark:text-white">
-                        No hires made yet, click below to get{" "}
+                        {Strings.NO_HIRES_MADE}{" "}
                       </p>
                       <p className="text-[18px] font-bold leading-normal text-[#000] dark:text-white">
                         {" "}
-                        started
+                        {Strings.STARTED}
                       </p>
                       <a href="/apps/hire-new-talent">
                         <button className="nav-item grou- mt-[20px] flex items-center rounded-full bg-white  px-8 py-4 text-base shadow-md dark:bg-[#8d3f42]">
@@ -542,12 +544,12 @@ export default function Payout() {
                               <div>
                                 <text className="text-lg  font-bold text-black dark:text-white">
                                   {item?.monthlyPayment != null &&
-                                  !isNaN(Number(item?.monthlyPayment)) ? (
+                                    !isNaN(Number(item?.monthlyPayment)) ? (
                                     <>
                                       {Number(item?.monthlyPayment) >= 1000
                                         ? `$${(
-                                            Number(item?.monthlyPayment) / 1000
-                                          ).toFixed(1)}k`
+                                          Number(item?.monthlyPayment) / 1000
+                                        ).toFixed(1)}k`
                                         : `$${item.monthlyPayment}`}
                                       /month
                                     </>
@@ -566,7 +568,7 @@ export default function Payout() {
                   <>
                     <div>
                       <p className="my-[5px] text-[18px] text-[#000] dark:text-white">
-                        These are the recommendations based on your requirements
+                        {Strings.THESE_ARE_RECOMEND}
                       </p>
                     </div>
                     <div className="  flex h-[70vh] w-full items-center justify-center">

@@ -1,5 +1,6 @@
 // pages/index.tsx
 
+import { Strings } from "@/constants";
 import { useState } from "react";
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
   const [output, setOutput] = useState("");
 
   const compileCode = async () => {
-    const response = await fetch("http://localhost:3001/compile", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}compile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,24 +29,24 @@ export default function Home() {
         onChange={(e) => setCode(e.target.value)}
       ></textarea>
       <div>
-        <label>Language:</label>
+        <label>{Strings.Language}</label>
         <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-          <option value="javascript">JavaScript</option>
-          <option value="python">Python</option>
-          <option value="cpp">C++</option>
+          <option value="javascript">{Strings.JavaScript}</option>
+          <option value="python">{Strings.Python}</option>
+          <option value="cpp">{Strings.C_PLUS}</option>
         </select>
       </div>
       <div>
-        <label>Input:</label>
+        <label>{Strings.Input}</label>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
       </div>
-      <button onClick={compileCode}>Run Code</button>
+      <button onClick={compileCode}>{Strings.Run_Code}</button>
       <div>
-        <strong>Output:</strong>
+        <strong>{Strings.Output}</strong>
         <pre>{output}</pre>
       </div>
     </div>

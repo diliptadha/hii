@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { LabelComponent } from "../components/label";
 import axios from "axios";
+import { Strings } from "@/constants";
 
-export default function GiveBounsModal({ isOpen, closeModal }) {
+interface GiveBonus {
+  closeModal: () => void;
+  isOpen: any
+}
+
+const GiveBounsModal: React.FC<GiveBonus> = ({ isOpen, closeModal }) => {
   const [isOpenn, setIsOpenn] = useState(false);
-  const [clickedNumber, setClickedNumber] = useState(null);
+  const [clickedNumber, setClickedNumber] = useState<string>("");
   const [customValue, setCustomValue] = useState(""); // Set initial value to "$"
   const [showInput, setShowInput] = useState(false);
 
@@ -31,7 +37,7 @@ export default function GiveBounsModal({ isOpen, closeModal }) {
     setClickedNumber(number[0].num);
   }
 
-  const handleButtonClick = (num) => {
+  const handleButtonClick = (num: any) => {
     if (num === "Other") {
       setShowInput(true);
       setClickedNumber(num);
@@ -42,76 +48,58 @@ export default function GiveBounsModal({ isOpen, closeModal }) {
       setClickedNumber(num);
     }
   };
-const handleCustomInputChange = (event) => {
-  const inputValue = event.target.value;
+  const handleCustomInputChange = (event: any) => {
+    const inputValue = event.target.value;
 
-  // Check if the input is a valid format (e.g., "$" followed by digits)
-  if (/^\$?\d*$/.test(inputValue)) {
-    // Preserve the dollar sign if present, otherwise, add it
-    const newValue = inputValue.startsWith("$") ? inputValue : "$" + inputValue;
-    setCustomValue(newValue);
-  } else {
-    // Provide feedback to the user, e.g., display an error message
-    alert("Please enter numbers only.");
-  }
-};
+    // Check if the input is a valid format (e.g., "$" followed by digits)
+    if (/^\$?\d*$/.test(inputValue)) {
+      // Preserve the dollar sign if present, otherwise, add it
+      const newValue = inputValue.startsWith("$") ? inputValue : "$" + inputValue;
+      setCustomValue(newValue);
+    } else {
+      // Provide feedback to the user, e.g., display an error message
+      alert("Please enter numbers only.");
+    }
+  };
 
+  const handleSubmit = () => {
+    let bonusAmount;
 
+    if (clickedNumber === "Other") {
+      bonusAmount = parseInt(customValue.replace("$", ""), 10) || 0;
+    } else {
+      bonusAmount = parseInt(clickedNumber.replace("$", ""), 10) || 0;
+    }
 
-const handleSubmit = () => {
-  let bonusAmount;
+    if (!isNaN(bonusAmount)) {
+      const postData = {
+        bonusAmount: bonusAmount,
+      };
 
-  if (clickedNumber === "Other") {
-    bonusAmount = parseInt(customValue.replace("$", ""), 10) || 0;
-  } else {
-    bonusAmount = parseInt(clickedNumber.replace("$", ""), 10) || 0;
-  }
-
-  console.log("Custom value:", customValue);
-  console.log("Clicked number:", clickedNumber);
-  console.log("Parsed bonusAmount:", bonusAmount);
-
-  if (!isNaN(bonusAmount)) {
-    const postData = {
-      bonusAmount: bonusAmount,
-    };
-
-    console.log("Submitting postData:", postData);
-
-    axios
-      .post("https://api.eremotehire.com/myTeam/giveBonusData", postData, {
-        headers: { 
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJSSF8wMDAwMDAzIiwiZW1haWxJZCI6Ik5pcmRvc2hQYXRpbEBnbWFpbC5jb20iLCJpYXQiOjE3MDI3MjY3ODcsImV4cCI6MTcwMjczMDM4N30.aI1D1PjRpLt6YayBwlHw7kVxBQwJWijMAt_XwLn_nuU', 
-          'Content-Type': 'application/json'
-        },
-      })
-      .then((response) => {
-        console.log('datahhhhhhhhhhh', response.data);
-        // Check if the response indicates success
-        if (response.data.message === "Bonus give Successfully") {
-          const bonusData = response.data.bonusData;
-      
-          alert(`Bonus of ${bonusData.bonusAmount} successfully given to user ${bonusData.userId}.`);
-      
-          // Additional logic if needed, e.g., reset the form or update the UI
-        } else {
+      axios
+        .post(`${process.env.NEXT_PUBLIC_API_URL}myTeam/giveBonusData`, postData, {
+          headers: {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+        })
+        .then((response) => {
+          if (response.data.message === "Bonus give Successfully") {
+            const bonusData = response.data.bonusData;
+            alert(`Bonus of ${bonusData.bonusAmount} successfully given to user ${bonusData.userId}.`);
+          } else {
+            alert("Error submitting data. Please try again.");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
           alert("Error submitting data. Please try again.");
-        }
-        // setCustomValue("");
-        // setClickedNumber("");
-        
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Error submitting data. Please try again.");
-        // Handle error, show user feedback, etc.
-      });
-  } else {
-    alert("Please enter a valid number.");
-  }
-};
-
-
+          // Handle error, show user feedback, etc.
+        });
+    } else {
+      alert("Please enter a valid number.");
+    }
+  };
 
   return (
     <>
@@ -129,12 +117,11 @@ const handleSubmit = () => {
               {number.map((item, index) => (
                 <button
                   key={index}
-                  className={`mr-[5px] items-center rounded-lg bg-white px-8 py-2 shadow-md dark:bg-[#000] ${
-                    (item.num === "Other" && showInput) ||
+                  className={`mr-[5px] items-center rounded-lg bg-white px-8 py-2 shadow-md dark:bg-[#000] ${(item.num === "Other" && showInput) ||
                     clickedNumber === item.num
-                      ? "active border-2 border-[#8d3f42]"
-                      : ""
-                  }`}
+                    ? "active border-2 border-[#8d3f42]"
+                    : ""
+                    }`}
                   onClick={() => handleButtonClick(item.num)}
                 >
                   {item.num}
@@ -157,7 +144,7 @@ const handleSubmit = () => {
                   className="rounded-[25px] bg-white px-[20px] py-2 font-semibold text-[#000] shadow-md outline-none dark:bg-[#8d3f42] dark:text-[#fff]"
                   type="submit"
                 >
-                  Submit
+                  {Strings.Submit}
                 </button>
               </div>
             </div>
@@ -188,3 +175,5 @@ const handleSubmit = () => {
     </>
   );
 }
+
+export default GiveBounsModal

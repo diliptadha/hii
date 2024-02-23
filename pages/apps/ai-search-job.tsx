@@ -1,37 +1,30 @@
 import React, { useState } from "react";
 import { Images, Strings } from "../../constants";
-import { LabelComponent } from "../../components/label";
 import Loader from "../../components/Layouts/Loader";
 import Loaderr from "../../components/Layouts/Loader";
-import  {SendOutlined} from  "@ant-design/icons";
-
+import { SendOutlined } from "@ant-design/icons";
 
 const AIjob = () => {
   const [searchInput, setSearchInput] = useState("");
   const [showExampleQuestions, setShowExampleQuestions] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const handleExampleClick = (text) => {
+  const handleExampleClick = (text: any) => {
     setSearchInput(text);
     setShowExampleQuestions(false);
     setLoading(true);
     setTimeout(() => {
-      // Replace the following with your actual search logic
-      // For example: searchFunction(inputValue);
       setLoading(false);
     }, 1000); // Adjust the timeout based on your actual search time
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: any) => {
     const inputValue = e.target.value;
     setSearchInput(inputValue);
     setShowExampleQuestions(false);
     setLoading(true); // Show loader as soon as the user starts typing
 
-    // Simulate an asynchronous search operation
     setTimeout(() => {
-      // Replace the following with your actual search logic
-      // For example: searchFunction(inputValue);
       setLoading(false);
     }, 1000); // Adjust the timeout based on your actual search time
   };
@@ -45,10 +38,8 @@ const AIjob = () => {
     {
       id: "2",
       img_logo: Images.RAHULSAHAI ? (
-        // Render the image if Images.RAHULSAHAI is present
         <img src={Images.RAHULSAHAI} alt="Logo" className="h-[90px] w-[100px]" />
       ) : (
-        // Otherwise, render the SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -70,15 +61,12 @@ const AIjob = () => {
       summary:
         "Dharmit is a senior UI/UX designer with ten years of professional experience specializing in designing applications for startups. Nick believes that design is not about deliverables and beautiful pixels but solving problems and achieving business and user goals.",
     },
-    
 
     {
       id: "1",
       img_logo: Images.RAHULSAHAI ? (
-        // Render the image if Images.RAHULSAHAI is present
         <img src={Images.RAHULSAHAI} alt="Logo" className="h-[90px] w-[100px]" />
       ) : (
-        // Otherwise, render the SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -102,11 +90,9 @@ const AIjob = () => {
     },
     {
       id: "2",
-      img_logo: Images.RAHULSAHA ? (
-        // Render the image if Images.RAHULSAHAI is present
+      img_logo: Images.RAHULSAHAI ? (
         <img src={Images.RAHULSAHAI} alt="Rahul Sahai Logo" className="h-[90px] w-[100px]" />
       ) : (
-        // Otherwise, render a default icon or placeholder
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -128,14 +114,12 @@ const AIjob = () => {
       summary:
         "Dharmit is a senior UI/UX designer with ten years of professional experience specializing in designing applications for startups. Nick believes that design is not about deliverables and beautiful pixels but solving problems and achieving business and user goals.",
     },
-    
+
     {
       id: "2",
       img_logo: Images.RAHULSAHAI ? (
-        // Render the image if Images.RAHULSAHAI is present
         <img src={Images.RAHULSAHAI} alt="Logo" className="h-[90px] w-[100px]" />
       ) : (
-        // Otherwise, render the SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -160,10 +144,8 @@ const AIjob = () => {
     {
       id: "2",
       img_logo: Images.RAHULSAHAI ? (
-        // Render the image if Images.RAHULSAHAI is present
         <img src={Images.RAHULSAHAI} alt="Logo" className="h-[90px] w-[100px]" />
       ) : (
-        // Otherwise, render the SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -188,10 +170,8 @@ const AIjob = () => {
     {
       id: "2",
       img_logo: Images.RAHULSAHAI ? (
-        // Render the image if Images.RAHULSAHAI is present
         <img src={Images.RAHULSAHAI} alt="Logo" className="h-[90px] w-[100px]" />
       ) : (
-        // Otherwise, render the SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -216,10 +196,8 @@ const AIjob = () => {
     {
       id: "2",
       img_logo: Images.RAHULSAHAI ? (
-        // Render the image if Images.RAHULSAHAI is present
         <img src={Images.RAHULSAHAI} alt="Logo" className="h-[90px] w-[100px]" />
       ) : (
-        // Otherwise, render the SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -271,13 +249,10 @@ const AIjob = () => {
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                 />
               </svg>
-              {/* <button className="text-[#8D3F42] font-bold text-[14px]">Normal search</button> */}
               <input
                 className=" text-[#8D3F42] font-bold text-[14px] border-none outline-none"
                 type="text"
                 placeholder="Normal search"
-            
-               
               />
             </div>
             <div>
@@ -304,7 +279,7 @@ const AIjob = () => {
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                 />
               </svg>
-             
+
               <input
                 className="w-full overflow-visible border-none bg-transparent text-[16px]   text-[#000] outline-none dark:text-white "
                 type="text"
@@ -312,14 +287,12 @@ const AIjob = () => {
                 value={searchInput}
                 onChange={(e) => {
                   setSearchInput(e.target.value);
-                  // Trigger search function on input change
-                  // searchFunction(e.target.value);
                   setShowExampleQuestions(false);
                 }}
               />
             </div>
             <button className="mr-[10px] flex items-center justify-center rounded-[30px] bg-[#8D3F42] bg-opacity-[0.3] px-[18px] py-[10px] text-[#000] dark:text-[#fff] text-center">
-               {Strings.AI_SEARCH}{" "}
+              {Strings.AI_SEARCH}{" "}
               {loading && (
                 <div className="mr-2 inline-block">
                   <Loader />
@@ -345,7 +318,7 @@ const AIjob = () => {
           <div>
             <h2 className="mb-[20px] text-center text-[18px] font-bold text-[#000] dark:text-[#fff]">
               {" "}
-             {Strings.EXAMPLE}
+              {Strings.EXAMPLE}
             </h2>
             <div className="flex xs:w-full md:w-[450px]  flex-col items-center justify-center space-y-4 text-[16px]">
               <div
@@ -366,7 +339,7 @@ const AIjob = () => {
                   )
                 }
               >
-               {Strings.SECOND_EXAMPLE}
+                {Strings.SECOND_EXAMPLE}
               </div>
             </div>
           </div>
@@ -385,8 +358,8 @@ const AIjob = () => {
                   <button className="my-2 flex xs:w-full md:w-[650px]  flex-col items-center outline-none justify-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md">
                     <div className="flex w-full items-center justify-center  ">
                       <div className="rounded-full ">
-                       {item.img_logo}
-                      
+                        {item.img_logo}
+
                       </div>
                       <div className="w-full pl-2.5">
                         <div className=" flex flex-col items-start">
@@ -399,9 +372,6 @@ const AIjob = () => {
                                 {item.interview}
                               </div>
                             </div>
-                            {/* <text className="text-lg font-semibold text-black dark:text-white">
-                                {item.price}
-                              </text> */}
                           </div>
                           <div className="mb-[5px]">
                             <text className="text-[14px] leading-normal text-black dark:text-white">
@@ -414,7 +384,6 @@ const AIjob = () => {
                                 <button
                                   key={index}
                                   className=" mr-1 text-center flex justify-center  items-center rounded-full border-none bg-[#8D3F42] px-2 py-1.5 text-white transition duration-300 ease-in-out dark:shadow xs:text-sm"
-                                  //   onClick={() => handleSkillClick(skill)}
                                 >
                                   {skill}
                                 </button>
@@ -447,7 +416,7 @@ const AIjob = () => {
                     />
                   </div>
                   <div className="mr-[10px] cursor-pointer flex items-center justify-center  text-[#8D3F42] bg-opacity-[0.3] px-[12px] py-[10px] ">
-                  <SendOutlined rotate={-45} rev={undefined} />
+                    <SendOutlined rotate={-45} rev={undefined} />
                   </div>
                 </div>
               </div>

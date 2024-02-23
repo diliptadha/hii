@@ -11,19 +11,15 @@ import {
 import { Images, Strings } from "../../constants";
 import { format, isValid, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
-
 import { Bar } from "react-chartjs-2";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
 import GiveBounsModal from "../../components/Give-Bouns-Modal";
 import GiveRaiseModal from "../../components/Give-Raise-Modal";
 import { LabelComponent } from "../../components/label";
 import Loader from "../../components/Layouts/Loader";
 import React from "react";
-import Select from "react-select";
 import { Switch } from "antd";
 import { Tab } from "@headlessui/react";
-import { Tooltip } from "antd";
 import { useRouter } from "next/router";
 
 interface EducationDetail {
@@ -51,7 +47,6 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
-
   ArcElement,
   Legend
 );
@@ -85,15 +80,12 @@ export default function DeveloperDetails() {
   });
   const [loading, setLoading] = useState(true);
   const [showBouns, setShowBouns] = useState(true);
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenn, setIsOpenn] = useState(false);
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
   const longText = ` ${userData?.summary}`;
-
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -112,7 +104,6 @@ export default function DeveloperDetails() {
   const closeModall = () => {
     setIsOpenn(false);
   };
-  // console.log(router?.query, "queryyy");
   useEffect(() => {
     setUserData((prevUserData) => ({
       ...prevUserData,
@@ -185,6 +176,7 @@ export default function DeveloperDetails() {
       effective_on_two: `${userData?.effectiveOn_two} `,
     },
   ];
+
   const VettingResult = [
     {
       id: 0,
@@ -236,7 +228,6 @@ export default function DeveloperDetails() {
       value: userData.bonusGiven ? userData.bonusGiven : "-",
     },
   ];
-  // console.log("hyyyyyyy", userData);
 
   const Data = [
     {
@@ -361,6 +352,16 @@ export default function DeveloperDetails() {
     return `${day}/${month}/${year}`;
   };
 
+  let formatSentDate = "";
+  if (userData.sentOn) {
+    const dateObject = parseISO(userData.sentOn);
+    if (isValid(dateObject)) {
+      formatSentDate = format(dateObject, "MMM yyyy");
+    } else {
+      console.error("Invalid date:", userData.sentOn);
+    }
+  }
+
   let formatstartDate = "";
   if (userData.effectiveOn_two) {
     const dateObject = parseISO(userData.effectiveOn_two);
@@ -446,15 +447,12 @@ export default function DeveloperDetails() {
               <text className="text-black dark:text-[#fff] dark:group-hover:text-white-dark ltr:pl-3 rtl:pr-3">
                 {Strings.REPLACMENT_REQUSET}
               </text>
-              {/* <text className="mx-2">
-                {">" + " " + Strings.DEVELOPER_DETAILS}
-              </text> */}
             </button>
           </div>
           <div className="flex space-x-2 xs:hidden md:flex">
             <button className="nav-item group ">
               <text className="text-black  dark:text-[#fff] dark:group-hover:text-white-dark">
-                Ask for replacement
+                {Strings.ASK_FOR_REPLACEMENT}
               </text>
             </button>
 
@@ -514,14 +512,6 @@ export default function DeveloperDetails() {
             </div>
           </div>
         </div>
-
-        {/* {showBouns && (
-                <GiveBounsModal
-                  onCloseModal={() => setShowBouns(!showBouns)}
-                  showmodal={showBouns}
-                />
-              )} */}
-
         {/** < profile header > */}
         <button className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md  ">
           <div className="rounded-full  p-2">
@@ -554,7 +544,7 @@ export default function DeveloperDetails() {
                       />
                     </svg>
                     <text className="text-[#000] dark:text-[#fff]">
-                      compliantly hired
+                      {Strings.COMPLIANTLY_HIRED}
                     </text>
                   </button>
                   <button className="mr-[-5px] flex items-center rounded-xl border border-black px-2 py-1.5 shadow-sm dark:shadow">
@@ -582,7 +572,6 @@ export default function DeveloperDetails() {
                     {userData?.position}
                   </text>
                 </div>
-                {/* <text className="mr-3">{"Rate"}</text> */}
               </div>
               <div className="flex  w-full items-center justify-between">
                 <div className="flex items-center">
@@ -638,12 +627,10 @@ export default function DeveloperDetails() {
               <Tab key={index}>
                 {({ selected }) => (
                   <button
-                    className={`p-4 text-[15px] xs:w-[130px] md:w-full   ${
-                      selected
-                        ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 text-white outline-none "
-                        : ""
-                    } `}
-                    // onClick={() => setSelectedTabIndex(index)}
+                    className={`p-4 text-[15px] xs:w-[130px] md:w-full ${selected
+                      ? "bg-red-900- rounded-t-[5px] border-b-2 border-[#8D3F42] bg-[#8D3F42] bg-opacity-[.25] p-2 text-white outline-none "
+                      : ""
+                      } `}
                   >
                     {tab}
                   </button>
@@ -654,13 +641,12 @@ export default function DeveloperDetails() {
 
           <Tab.Panels>
             {/* < Overview tab section > */}
-
             <Tab.Panel>
               <div>
                 <div className="mt-3 flex items-center xs:flex-col xs:justify-center xs:space-y-2 md:flex-row md:justify-between md:space-y-0">
                   {useroverview.map((item) => {
                     return (
-                      <div className="xs:mx-width-[24rem] mx-[10px] w-full justify-between rounded-[10px]    bg-white  shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000] dark:shadow-none   md:max-w-[18rem] ">
+                      <div className="xs:mx-width-[24rem] mx-[10px] w-full justify-between rounded-[10px] bg-white  shadow-[4px_6px_10px_-3px_#bfc9d4] dark:bg-[#000] dark:shadow-none   md:max-w-[18rem] ">
                         <div className="px-4 py-7 ">
                           <div className="flex items-center justify-center">
                             <p className="text-center text-white-dark">
@@ -691,7 +677,7 @@ export default function DeveloperDetails() {
                               onClick={openModal}
                               className="cursor-pointer text-center text-blue-500"
                             >
-                              Give more bouns
+                              {Strings.GIVE_MORE_BONUS}
                             </h3>
                           )}
                         </div>
@@ -703,7 +689,7 @@ export default function DeveloperDetails() {
                   <div className="mt-8 justify-between  rounded-[10px]  bg-white p-2 shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:mx-[10px] md:w-2/4 ">
                     <div className="flex items-center justify-between">
                       <div className="mb-4 mt-2 flex items-center">
-                        <h1 className="mr-2 font-bold">PERFORMANCE</h1>
+                        <h1 className="mr-2 font-bold">{Strings.PERFORMANCE}</h1>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -720,8 +706,8 @@ export default function DeveloperDetails() {
                         </svg>
                       </div>
                       <select className="rounded-lg bg-transparent py-1.5">
-                        <option value="This Month">This Month</option>
-                        <option value="Next Month">Next Month</option>
+                        <option value="This Month">{Strings.THIS_MONTH}</option>
+                        <option value="Next Month">{Strings.NEXT_MONTH}</option>
                       </select>
                     </div>
                     <Bar
@@ -731,10 +717,9 @@ export default function DeveloperDetails() {
                     />
                   </div>
                   <div className="mt-8 justify-between rounded-[10px] bg-white p-2   shadow-[4px_6px_10px_-3px_#bfc9d4]  dark:bg-[#000] dark:shadow-sm xs:w-full md:mx-[10px] md:w-2/4 ">
-                    <h1 className="text-lg font-bold">WEEKLY SUMMARIES</h1>
+                    <h1 className="text-lg font-bold">{Strings.WEEKLY_SUMMARIE}</h1>
                     <p className=" my-1 text-white-dark">
-                      Weekly summeries data is only available from Dec 26th,2022
-                      & beyond.
+                      {Strings.WEEKLY_SUMMARY_DATA_BEYOND}
                     </p>
                     <div className="scrollbar-thin scrollbar-track-[#010314]  scrollbar-thumb-[#1a2941] no-scrollbar  flex h-72 flex-col overflow-y-scroll">
                       {weeklywork.map((items) => {
@@ -767,35 +752,27 @@ export default function DeveloperDetails() {
               <table className="table-hover mt-3">
                 <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white">
                   <tr>
-                    <th>Developer</th>
-                    <th>Role</th>
-                    <th>Amount</th>
-                    <th>Sent On</th>
+                    <th>{Strings.DEVELOPERR}</th>
+                    <th>{Strings.ROLE}</th>
+                    <th>{Strings.AMOUNT}</th>
+                    <th>{Strings.SENT_ON}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {BounsHistoryData?.length > 0 ? (
                     BounsHistoryData?.map((data, index) => {
-                      const sentOnDate = new Date(data?.senton);
-                      const formattedSentOn = sentOnDate.toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        }
-                      );
+                      // const sentOnDate = new Date(data?.senton);
+
                       return (
                         <tr key={index}>
                           <td>{userData?.name || "-"}</td>
                           <td>{userData?.position || "-"}</td>
 
-                          <td>{data?.amount || "-"}</td>
+                          <td>${data?.amount || "-"}</td>
 
                           <td>
-                            {/* {data?.senton} */}
                             <ul>
-                              <li>{formattedSentOn || "-"}</li>
+                              <li>{formatSentDate || "-"}</li>
                             </ul>
                           </td>
                         </tr>
@@ -803,7 +780,7 @@ export default function DeveloperDetails() {
                     })
                   ) : (
                     <div className="absolute  flex w-full items-center justify-center">
-                      <h1 className="my-4">No data available</h1>
+                      <h1 className="my-4">{Strings.NO_DATA_AVAILABLE}</h1>
                     </div>
                   )}
                 </tbody>
@@ -816,10 +793,10 @@ export default function DeveloperDetails() {
               <table className="table-hover mt-3">
                 <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white">
                   <tr>
-                    <th>Developer</th>
-                    <th>Role</th>
-                    <th>Raise</th>
-                    <th>Effective On</th>
+                    <th>{Strings.DEVELOPERR}</th>
+                    <th>{Strings.ROLE}</th>
+                    <th>{Strings.AMOUNT}</th>
+                    <th>{Strings.EFFECTIVE_ON}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -831,12 +808,10 @@ export default function DeveloperDetails() {
                           <td>{userData?.position || "-"}</td>
 
                           <td>
-                            <p>{data?.amount || "-"}</p>
-                            {/* <p>{data?.amount_two}</p> */}
+                            <p>${data?.amount || "-"}</p>
                           </td>
 
                           <td>
-                            {/* {data?.senton} */}
                             <ul>
                               <li>{formatEndDate || "-"}</li>
                             </ul>
@@ -847,12 +822,10 @@ export default function DeveloperDetails() {
                           <td>{userData?.position || "-"}</td>
 
                           <td>
-                            {/* <p>{data?.amount}</p> */}
-                            <p>{data?.amount_two || "-"}</p>
+                            <p>${data?.amount_two || "-"}</p>
                           </td>
 
                           <td>
-                            {/* {data?.senton} */}
                             <ul>
                               <li>{formatstartDate || "-"}</li>
                             </ul>
@@ -880,10 +853,10 @@ export default function DeveloperDetails() {
 
             <Tab.Panel>
               <div className="my-6 flex w-full flex-col  rounded-[10px] bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md   ">
-                <h1 className="text-xl font-bold">Benefits Sakshi getting</h1>
+                <h1 className="text-xl font-bold">{Strings.BENEFITS_SAKSHI}</h1>
                 <p className="my-1 text-sm font-normal">
-                  We take care of the developer's benefits so you don't have to.
-                  No extra fees for this.
+                 {Strings.WE_TAKE_CARE_DEV}
+                 {Strings.NO_EXTA_FEES}
                 </p>
                 <div className="flex flex-wrap">
                   {BenefitsData.map((items) => {
@@ -918,11 +891,10 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${
-                            selected
-                              ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
-                              : ""
-                          }
+                          className={`${selected
+                            ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
+                            : ""
+                            }
                     border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           {Strings.VETTING}
@@ -932,28 +904,26 @@ export default function DeveloperDetails() {
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${
-                            selected
-                              ? "nav-item group flex items-center rounded-[30px] bg-[#8d3f42]  px-[15px] py-2 text-white shadow-md"
-                              : ""
-                          }
+                          className={`${selected
+                            ? "nav-item group flex items-center rounded-[30px] bg-[#8d3f42]  px-[15px] py-2 text-white shadow-md"
+                            : ""
+                            }
                      -mb-[1px] flex h-10 items-center p-4 dark:hover:border-b-black dark:hover:text-white`}
                         >
-                          About
+                          {Strings.About}
                         </button>
                       )}
                     </Tab>
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
-                          className={`${
-                            selected
-                              ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
-                              : ""
-                          }
+                          className={`${selected
+                            ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
+                            : ""
+                            }
                     border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
-                          Experience
+                          {Strings.Experience}
                         </button>
                       )}
                     </Tab>
@@ -964,11 +934,10 @@ export default function DeveloperDetails() {
                         <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] xs:h-[450px] md:h-[430px] ">
                           <div className="p-8">
                             <p className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  ">
-                              Vetted Technical Skill
+                              {Strings.VETTED_TECHNICAL_SKILL}
                             </p>
                             <p className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 ">
-                              These are the skill we have explicity vetted for
-                              in the technical interview
+                              {Strings.THESE_ARE_SKILL}
                             </p>
                           </div>
                           <div className="rounded-[10px] border  border-[#8D3F42] border-opacity-25 xs:mx-[10px] md:ml-8 md:w-[500px]">
@@ -976,9 +945,9 @@ export default function DeveloperDetails() {
                               <table className="table-hover mt-3-">
                                 <thead className="sticky top-0 bg-[#8D3F42] bg-opacity-[.1] text-[#000] dark:text-white ">
                                   <tr className="xs:text-[12px] md:text-[14px]">
-                                    <th>SKILL</th>
-                                    <th>VETTING RESULT</th>
-                                    <th>YEAR OF EXPERIENCE</th>
+                                    <th>{Strings.SKILL}</th>
+                                    <th>{Strings.VETTING_RESULT}</th>
+                                    <th>{Strings.YEAR_OF_EXPERIENCE}</th>
                                   </tr>
                                 </thead>
                                 <tbody className="">
@@ -988,17 +957,16 @@ export default function DeveloperDetails() {
                                         <tr key={index}>
                                           <td>{data.skill || "-"}</td>
                                           <td
-                                            className={`bg-red-900-  ${
-                                              index === 0
-                                                ? "rounded-[10px] p-2 text-green-800"
-                                                : index === 1
+                                            className={`bg-red-900-  ${index === 0
+                                              ? "rounded-[10px] p-2 text-green-800"
+                                              : index === 1
                                                 ? "rounded-[10px] p-2 text-yellow-800"
                                                 : index === 2
-                                                ? "bg-green-600"
-                                                : index === 3
-                                                ? "bg-yellow-400"
-                                                : ""
-                                            }`}
+                                                  ? "bg-green-600"
+                                                  : index === 3
+                                                    ? "bg-yellow-400"
+                                                    : ""
+                                              }`}
                                           >
                                             {data.vetting_result || "-"}
                                           </td>
@@ -1014,7 +982,7 @@ export default function DeveloperDetails() {
                                   ) : (
                                     <div className="absolute  flex w-full items-center justify-center">
                                       <h1 className="my-4">
-                                        No data available
+                                        {Strings.NO_DATA_AVAILABLE}
                                       </h1>
                                     </div>
                                   )}
@@ -1113,7 +1081,7 @@ export default function DeveloperDetails() {
                         <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
                           <div className="p-8">
                             <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
-                              About Mihir
+                              {Strings.ABOUT_MIHIR}
                             </h2>
                             <div>
                               {userData?.summary ? (
@@ -1139,7 +1107,7 @@ export default function DeveloperDetails() {
                                   </div>
                                 )
                               ) : (
-                                <div>Data is available</div>
+                                <div>{Strings.NO_DATA_AVAILABLE}</div>
                               )}
                             </div>
                             <div className="mt-[20px] inline-flex items-center  rounded-3xl bg-[#8D3F42] px-4 py-2.5 text-[16px] font-normal text-[#fff]">
@@ -1176,7 +1144,7 @@ export default function DeveloperDetails() {
                         <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
                           <div className="p-8">
                             <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
-                              Education
+                              {Strings.EDUCATION}
                             </h2>
                             <div className="flex items-center gap-3 rounded-xl border border-[#8D3F42] p-4">
                               <div className="rounded-full">
@@ -1209,7 +1177,7 @@ export default function DeveloperDetails() {
                                 ) : (
                                   <div className="flex w-full justify-center">
                                     <p className=" text-base font-semibold">
-                                      No education details available
+                                      {Strings.NO_EDUCATION_DET}
                                     </p>
                                   </div>
                                 )}
@@ -1225,7 +1193,7 @@ export default function DeveloperDetails() {
                         <div className="rounded-[5px]-  max-h-[200px]- mt-3 w-full rounded-[10px] bg-white  shadow-md dark:bg-[#000] ">
                           <div className="p-8">
                             <h2 className="mb-[10px] text-[20px] leading-normal text-[#000] dark:text-[#fff]">
-                              Experience
+                              {Strings.EDUCATION}
                             </h2>
                             <div className="gap-3 rounded-xl border border-[#8D3F42]  p-4">
                               <div className="flex  xs:flex-col md:flex-row">
@@ -1259,7 +1227,7 @@ export default function DeveloperDetails() {
 
                                           <div className="mb-[10px]">
                                             <h3 className="mb-2 text-sm text-[#000] dark:text-[#fff]">
-                                              TECH STACKS USED
+                                              {Strings.TECH_STACKS_USED}
                                             </h3>
                                             <div>
                                               {experience.techStack.map(
@@ -1276,7 +1244,7 @@ export default function DeveloperDetails() {
                                           </div>
                                           <div className="mt-2">
                                             <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">
-                                              RESPONSIBILITIES
+                                              {Strings.RESPONSIBILITIES}
                                             </h3>
                                             <ul className="ml-[1.2rem] mt-2 text-sm font-light ">
                                               <li className="list-disc">
@@ -1290,7 +1258,7 @@ export default function DeveloperDetails() {
                                   ) : (
                                     <div className="flex h-full items-center">
                                       <p className="font-semibold  xs:text-sm  md:text-base">
-                                        No experience details available
+                                        {Strings.NO_EXP_DET}
                                       </p>
                                     </div>
                                   )}
@@ -1309,7 +1277,7 @@ export default function DeveloperDetails() {
               <div className="my-6 flex w-full flex-col items-center justify-center rounded-xl bg-white px-4 py-3 shadow-md  hover:border dark:bg-[#000] dark:shadow-md dark:hover:border dark:hover:border-[#8D3F42] ">
                 <div className="mx-2 my-2 flex  w-1/2 items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md">
                   <div className="flex items-center space-x-1">
-                    <text>Time Tracker</text>
+                    <text>{Strings.TIME_TRACKER}</text>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -1329,7 +1297,7 @@ export default function DeveloperDetails() {
                 </div>
                 <div className="mx-2 my-2 flex  w-1/2 items-center justify-between space-x-2 rounded-lg border px-3 py-3.5 shadow-md">
                   <div className="flex items-center space-x-1">
-                    <text>Weekly Summaries</text>
+                    <text>{Strings.WEEKLY_SUMMARIE}</text>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"

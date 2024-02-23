@@ -2,7 +2,6 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Images, Strings } from "@/constants";
 import React, { useEffect, useState } from "react";
-
 import { IRootState } from "@/store";
 import Image from "next/image";
 import { LabelComponent } from "@/components/label";
@@ -43,20 +42,6 @@ const formhireengineer = () => {
   const [selectedFind, setSelectedFind] = useState<string[]>([]);
   const [isError, setIsError] = useState(false);
   const themeConfig = useSelector((state: IRootState) => state.themeConfig);
-  // const [worktype, setWorktype] = useState(null);
-  // const sendDataToServer = (workType: React.SetStateAction<string | null>) => {
-  // Do something with the selected workType, such as storing it in state
-  // console.log(workType);}
-  // const tokens = JSON.parse(token);
-  // const userId = JSON.parse(userid);
-
-  // const handleWorkTypeButtonClick = (type: React.SetStateAction<string | null>) => {
-  //   if (data.WorkType === type) {
-  //     setData((data) => ({ ...data, WorkType: null }));
-  //   } else {
-  //     setData((data) => ({ ...data, WorkType: type }));
-  //   }
-  // };
 
   const handleSubmit = () => {
     let data = JSON.stringify({
@@ -70,15 +55,14 @@ const formhireengineer = () => {
       message: message,
       findUs: selectedFind,
     });
-    console.log(data, "dataaaaaa");
 
     let config = {
       method: "post",
-      maxBodyLength: Infinity,  
-      url: "https://api.eremotehire.com/hiretopengineer/addHireData",
+      maxBodyLength: Infinity,
+      url: `${process.env.NEXT_PUBLIC_API_URL}hiretopengineer/addHireData`,
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3B0b3hfMDAwMDAwMSIsInRva2VuX3ZlcnNpb24iOjg1LCJpYXQiOjE2OTE4NDQwNTAsImV4cCI6MTY5MTg0NzY1MH0.IDhGTQU8feTBM67SRj_Rmg0ohXVPRnZWK_jm3MqqUhY",
+          `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
         "Content-Type": "application/json",
       },
       data: data,
@@ -87,7 +71,6 @@ const formhireengineer = () => {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
       })
       .catch((error) => {
         console.log(error);
@@ -236,25 +219,6 @@ const formhireengineer = () => {
           : Images.Blockchain_Black,
     },
 
-    // {themeConfig.theme === "light" ? (
-    //   <Image
-    //   src={Images.FAV_ICON_BROWAN}
-    //   width={60}
-    //   height={60}
-    //   alt="Rahullogo"
-    //   className=''
-    // />
-    //      ) : (
-
-    //        <Image
-    //        src={Images.FAV_ICON_BROWAN}
-    //        width={60}
-    //        height={60}
-    //        alt="Rahullogo"
-    //        className=''
-    //      />
-    //      )}
-
     ...additionalOptions,
     {
       id: 9,
@@ -307,11 +271,6 @@ const formhireengineer = () => {
 
       setOptionCounter(optionCounter + 1);
       const setAdditionalOptions = () => [...additionalOptions, newOption];
-
-      // setSelectedOptions(
-      //   (prevSelectedOptions: any) =>
-      //     new Set<unknown>([...prevSelectedOptions, newOption.id])
-      // );
 
       // Update the optionModalData array by creating a new array with the existing data and the new option
       const updatedOptionModalData = [
@@ -372,11 +331,6 @@ const formhireengineer = () => {
       setOptionCounter1(optionCounter1 + 1);
       const setAdditionalOptions2 = () => [...additionalOptions2, newOption];
 
-      // setSelectedOptions2(
-      //   (prevSelectedOptions: any) =>
-      //     new Set<unknown>([...prevSelectedOptions, newOption.id])
-      // );
-
       // Update the optionModalData array by creating a new array with the existing data and the new option
       const updatedOptionModalData2 = [
         ...optionModalData2.slice(0, 5),
@@ -397,23 +351,6 @@ const formhireengineer = () => {
   return (
     <div>
       <div className="flex justify-center">
-        {/* <button
-          onClick={openModal}
-          className="rounded-full bg-gradient-to-t from-tosca to-contessa py-5 px-10 hover:from-gray-950 hover:to-CodGray"
-        >
-          <LabelComponent
-            label={Strings.HIRE_A_TOP_ENGINEER}
-            className="font-outfit font-light xs:text-xl lg:text-2xl text-white"
-          />
-        </button> */}
-        {/* <Image
-          src={Images.ARROWLONGTOSCO}
-          width={40}
-          height={40}
-          alt="Rahullogo"
-          onClick={openModal}
-          className="cursor-pointer"
-        /> */}
       </div>
 
       <div
@@ -496,7 +433,7 @@ const formhireengineer = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    B
+                    {Strings.B}
                   </div>
                   <div className="mr-7 font-semibold  text-gray-900  dark:text-white xs:text-base lg:text-[20px]">
                     {Strings.PART_TIME}
@@ -647,7 +584,7 @@ const formhireengineer = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    A
+                    {Strings.A}
                   </button>
                   <p className="font-semibold text-gray-900 dark:text-white xs:mr-16 xs:text-base lg:mr-[50px] lg:text-lg xl:mr-20">
                     1-2
@@ -685,7 +622,7 @@ const formhireengineer = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    B
+                    {Strings.B}
                   </button>
                   <p className="font-semibold text-gray-900 dark:text-white xs:mr-16 xs:text-base lg:mr-[50px] lg:text-lg xl:mr-20">
                     2-5
@@ -721,7 +658,7 @@ const formhireengineer = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    C
+                    {Strings.C}
                   </button>
                   <p className="font-semibold text-gray-900 dark:text-white xs:mr-16 xs:text-base lg:mr-[50px] lg:text-lg xl:mr-20">
                     5+
@@ -976,7 +913,7 @@ const formhireengineer = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    A
+                    {Strings.A}
                   </button>
                   <p className="mr-8 font-semibold text-gray-900 dark:text-white xs:text-base lg:text-lg lg:mr-[50px]- xl:mr-20-">
 
@@ -1011,7 +948,7 @@ const formhireengineer = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    B
+                    {Strings.B}
                   </button>
                   <p className="mr-8 font-semibold text-gray-900 dark:text-white xs:text-base lg:text-lg">
                     10-50
@@ -1045,7 +982,7 @@ const formhireengineer = () => {
                         : "text-black dark:text-white"
                       }`}
                   >
-                    C
+                    {Strings.C}
                   </button>
                   <p className="mr-8 font-semibold text-gray-900 dark:text-white xs:text-base lg:text-lg">
                     50+
@@ -1190,21 +1127,8 @@ const formhireengineer = () => {
                   </button>
                 </div>
               )}
-
-              {/* {findus.length === 0 && !isOtherSelected2 && (
-                  <p className="font-outfit text-red-500">
-                    Please select an option
-                  </p>
-                )} */}
-
               <div className="flex justify-center">
                 <button
-                  // onClick={() => {
-                  //   if (findus.length > 0 ) {
-                  //     setActiveModalPage(activeModalPage + 1);
-                  //     handleSubmit();
-                  //   }
-                  // }}
                   onClick={() => {
                     handleSubmit();
                     if (!(findus.length === 0 && !isOtherSelected2)) {
@@ -1247,16 +1171,6 @@ const formhireengineer = () => {
           )}
           {activeModalPage === 10 && (
             <div className="flex justify-center">
-              {/* <button
-                  className="rounded-l-full bg-gray-400 py-1 px-3 hover:bg-gray-600"
-                  onClick={() => {
-                    if (activeModalPage > 1) {
-                      setActiveModalPage(activeModalPage - 1);
-                    }
-                  }}
-                >
-                  <LeftOutlined />
-                </button> */}
               <div className=" space-y-4 text-center">
                 <div className="bg-gradient-to-r from-[#8d3f42] to-[#bc7666] bg-clip-text font-outfit font-bold text-transparent xs:text-[30px] xl:text-6xl">
                   {Strings.THANK_YOU_FOR}
