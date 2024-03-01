@@ -21,7 +21,6 @@ const generateUniqueId = () => {
 
 const technicalvetting: React.FC = () => {
   const router = useRouter();
-  const [showSecondLayout, setShowSecondLayout] = useState(false);
   const [step, setStep] = useState<number>(1);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);

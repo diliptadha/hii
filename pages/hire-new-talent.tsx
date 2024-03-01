@@ -2,10 +2,10 @@ import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { Images, Strings } from "@/constants";
 import { useEffect, useState } from "react";
 import Hiretopengineer from '@/components/Hire-Top-Engg';
-import { IRootState } from "../../store";
+import { IRootState } from "../store";
 import Image from "next/image";
 import Link from 'next/link';
-import Loader from "../../components/Layouts/Loader";
+import Loader from "../components/Layouts/Loader";
 import React from "react";
 import { useSelector } from 'react-redux';
 
@@ -34,7 +34,7 @@ export default function Reports() {
       <div className='dark:bg-red-200- dark:bg-[#000000] bg-white  w-full h-[70%] rounded xs:mt-[20px] md:my-[40px]'>
         <section className=" flex  flex-col items-center justify-center space-y-5 xs:p-0 md:p-[40px]">
           <Link href="/apps/hiretopeng">
-            <div className="justify-between dark:border-gray-700 xs:mt-4 m-auto xs:h-[90px] md:h-[140px] xs:w-[95%] md:w-[650px] dark:bg-gradient-to-l from-[#8D3F42] to-[#BC7666] flex items-center space-x-2 rounded-full border-none bg-white xs:p-4 md:p-6 shadow hover:shadow-lg- hover:shadow-[#8D3F42]- hover:scale-105   hover:ring-[#BC7666]- outline-none- dark:bg-[#000]  transition-shadow duration-500 hover-scale-svg">
+            <div className="justify-between dark:border-gray-700 xs:mt-4 m-auto xs:h-[90px] md:h-[140px] xs:w-[95%] md:w-[650px] dark:bg-gradient-to-l from-[#8D3F42] to-[#BC7666] flex items-center space-x-2 rounded-full border-none bg-white xs:p-4 md:p-6 shadow hover:shadow-lg- hover:shadow-[#8D3F42]- hover:scale-105 transition ease-in-out  hover:ring-[#BC7666]- hover:bg-[#f2a79619] outline-none- dark:bg-[#000]  duration-500 hover-scale-svg">
               <div className="bg-blue-200- justify-between- flex w-full items-center">
                 <div className='h-[80px] flex justify-center items-center  rounded-full '>
                   <div className="dark:bg-[#000000] bg-white rounded-full xs:p-[3px] md:p-4">
@@ -78,7 +78,7 @@ export default function Reports() {
             </div>
           </Link>
           <Link href="/apps/hireagency">
-            <div className="justify-between dark:border-gray-700 m-auto xs:h-[90px] md:h-[140px] xs:w-[95%] md:w-[650px] dark:bg-gradient-to-l from-[#8D3F42] to-[#BC7666] flex items-center space-x-2 rounded-full border-none bg-white  xs:p-4 md:p-6 shadow hover:shadow-lg- hover:shadow-[#8D3F42]- hover:scale-105   hover:ring-[#BC7666]- outline-none- dark:bg-[#000]  transition-shadow duration-500 hover-scale-svg">
+            <div className="justify-between dark:border-gray-700 m-auto xs:h-[90px] md:h-[140px] xs:w-[95%] md:w-[650px] dark:bg-gradient-to-l from-[#8D3F42] to-[#BC7666] flex items-center space-x-2 rounded-full border-none bg-white  xs:p-4 md:p-6 shadow hover:shadow-lg- hover:shadow-[#8D3F42]- hover:scale-105   hover:ring-[#BC7666]- outline-none- dark:bg-[#000] hover:bg-[#f2a79619] transition ease-in-out duration-500 hover-scale-svg">
 
               <div className="bg-blue-200- justify-between- flex w-full items-center">
                 <div className='h-[80px] flex justify-center items-center  rounded-full '>
@@ -123,7 +123,7 @@ export default function Reports() {
             </div>
           </Link>
           <Link href="/apps/gpt-vetting">
-            <div className="justify-between dark:border-gray-700 xs:mb-4 m-auto xs:h-[110px] md:h-[140px] xs:w-[95%] md:w-[650px] dark:bg-gradient-to-l from-[#8D3F42] to-[#BC7666] flex items-center space-x-2 rounded-full border-none bg-white  xs:p-4 md:p-6 shadow hover:shadow-lg- hover:shadow-[#8D3F42]- hover:scale-105   hover:ring-[#BC7666]- outline-none- dark:bg-[#000]  transition-shadow duration-500 hover-scale-svg">
+            <div className="justify-between dark:border-gray-700 xs:mb-4 m-auto xs:h-[110px] md:h-[140px] xs:w-[95%] md:w-[650px] dark:bg-gradient-to-l from-[#8D3F42] to-[#BC7666] flex items-center space-x-2 rounded-full border-none bg-white  xs:p-4 md:p-6 shadow hover:shadow-lg- hover:shadow-[#8D3F42]- hover:scale-105   hover:ring-[#BC7666]- outline-none- dark:bg-[#000] hover:bg-[#f2a79619] transition ease-in-out duration-500 hover-scale-svg">
 
               <div className="bg-blue-200- justify-between- flex w-full items-center">
                 <div className='h-[80px] flex justify-center items-center  rounded-full '>

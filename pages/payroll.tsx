@@ -1,12 +1,11 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "@/components/Layouts/Loader";
 import React from "react";
 import { Images, Strings } from "@/constants";
 import { useSelector } from "react-redux";
 import { IRootState } from "@/store";
-import { Image, Switch } from "antd";
+import { Image } from "antd";
 import { Tab } from "@headlessui/react";
-import { Bar } from "react-chartjs-2";
 import router from "next/router";
 import axios from "axios";
 
@@ -284,7 +283,7 @@ export default function Resources() {
                 />
               </svg>
               {isTooltipVisible && (
-                <p className="bg-white border w-[300px] h-[100x] absolute top-[40px] left-[-117px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
+                <p className="pl-[10px] pr-[10px] bg-white border w-[300px] h-[100x] absolute top-[40px] left-[-117px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
                   {Strings.POPUP_TEXT}
                 </p>
               )}
@@ -306,10 +305,13 @@ export default function Resources() {
                 >
                   {Strings.TOTAL_MONTHLY_PAYROLL}
                 </button>
-                <p className=" text-center text-[20px] font-bold text-black-500 dark:text-white select-none">
-                  {totalMonthlyPaymentData ? `$${totalMonthlyPaymentData.toLocaleString()}` : '-'}
-                </p>
-
+                {
+                  totalMonthlyPaymentData.length !== 0 ?
+                    <p className=" text-center text-[20px] font-bold text-black-500 dark:text-white select-none">
+                      ${totalMonthlyPaymentData.toLocaleString()}
+                    </p> :
+                    <h1 className="text-center text-[25px]">-</h1>
+                }
               </div>
             </div>
           </div>
@@ -325,9 +327,13 @@ export default function Resources() {
                 <button className="dark:text-white"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 -1 24 18" stroke-width="1.5" stroke="currentColor" className="w-5 h-5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                 </button>
-                <p className=" text-center text-[20px] font-bold text-black-500 dark:text-white select-none">
-                  {totalbonusData ? `$${totalbonusData.toLocaleString()}` : '-'}
-                </p>
+                {totalbonusData.length !== 0 ? (
+                  <p className=" text-center text-[20px] font-bold text-black-500 dark:text-white select-none">
+                    ${totalbonusData.toLocaleString()}
+                  </p>
+                ) : (
+                  <h1 className="text-center text-[25px]">-</h1>
+                )}
               </div>
             </div>
           </div>
@@ -364,9 +370,9 @@ export default function Resources() {
                         onClick={() =>
                           router.push(
                             {
-                              pathname: "/apps/developer-details",
+                              pathname: "/payroll/developer-details",
                             },
-                            "/apps/developer-details"
+                            "/payroll/developer-details"
                           )
                         }
                         className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 dark:bg-[#000] dark:shadow-md "
@@ -447,7 +453,7 @@ export default function Resources() {
                             <ul>
                               {data.paymentData.map((raise, index) => (
                                 <li key={index}>
-                                  {raise.amount && `$`}{raise.amount}
+                                  ${raise.amount}
                                 </li>
                               ))}
                             </ul>

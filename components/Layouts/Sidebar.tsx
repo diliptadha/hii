@@ -150,7 +150,7 @@ const Sidebar = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link href="/apps/my-team" className="group">
+                    <Link href="/my-team" className="group">
                       <div className="flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +175,7 @@ const Sidebar = () => {
                   </li>
 
                   <li className="nav-item">
-                    <Link href="/apps/hire-new-talent" className="group">
+                    <Link href="/hire-new-talent" className="group">
                       <div className="flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +199,7 @@ const Sidebar = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link href="/apps/search-talent" className="group">
+                    <Link href="/search-talent" className="group">
                       <div className="flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -223,7 +223,7 @@ const Sidebar = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link href="/apps/gpt-vetting" className="group">
+                    <Link href="/gpt-vetting" className="group">
                       <div className="flex items-center">
                         {/* <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -326,7 +326,7 @@ const Sidebar = () => {
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link href="/apps/payroll" className="group">
+                    <Link href="/payroll" className="group">
                       <div className="flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

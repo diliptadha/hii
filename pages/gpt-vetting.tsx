@@ -1,22 +1,13 @@
 import "react-datepicker/dist/react-datepicker.css";
 import {
-  ArrowLeftOutlined,
   CalendarOutlined,
   CloseOutlined,
-  CopyOutlined,
   DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
-  EditTwoTone,
   ExclamationCircleOutlined,
-  FilterTwoTone,
-  LeftOutlined,
   LinkOutlined,
   MailOutlined,
-  MenuOutlined,
-  PlusCircleOutlined,
-  RetweetOutlined,
-  RightOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import Customizecontent, {
@@ -25,28 +16,24 @@ import Customizecontent, {
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Images, Strings } from "@/constants";
 import Managetests, { toggleModal1 } from "@/components/Layouts/Managetests";
-import type { ModalInterface, ModalOptions } from "flowbite";
 import Quickdamo, { toggleModal2 } from "@/components/Layouts/Quickdamo";
 import { Radio, RadioChangeEvent } from "antd";
 import Upgradeplane, {
   UpgradeplaneProps,
 } from "@/components/Layouts/Upgradeplane";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { Checkbox } from "antd";
 import type { CheckboxProps } from "antd";
 import DatePicker from "react-datepicker";
 import Image from "next/image";
 import Loader from "@/components/Layouts/Loader";
-import { Modal } from "flowbite";
 import React from "react";
 import ReactPaginate from "react-paginate";
 import type { SizeType } from "antd/es/config-provider/SizeContext";
-import { Space } from "antd";
 import { Switch } from "antd";
 import { Tab } from "@headlessui/react";
 import { Tooltip } from "antd";
 import jsPDF from "jspdf";
-import moment from "moment";
 
 interface TableRowData {
   name: string;

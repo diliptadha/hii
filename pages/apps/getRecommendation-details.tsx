@@ -194,28 +194,35 @@ const RecommendationDeveloperDetails = () => {
               </div>
             </div>
             <div className="flex w-full items-center justify-between">
-              <div className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                  />
-                </svg>
-                <text className="mx-1">{userData?.country}</text>
-              </div>
+              {userData?.country ?
+                (
+                  <div className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                      />
+                    </svg>
+                    <text className="mx-1">{userData?.country}</text>
+                  </div>
+                ) : (
+                  <div></div>
+                )
+              }
+
               <text className="mr-[18px] text-lg font-semibold text-black dark:text-white">
                 {userData?.monthlyPayment != null && !isNaN(userData?.monthlyPayment) ? (
                   <>
@@ -307,23 +314,32 @@ const RecommendationDeveloperDetails = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {VettingResult?.length > 0 ? (
+                                {VettingResult ? (
                                   VettingResult?.map((data, index) => {
                                     return (
                                       <tr key={index}>
-                                        <td>{data.skill}</td>
-                                        <td className={``}>
-                                          <button className={`bg-red-900- ${index === 0 ? "text-green-800 p-2 rounded-[10px]" :
-                                            index === 1 ? "text-yellow-800 p-2 rounded-[10px]" :
-                                              index === 2 ? "bg-green-600" :
-                                                index === 3 ? "bg-yellow-400" :
-                                                  ""
-                                            }`}>
-                                            {data.vetting_result}
-                                          </button>
+                                        {data.skill ?
+                                          <td>{data.skill}</td> :
+                                          <td>-</td>
+                                        }
+                                        {data.vetting_result ?
+                                          <td className={``}>
+                                            <button className={`bg-red-900- ${index === 0 ? "text-green-800 p-2 rounded-[10px]" :
+                                              index === 1 ? "text-yellow-800 p-2 rounded-[10px]" :
+                                                index === 2 ? "bg-green-600" :
+                                                  index === 3 ? "bg-yellow-400" :
+                                                    ""
+                                              }`}>
+                                              {data.vetting_result}
+                                            </button>
+                                          </td> :
+                                          <td>-</td>
+                                        }
 
-                                        </td>
-                                        <td>{data.yearOfExperience}+ years</td>
+                                        {data.yearOfExperience ?
+                                          <td>{data.yearOfExperience}+ years</td> :
+                                          <td>-</td>
+                                        }
                                       </tr>
                                     );
                                   })
@@ -336,17 +352,22 @@ const RecommendationDeveloperDetails = () => {
                             </table>
                           </div>
                         </div>
-                        <div className="p-8 mb-[20px] bg-red-900-">
-                          <LabelComponent
-                            className="text-[20px] font-bold text-black dark:text-white"
-                            label="Technicial Interview notes:"
-                          />
-                          <LabelComponent
-                            className="font-outfit text-[16px] font-normal "
-                            label={userData?.technicalInterviewNotes}
-                          />
-                        </div>
+                        {userData?.technicalInterviewNotes ? (
+                          <div className="p-8 mb-[20px] bg-red-900-">
+                            <LabelComponent
+                              className="text-[20px] font-bold text-black dark:text-white"
+                              label="Technicial Interview notes:"
+                            />
+                            <LabelComponent
+                              className="font-outfit text-[16px] font-normal "
+                              label={userData?.technicalInterviewNotes}
+                            />
+                          </div>
+                        ) : (
+                          <div className="p-[20px]"></div>
+                        )}
                       </div>
+
                       <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white shadow-md dark:bg-[#000]  xs:h-[240px] md:h-[200px] ">
                         <div className="p-8">
                           <LabelComponent
@@ -355,37 +376,54 @@ const RecommendationDeveloperDetails = () => {
                           />
                           <LabelComponent
                             className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
-                            label="The candidate also has these skills,however,these have not been vetted by eremotehire "
+                            label="The candidate also has these skills, however, these have not been vetted by eremotehire "
                           />
                         </div>
-                        <div className="ml-8  inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white ">
-                          <LabelComponent
-                            label={userData?.otherTechnicalSkills?.[0]}
-                          />
-                        </div>
-                        <div className="ml-4  inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white ">
-                          <LabelComponent
-                            label={userData?.otherTechnicalSkills?.[1]}
-                          />
-                        </div>
+                        {userData?.otherTechnicalSkills?.length > 0 ? (
+                          <>
+                            <div className="ml-8 inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white ">
+                              <LabelComponent
+                                label={userData?.otherTechnicalSkills?.[0]}
+                              />
+                            </div>
+                            <div className="ml-4  inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white ">
+                              <LabelComponent
+                                label={userData?.otherTechnicalSkills?.[1]}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>
+                        )}
                       </div>
+
                       <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white shadow-md dark:bg-[#000]  xs:max:h-[430px] md:max:h-[400px] ">
                         <div className="p-8">
                           <LabelComponent
                             label="Soft Skill "
                             className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]"
                           />
-                          <div className="mt-[10px]">
-                            {
-                              userData.teckStack?.length > 0
-                                ? userData.teckStack.map((ele: any, index) => (
-                                  <div className=" mr-[16px] inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white mb-2 ">{ele}</div>
-                                ))
-                                : ""
-                            }
-                          </div>
+                          {userData?.teckStack[0] !== "" ? (
+                            <div className="mt-[10px]">
+                              {
+                                userData?.teckStack?.length > 0
+                                  ? userData.teckStack.map((ele: any, index) => (
+                                    <div className=" mr-[16px] inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white mb-2 ">{ele}</div>
+                                  ))
+                                  : (
+                                    <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>
+                                  )
+                              }
+                            </div>
+                          ) : (
+                            (
+                              <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>
+                            )
+                          )}
+
                         </div>
                       </div>
+
                       <div className="rounded-[5px]- mt-3 w-full rounded-[10px] bg-white shadow-md dark:bg-[#000]  xs:h-[200px]- md:h-[200px]- ">
                         <div className="p-8">
                           <LabelComponent
@@ -394,16 +432,24 @@ const RecommendationDeveloperDetails = () => {
                           />
                           <LabelComponent
                             className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
-                            label="These are AI tools that we have verified SmitSohagiya uses to increase productivity "
+                            label="These are AI tools that we have verified uses to increase productivity "
                           />
-                        </div>
-                        <div className="pl-[32px] pb-[32px]">
                           {
-                            userData.verifiedAiTools?.length > 0
-                              ? userData.verifiedAiTools.map((ele: any, index) => (
-                                <div className=" mr-[16px] inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white mb-2 ">{ele}</div>
-                              ))
-                              : ""
+                            userData?.verifiedAiTools[0] !== "" ? (
+                              <div className="mt-[20px]">
+                                {
+                                  userData?.verifiedAiTools?.length > 0
+                                    ? userData.verifiedAiTools.map((ele: any, index) => (
+                                      <div className=" mr-[16px] inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white mb-2 ">{ele}</div>
+                                    ))
+                                    : ""
+                                }
+                              </div>
+                            ) : (
+                              (
+                                <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>
+                              )
+                            )
                           }
                         </div>
                       </div>
@@ -414,67 +460,79 @@ const RecommendationDeveloperDetails = () => {
                     <div className="mt-3">
                       <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
                         <div className="p-8">
-                          <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">{userData.name}</h2>
-                          <div>
-                            {isExpanded ? (
-                              <div>
-                                {userData.summary}
-                                <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_Less}</button>
-                                <>
-                                </>
-                              </div>
-                            ) : (
-                              <div>
-                                {userData.summary.slice(0, 150)}
-                                <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_More}</button>
-                              </div>
-                            )}
-                          </div>
-                          <div className="py-2.5 px-4 text-[16px] text-white font-normal bg-[#8D3F42] mt-[20px] rounded-3xl inline-flex items-center">
-                            <button className="">
-                              {Strings.Background_checked}
+                          {userData.summary ? (
+                            <>
+                              <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">{userData.name}</h2>
 
-                            </button>
-                            <div className="relative">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                className="h-6 w-6 ml-[10px] cursor-pointer"
-                                onMouseEnter={() => setTooltipVisible(true)}
-                                onMouseLeave={() => setTooltipVisible(false)}
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
-                                />
-                              </svg>
-                              {isTooltipVisible && (
-                                <p className="bg-white border w-[300px] rounded-xl h-[100x]- absolute md:top-[-20px] md:left-[50px] xs:top-[40px] xs:left-[-185px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
-                                  {Strings.POPUP_TEXT_TWO}
-                                </p>
-                              )}
-                            </div>
-                          </div>
+                              <div>
+                                {isExpanded ? (
+                                  <div>
+                                    {userData.summary}
+                                    <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_Less}</button>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    {userData.summary.slice(0, 150)}
+                                    <button onClick={toggleExpand} className="text-[#8D3F42] text-[16px] font-bold">{Strings.Read_More}</button>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="py-2.5 px-4 text-[16px] text-white font-normal bg-[#8D3F42] mt-[20px] rounded-3xl inline-flex items-center">
+                                <button className="">
+                                  {Strings.Background_checked}
+                                </button>
+                                <div className="relative">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    className="h-6 w-6 ml-[10px] cursor-pointer"
+                                    onMouseEnter={() => setTooltipVisible(true)}
+                                    onMouseLeave={() => setTooltipVisible(false)}
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                    />
+                                  </svg>
+                                  {isTooltipVisible && (
+                                    <p className="ml-[10px] bg-white pl-[10px] pr-[10px] border w-[300px] rounded-xl h-[100x]- absolute md:top-[-20px] md:left-[50px] xs:top-[40px] xs:left-[-185px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
+                                      {Strings.POPUP_TEXT_TWO}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>
+                          )}
                         </div>
                       </div>
 
                       <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
                         <div className="p-8">
+
                           <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">{Strings.EDUCATION}</h2>
-                          <div className="border border-[#8D3F42] p-4 rounded-xl flex items-center gap-3">
-                            <div className="bg-blue-300- w-[100px] h-[90px]">
-                              <img src={userData.profile} className="rounded-[50%] w-[100%] h-[100%] overflow-hidden" />
-                            </div>
-                            <div>
-                              <h2 className="text-lg font-medium mb-2 text-[#000] dark:text-[#fff]">{userData.course} - {userData.department}</h2>
-                              <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">{userData.university}</h3>
-                              <p className="text-m mb-2 text-[#000] dark:text-[#fff]">{formattedStartDate} - {formattedEndDate}</p>
-                            </div>
-                          </div>
+                          {
+                            userData.course ? (
+                              <div className="border border-[#8D3F42] p-4 rounded-xl flex items-center gap-3">
+                                <div className="bg-blue-300- w-[100px] h-[90px]">
+                                  <img src={userData.profile} className="rounded-[50%] w-[100%] h-[100%] overflow-hidden" />
+                                </div>
+                                <div>
+                                  <h2 className="text-lg font-medium mb-2 text-[#000] dark:text-[#fff]">{userData.course} - {userData.department}</h2>
+                                  <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">{userData.university}</h3>
+                                  <p className="text-m mb-2 text-[#000] dark:text-[#fff]">{formattedStartDate} - {formattedEndDate}</p>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>
+                            )
+                          }
+
                         </div>
                       </div>
                     </div>
@@ -484,46 +542,60 @@ const RecommendationDeveloperDetails = () => {
                     <>
                       <div className="rounded-[5px]-  mt-3 w-full rounded-[10px] bg-white dark:bg-[#000]  shadow-md max-h-[200px]- ">
                         <div className="p-8">
+
                           <h2 className="text-[20px] text-[#000] dark:text-[#fff] leading-normal mb-[10px]">{Strings.Experience}
                           </h2>
-                          <div className="border border-[#8D3F42] p-4 rounded-xl  gap-3">
-                            <div className="flex  xs:flex-col md:flex-row">
-                              <div className="rounded-full bg-blue-300- p-2-">
-                                <img src={userData.profile} className="rounded-full w-[100px] h-[100px]" />
-                              </div>
-                              <div className="flex-1 pl-4" >
-                                <div className="flex bg-red-900- xs:my-[10px] md:my-0 bg-full- md:flex-row xs:flex-col md:justify-between md:items-center">
-                                  <div className="text-lg font-medium md:mb-2 text-[#000] dark:text-[#fff]">{userData.responsibility} at {userData.companyName}
+                          {
+                            userData.responsibility ? (
+                              <div className="border border-[#8D3F42] p-4 rounded-xl  gap-3">
+                                <div className="flex  xs:flex-col md:flex-row">
+                                  <div className="rounded-full bg-blue-300- p-2-">
+                                    <img src={userData.profile} className="rounded-full w-[100px] h-[100px]" />
                                   </div>
-                                  <div> {formatStartDate}-{formatEndDate}
-                                  </div>
-                                </div>
-
-                                <div className="mb-[10px]">
-                                  <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">{Strings.TECH_STACKS_USED}</h3>
-                                  <div>
-                                    {
-                                      userData.teckStack?.length > 0 ?
-                                        (
-                                          userData.teckStack.map((ele, index) => {
-                                            return (
-                                              <span className="text-xs dark:text-[#fff] text-[#000] mr-[6px] bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full mx-[10px]-">{ele}</span>
-                                            )
-                                          })
+                                  <div className="flex-1 pl-4" >
+                                    <div className="flex bg-red-900- xs:my-[10px] md:my-0 bg-full- md:flex-row xs:flex-col md:justify-between md:items-center">
+                                      {
+                                        userData.responsibility || userData.companyName ? (
+                                          <div className="text-lg font-medium md:mb-2 text-[#000] dark:text-[#fff]">{userData.responsibility} at {userData.companyName}
+                                          </div>
                                         ) : (
-                                          null)
-                                    }
+                                          ""
+                                        )
+                                      }
+                                      <div> {formatStartDate}-{formatEndDate}
+                                      </div>
+                                    </div>
+
+                                    <div className="mb-[10px]">
+                                      <h3 className="text-sm mb-2 text-[#000] dark:text-[#fff]">{Strings.TECH_STACKS_USED}</h3>
+                                      <div>
+                                        {
+                                          userData.teckStack?.length > 0 ?
+                                            (
+                                              userData.teckStack.map((ele, index) => {
+                                                return (
+                                                  <span className="text-xs dark:text-[#fff] text-[#000] mr-[6px] bg-[#8D3F42] bg-opacity-[.25] py-1.5 px-2.5 rounded-full mx-[10px]-">{ele}</span>
+                                                )
+                                              })
+                                            ) : (
+                                              null)
+                                        }
+                                      </div>
+                                    </div>
+                                    <div className="mt-2">
+                                      <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">{Strings.RESPONSIBILITIES}</h3>
+                                      <ul className="text-sm mt-2 font-light ml-[1.2rem] ">
+                                        <li className="list-disc">{userData.responsibility}</li>
+                                      </ul>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="mt-2">
-                                  <h3 className="text-sm font-medium text-[#000] dark:text-[#fff]">{Strings.RESPONSIBILITIES}</h3>
-                                  <ul className="text-sm mt-2 font-light ml-[1.2rem] ">
-                                    <li className="list-disc">{userData.responsibility}</li>
-                                  </ul>
-                                </div>
                               </div>
-                            </div>
-                          </div>
+                            ) : (
+                              <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>
+                            )
+                          }
+
                         </div>
                       </div>
                     </>

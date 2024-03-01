@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Loader from "../../components/Layouts/Loader";
+import Loader from "../components/Layouts/Loader";
 import React from "react";
-import { Images, Strings } from "../../constants";
-import Filtermodal from "../../components/filter-popup";
+import { Images, Strings } from "../constants";
+import Filtermodal from "../components/filter-popup";
 import Link from "next/link";
 
 export default function SearchTalent() {

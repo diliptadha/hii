@@ -1,13 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import { Images, Strings } from "../../constants";
-import Image from "next/image";
-import Loader from "../../components/Layouts/Loader";
+import { Images, Strings } from "../constants";
+import Loader from "../components/Layouts/Loader";
 import React from "react";
-import { ReactSortable } from "react-sortablejs";
 import { Tab } from "@headlessui/react";
 import axios from "axios";
-import { t } from "i18next";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface UserData {
   experienceDetails: any;
@@ -34,10 +32,8 @@ interface UserData {
   | null
   | undefined;
   monthlySalary:
-  | string
   | number
   | boolean
-  | readonly string[]
   | readonly number[]
   | readonly boolean[]
   | null
@@ -144,7 +140,7 @@ export default function Payout() {
   }, []);
 
   useEffect(() => {
-    const headers = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`};    
+    const headers = { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}` };
 
     const fetchData = async () => {
       try {
@@ -203,9 +199,9 @@ export default function Payout() {
         {/* < heading section > */}
         <div className="flex items-center justify-between  ">
           <h1 className="text-3xl font-bold text-[#000] dark:text-[#fff] ">
-           {Strings.MY_TEAM}
+            {Strings.MY_TEAM}
           </h1>
-          <a href="/apps/hire-new-talent">
+          <a href="/hire-new-talent">
             <button className="nav-item grou- mt-[20px]- flex items-center rounded-full bg-white  py-4 text-base shadow-md dark:bg-[#8d3f42] xs:px-[10px] md:px-8">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -269,7 +265,7 @@ export default function Payout() {
                         onClick={() =>
                           router.push(
                             {
-                              pathname: "/apps/developer-details",
+                              pathname: "/payroll/developer-details",
                               query: {
                                 profilePicture: item?.userData?.profilePicture,
                                 name: item?.userData.firstName,
@@ -280,7 +276,7 @@ export default function Payout() {
                                 workingHoursInDay:
                                   item?.userData?.overview?.workingHoursInDay,
                                 workType: item?.userData?.typeOfEngagement,
-                                monthlySalary: item?.monthlySalary?.toLocaleString(),
+                                monthlySalary: item?.monthlySalary,
                                 bonusGiven: item?.totalBonusGiven,
                                 sentOn: item?.bonusHistory[0]?.date,
                                 amount: item.bonusHistory
@@ -313,20 +309,28 @@ export default function Payout() {
                                 summary: item?.userData?.summary,
                               },
                             },
-                            "/apps/developer-details"
+                            "/myTeam/developer-details"
                           )
                         }
                         className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md "
                       >
                         <div className="rounded-full p-2">
-                          <img
-                            src={
-                              item.userData.profilePicture ||
-                              "/Images/Avtar.png"
-                            }
-                            alt="profile"
-                            className="w-[130px] rounded-full xs:h-[85px] md:h-[115px]"
-                          />
+                          {
+                            item.userData.profilePicture.length > 0 ? (
+                              <img
+                                src={item.userData.profilePicture}
+                                alt="profile"
+                                className="w-[130px] rounded-full xs:h-[85px] md:h-[115px]"
+                              />
+                            ) : (
+                              <img
+                                src="/Images/Avtar.png"
+                                alt="profile"
+                                className="w-[130px] rounded-full xs:h-[85px] md:h-[115px]"
+                              />
+                            )
+                          }
+
                         </div>
                         <div className="w-full pl-2.5">
                           <div className=" flex flex-col items-start">
@@ -409,7 +413,7 @@ export default function Payout() {
                         {" "}
                         {Strings.STARTED}
                       </p>
-                      <a href="/apps/hire-new-talent">
+                      <a href="/hire-new-talent">
                         <button className="nav-item grou- mt-[20px] flex items-center rounded-full bg-white  px-8 py-4 text-base shadow-md dark:bg-[#8d3f42]">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -486,19 +490,19 @@ export default function Payout() {
                                   item.experienceDetails[0]?.startDate,
                                 endDate2: item.experienceDetails[0]?.endDate,
                                 summary: item.userData?.summary,
-                                monthlyPayment: item.monthlyPayment,
+                                monthlyPayment: item?.monthlyPayment,
                               },
                             },
-                            "getRecommendation-details"
+                            "/myTeam/getRecommendation-details"
                           )
                         }
                         className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md "
                       >
-                        <div className="bg-blue-300- p-2- rounded-full">
+                        <div className="bg-blue-300- p-2-">
                           <img
-                            src={item.userData.profilePicture}
+                            src={item.userData.profilePicture || "/Images/Avtar.png" }
                             alt="profile"
-                            className="w-[130px] rounded-full xs:h-[95px] md:h-[120px]"
+                            className="w-[130px] rounded-full xs:h-[85px] md:h-[115px]"
                           />
                         </div>
                         <div className="w-full pl-2.5">
@@ -516,30 +520,36 @@ export default function Payout() {
                               </text>
                             </div>
                             <div className="flex  w-full items-center justify-between">
-                              <div className="flex items-center">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="h-6 w-6"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                                  />
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                                  />
-                                </svg>
-                                <text className="mx-1-">
-                                  {item.userData.country}
-                                </text>
-                              </div>
+                              {
+                                item.userData.country ? (
+                                  <div className="flex items-center">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      strokeWidth={1.5}
+                                      stroke="currentColor"
+                                      className="h-6 w-6"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                                      />
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                                      />
+                                    </svg>
+                                    <text className="mx-1-">
+                                      {item.userData.country}
+                                    </text>
+                                  </div>
+                                ) : (
+                                  <div></div>
+                                )
+                              }
 
                               <div>
                                 <text className="text-lg  font-bold text-black dark:text-white">

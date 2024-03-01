@@ -38,9 +38,9 @@ interface ExperienceDetail {
   responsibility: string;
 }
 
-interface SalaryDisplayProps {
-  salary: number;
-}
+// interface SalaryDisplayProps {
+//   salary: number;
+// }
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -69,7 +69,7 @@ export default function DeveloperDetails() {
     yearOfExperience: "",
     yearOfExperience_two: "",
     workType: "",
-    monthlySalary: "",
+    monthlySalary: null,
     bonusGiven: "",
     effectiveOn: "",
     effectiveOn_two: "",
@@ -225,7 +225,7 @@ export default function DeveloperDetails() {
     {
       id: 3,
       title: "BONUS GIVEN",
-      value: userData.bonusGiven ? userData.bonusGiven : "-",
+      value: userData.bonusGiven ? `$${userData.bonusGiven}` : "-",
     },
   ];
 
@@ -321,12 +321,8 @@ export default function DeveloperDetails() {
   const tooltipContent2 = (
     <span className="text-xs ">{Strings.POPUP_TEXT_TWO}</span>
   );
-  const [educationDetails, setEducationDetails] = useState<EducationDetail[]>(
-    []
-  );
-  const [experienceDetails, setExperienceDetails] = useState<
-    ExperienceDetail[]
-  >([]);
+  const [educationDetails, setEducationDetails] = useState<EducationDetail[]>([]);
+  const [experienceDetails, setExperienceDetails] = useState<ExperienceDetail[]>([]);
 
   useEffect(() => {
     const { educationDetails, experienceDetails } = router.query;
@@ -394,19 +390,18 @@ export default function DeveloperDetails() {
     } else {
       console.error("Invalid date:", dateString);
     }
-
     return formattedDate;
   }
 
-  function SalaryDisplay({ salary }: SalaryDisplayProps) {
-    const salaryInK =
-      salary >= 1000 ? `${(salary / 1000).toFixed(1)}k` : salary;
-    return (
-      <div className="text-lg font-semibold text-black dark:text-white">
-        ${salaryInK}/month
-      </div>
-    );
-  }
+  // function SalaryDisplay({ salary }: SalaryDisplayProps) {
+  //   const salaryInK =
+  //     salary >= 1000 ? `${(salary / 1000).toFixed(1)}k` : salary;
+  //   return (
+  //     <div className="text-lg font-semibold text-black dark:text-white">
+  //       ${salaryInK}/month
+  //     </div>
+  //   );
+  // }
 
   return loading ? (
     <div>
@@ -599,13 +594,17 @@ export default function DeveloperDetails() {
                   <text className="mx-1">{userData?.country}</text>
                 </div>
                 <text className="text-lg font-semibold text-black dark:text-white">
-                  <SalaryDisplay
-                    salary={
-                      userData?.monthlySalary
-                        ? parseFloat(userData.monthlySalary)
-                        : 0
-                    }
-                  />
+                  {userData?.monthlySalary != null && !isNaN(userData?.monthlySalary) ? (
+                    <>
+                      {userData.monthlySalary >= 1000
+                        ? `$${(userData.monthlySalary / 1000).toFixed(1)}k`
+                        : `$${userData.monthlySalary}`}
+                      /month
+                    </>
+                  ) : (
+                    "Monthly payment not available"
+                  )}
+
                 </text>
               </div>
             </div>
@@ -761,15 +760,14 @@ export default function DeveloperDetails() {
                 <tbody>
                   {BounsHistoryData?.length > 0 ? (
                     BounsHistoryData?.map((data, index) => {
-                      // const sentOnDate = new Date(data?.senton);
-
                       return (
                         <tr key={index}>
                           <td>{userData?.name || "-"}</td>
                           <td>{userData?.position || "-"}</td>
-
-                          <td>${data?.amount || "-"}</td>
-
+                          {data?.amount !== " " ?
+                            <td>${data.amount.toLocaleString()}</td> :
+                            <td>-</td>
+                          }
                           <td>
                             <ul>
                               <li>{formatSentDate || "-"}</li>
@@ -801,16 +799,16 @@ export default function DeveloperDetails() {
                 </thead>
                 <tbody>
                   {RaiseHistory && RaiseHistory.length > 0 ? (
+
                     RaiseHistory.map((data, index) => (
                       <>
                         <tr key={index}>
                           <td>{userData?.name || "-"}</td>
                           <td>{userData?.position || "-"}</td>
-
-                          <td>
-                            <p>${data?.amount || "-"}</p>
-                          </td>
-
+                          {data?.amount !== " " ?
+                            <td>${data.amount.toLocaleString()}</td> :
+                            <td>-</td>
+                          }
                           <td>
                             <ul>
                               <li>{formatEndDate || "-"}</li>
@@ -820,11 +818,10 @@ export default function DeveloperDetails() {
                         <tr key={index}>
                           <td>{userData?.name || "-"}</td>
                           <td>{userData?.position || "-"}</td>
-
-                          <td>
-                            <p>${data?.amount_two || "-"}</p>
-                          </td>
-
+                          {data?.amount_two !== " " ?
+                            <td>${data.amount_two.toLocaleString()}</td> :
+                            <td>-</td>
+                          }
                           <td>
                             <ul>
                               <li>{formatstartDate || "-"}</li>
@@ -855,8 +852,8 @@ export default function DeveloperDetails() {
               <div className="my-6 flex w-full flex-col  rounded-[10px] bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md   ">
                 <h1 className="text-xl font-bold">{Strings.BENEFITS_SAKSHI}</h1>
                 <p className="my-1 text-sm font-normal">
-                 {Strings.WE_TAKE_CARE_DEV}
-                 {Strings.NO_EXTA_FEES}
+                  {Strings.WE_TAKE_CARE_DEV}
+                  {Strings.NO_EXTA_FEES}
                 </p>
                 <div className="flex flex-wrap">
                   {BenefitsData.map((items) => {
@@ -887,15 +884,15 @@ export default function DeveloperDetails() {
             <Tab.Panel>
               <div>
                 <Tab.Group>
-                  <Tab.List className="flex- mt-3 inline-flex h-12 flex-wrap items-center justify-center rounded-[10px] bg-white dark:bg-[#000] xs:w-full md:w-[350px] ">
+                  <Tab.List className="flex- my-3 inline-flex  flex-wrap rounded-[10px] bg-white dark:bg-[#000]">
                     <Tab as={Fragment}>
                       {({ selected }) => (
                         <button
                           className={`${selected
-                            ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white "
+                            ? " ml-[2px] rounded-[30px] px-[15px]  py-[5px] text-white !outline-none dark:!border-b-black bg-[#8D3F42] dark:text-white "
                             : ""
                             }
-                    border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                            border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           {Strings.VETTING}
                         </button>
@@ -905,10 +902,10 @@ export default function DeveloperDetails() {
                       {({ selected }) => (
                         <button
                           className={`${selected
-                            ? "nav-item group flex items-center rounded-[30px] bg-[#8d3f42]  px-[15px] py-2 text-white shadow-md"
+                            ? "nav-item group flex items-center rounded-[30px] text-white px-[15px] py-2 shadow-md bg-[#8d3f42]"
                             : ""
                             }
-                     -mb-[1px] flex h-10 items-center p-4 dark:hover:border-b-black dark:hover:text-white`}
+                            border- -mb-[1px] block border-transparent p-4 py-3  dark:hover:border-b-black dark:hover:text-white`}
                         >
                           {Strings.About}
                         </button>
@@ -918,10 +915,10 @@ export default function DeveloperDetails() {
                       {({ selected }) => (
                         <button
                           className={`${selected
-                            ? " mr-[2px] rounded-[30px] px-[5px]  py-[5px] text-black !outline-none dark:!border-b-black dark:bg-[#8D3F42] dark:text-white"
+                            ? "mr-[2px] rounded-[30px] px-[15px]  py-[5px] text-white !outline-none dark:!border-b-black bg-[#8D3F42] dark:text-white"
                             : ""
                             }
-                    border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
+                            border- -mb-[1px] block border-transparent p-4 py-3 dark:hover:border-b-black dark:hover:text-white`}
                         >
                           {Strings.Experience}
                         </button>
@@ -1132,7 +1129,7 @@ export default function DeveloperDetails() {
                                   />
                                 </svg>
                                 {isTooltipVisible && (
-                                  <p className="h-[100x]- overflow-none absolute z-50 w-[300px] rounded-xl border bg-white text-[14px] font-normal leading-normal text-[#000] xs:left-[-185px] xs:top-[40px] md:left-[50px] md:top-[-20px]">
+                                  <p className="ml-[10px] bg-white pl-[10px] pr-[10px] border w-[300px] rounded-xl h-[100x]- absolute md:top-[-20px] md:left-[50px] xs:top-[40px] xs:left-[-185px] z-50 overflow-none text-[14px] leading-normal font-normal text-[#000]">
                                     {Strings.POPUP_TEXT_TWO}
                                   </p>
                                 )}

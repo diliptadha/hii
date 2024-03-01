@@ -73,44 +73,44 @@ const Header = () => {
   function createMarkup(messages: any) {
     return { __html: messages };
   }
-//   const [messages, setMessages] = useState([
-//     {
-//       id: 1,
-//       image:
-//         '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
-//       title: "Congratulations!",
-//       message: "Your OS has been updated.",
-//       time: "1hr",
-//     },
-//     {
-//       id: 2,
-//       image:
-//         '<span class="grid place-content-center w-9 h-9 rounded-full bg-info-light dark:bg-info text-info dark:text-info-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
-//       title: "Did you know?",
-//       message: "You can switch between artboards.",
-//       time: "2hr",
-//     },
-//     {
-//       id: 3,
-//       image:
-//         '<span class="grid place-content-center w-9 h-9 rounded-full bg-danger-light dark:bg-danger text-danger dark:text-danger-light"> <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
-//       title: "Something went wrong!",
-//       message: "Send Reposrt",
-//       time: "2days",
-//     },
-//     {
-//       id: 4,
-//       image:
-//         '<span class="grid place-content-center w-9 h-9 rounded-full bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
-//       title: "Warning",
-//       message: "Your password strength is low.",
-//       time: "5days",
-//     },
-//   ]);
+  //   const [messages, setMessages] = useState([
+  //     {
+  //       id: 1,
+  //       image:
+  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
+  //       title: "Congratulations!",
+  //       message: "Your OS has been updated.",
+  //       time: "1hr",
+  //     },
+  //     {
+  //       id: 2,
+  //       image:
+  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-info-light dark:bg-info text-info dark:text-info-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
+  //       title: "Did you know?",
+  //       message: "You can switch between artboards.",
+  //       time: "2hr",
+  //     },
+  //     {
+  //       id: 3,
+  //       image:
+  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-danger-light dark:bg-danger text-danger dark:text-danger-light"> <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
+  //       title: "Something went wrong!",
+  //       message: "Send Reposrt",
+  //       time: "2days",
+  //     },
+  //     {
+  //       id: 4,
+  //       image:
+  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
+  //       title: "Warning",
+  //       message: "Your password strength is low.",
+  //       time: "5days",
+  //     },
+  //   ]);
 
-  const removeMessage = (value: number) => {
-    setMessages(messages.filter((user) => user.id !== value));
-  };
+  // const removeMessage = (value: number) => {
+  //   setMessages(messages.filter((user) => user.id !== value));
+  // };
 
   const [notifications, setNotifications] = useState([
     {
@@ -145,26 +145,25 @@ const Header = () => {
 
   return (
     <header
-      className={`z-40 ${
-        themeConfig.semidark && themeConfig.menu === "horizontal" ? "dark" : ""
-      }`}
+      className={`z-40 ${themeConfig.semidark && themeConfig.menu === "horizontal" ? "dark" : ""
+        }`}
     >
       <div className="shadow-sm">
         <div className="bg-white relative flex w-full items-center px-5 py-2.5 dark:bg-[#000]">
           <div className="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
             <Link href="/" className="main-logo flex shrink-0 items-center">
-            {themeConfig.theme === "light" ? (
+              {themeConfig.theme === "light" ? (
                 <img className="inline w-[165px] h-[35px] ltr:-ml-1 rtl:-mr-1  " src={Images.REMOTEHIRELOGODark} alt="logo" />
-                  ) : (
-                    
-                    <img className="inline w-[165px] h-[35px] ltr:-ml-1 rtl:-mr-1  " src={Images.REMOTEHIRELOGO} alt="logo" />
-                  )}
+              ) : (
 
-                            
+                <img className="inline w-[165px] h-[35px] ltr:-ml-1 rtl:-mr-1  " src={Images.REMOTEHIRELOGO} alt="logo" />
+              )}
 
-                            
-                            {/* <span className="hidden align-middle text-2xl  font-semibold  transition-all duration-300 ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light md:inline">VRISTO</span> */}
-                        </Link>
+
+
+
+              {/* <span className="hidden align-middle text-2xl  font-semibold  transition-all duration-300 ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light md:inline">VRISTO</span> */}
+            </Link>
             {/* <Image src={Images.REMOTEHIRELOGO} alt='remotehire_logo' width={165} height={40}></Image> */}
             {/* <img
               className="inline h-[35px] w-[165px] ltr:-ml-1 rtl:-mr-1 "
@@ -199,10 +198,9 @@ const Header = () => {
             <div>
               {themeConfig.theme === "light" ? (
                 <button
-                  className={`${
-                    themeConfig.theme === "light" &&
+                  className={`${themeConfig.theme === "light" &&
                     "flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
-                  }`}
+                    }`}
                   onClick={() => dispatch(toggleTheme("dark"))}
                 >
                   <svg
@@ -278,10 +276,9 @@ const Header = () => {
               )}
               {themeConfig.theme === "dark" && (
                 <button
-                  className={`${
-                    themeConfig.theme === "dark" &&
+                  className={`${themeConfig.theme === "dark" &&
                     "flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
-                  }`}
+                    }`}
                   onClick={() => dispatch(toggleTheme("light"))}
                 >
                   <svg

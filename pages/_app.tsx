@@ -1,7 +1,7 @@
 // Perfect Scrollbar
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import '../styles/tailwind.css';
-import { ReactElement, ReactNode, Suspense } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import type { AppProps } from 'next/app';
 import DefaultLayout from '../components/Layouts/DefaultLayout';
 import Head from 'next/head';

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-
 import { IRootState } from "@/store";
-import Image from "next/image";
 import { Images } from "@/constants";
 import Loader from "@/components/Layouts/Loader";
 import React from "react";
@@ -17,7 +15,6 @@ export default function Index() {
   const [managerData, setManagerData] = useState<Managing | null>(null);
   const [hiredDataCount, setHiredDataCount] = useState<number>(0);
   const [userdataa, setUserdataa] = useState<UserData[]>([]);
-
 
   interface UserData {
     userData: any;
@@ -68,7 +65,6 @@ export default function Index() {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500);
-
 
     const fetchData = async () => {
 
@@ -176,7 +172,7 @@ export default function Index() {
           {Strings.DASHBOARD}
         </h1>
         <a
-          href="/apps/hire-new-talent"
+          href="/hire-new-talent"
           className="nav-item group flex items-center rounded-[45px] bg-white px-7 py-2 text-black shadow-md hover:text-blue-500 dark:bg-[#000] dark:text-[#fff] ltr:pl-3 rtl:pr-3 "
         >
           <svg
@@ -200,10 +196,10 @@ export default function Index() {
         </a>
       </div>
       <div>
-        <div className="flex w-full xs:flex-col md:flex-row justify-between">
-          <div className="dark:border-gray-700 mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] lg:mr-[10px] xl:mr-[20px] xs:w-full sm:w-[350px]  lg:w-full lg:max-w-[475px] xl:max-w-[720px] ">
+        <div className="flex w-full xs:flex-col md:flex-row md:gap-[20px] justify-between">
+          <div className="dark:border-gray-700 mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] xs:w-full lg:w-full xl:max-w-[720px] ">
             <div>
-              <a href="/apps/my-team">
+              <a href="/my-team">
                 <button className="dark:text-white mb-[15px] text-[14px] font-bold">
                   {Strings.HIRED_ENGINEERS}
                 </button>
@@ -218,7 +214,7 @@ export default function Index() {
               </p>
             </div>
           </div>
-          <div className="dark:border-gray-700- mb-[20px] space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] xs:w-full sm:w-[350px] lg:w-full lg:max-w-[475px] xl:max-w-[720px] ">
+          <div className="dark:border-gray-700- mb-[20px] space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] xs:w-full  lg:w-full  xl:max-w-[720px] ">
             <div>
               <div>
                 <h2 className="dark:text-gray mb-[15px] select-none text-[14px] font-bold">
@@ -243,7 +239,7 @@ export default function Index() {
                           </h5>
                         </a>
                         <div className="flex flex-col sm:flex-col xl:flex-row">
-                          <a href="#" className="mb-[5px] flex text-[16px] text-gray-500 dark:text-white">
+                          <a href={`mailto:${managerData.emailId}`} className="mb-[5px] flex text-[16px] text-gray-500 dark:text-white">
                             {themeConfig.theme === "light" ? (
                               <img className="inline h-[20px] w-[20px] mr-[5px]" src={Images.MSG_WHITE} alt="logo" />
                             ) : (
@@ -257,7 +253,7 @@ export default function Index() {
                           <strong className="mb-[5px] flex items-center px-[5px] dark:text-white xs:hidden sm:hidden lg:hidden xl:block">
                             |
                           </strong>
-                          <a href="#" className="inline-flex items-center text-[15px] hover:underline dark:text-white">
+                          <a href={`tel:${managerData.phoneNo}`} className="inline-flex items-center text-[15px] hover:underline dark:text-white">
                             {themeConfig.theme === "light" ? (
                               <img className="inline h-[18px] w-[18px] mr-[5px]" src={Images.PHONE_WHITE} alt="logo" />
                             ) : (
@@ -360,28 +356,32 @@ export default function Index() {
                       </text>
                     </div>
                     <div className="flex  w-full items-center justify-between">
-                      <div className="flex items-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="h-6 w-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                          />
-                        </svg>
-                        <text className="mx-1-">{item.userData.country}</text>
-                      </div>
+                      {item.userData.country ? (
+                        <div className="flex items-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                            />
+                          </svg>
+                          <text className="mx-1-">{item.userData.country}</text>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
 
                       <div>
                         <text className="text-lg  font-bold text-black dark:text-white">
@@ -408,16 +408,13 @@ export default function Index() {
           })
         ) : (
           <>
-            <div>
-
-            </div>
             <div className="  flex w-full items-center justify-center h-[70vh]">
               <div className="flex items-center flex-col">
                 <img src={Images.NOT_FOUND} alt="Payment_logo" className="w-[150px] h-[150px]" />
-                <h1 className="leading-normal text-xl font-bold dark:text-white text-[#000]">No hand picked</h1>
-                <p className="leading-normal text-[18px] font-bold dark:text-white text-[#000]">recommendations available</p>
-                <p className="text-[16px] font-bold dark:text-white text-[#000]">Create your first requirement to receive </p>
-                <p className="text-[16px] font-bold dark:text-white text-[#000] leading-normal">hand-picked recommendations.</p>
+                <h1 className="leading-normal text-xl font-bold dark:text-white text-[#000]">{Strings.NO_HANDPICKED}</h1>
+                <p className="leading-normal text-[18px] font-bold dark:text-white text-[#000]">{Strings.RECOMMENDATIONS}</p>
+                <p className="text-[16px] font-bold dark:text-white text-[#000]">{Strings.CREATE_YOUR_REQUIREMENT}</p>
+                <p className="text-[16px] font-bold dark:text-white text-[#000] leading-normal">{Strings.HAND_PICKED}</p>
                 <button className="nav-item grou- mt-[20px] flex items-center rounded-full text-base  bg-white px-8 py-4 shadow-md dark:bg-[#8d3f42]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
