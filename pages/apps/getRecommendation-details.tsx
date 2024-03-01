@@ -430,21 +430,22 @@ const RecommendationDeveloperDetails = () => {
                             label="Verified Ai Tools "
                             className="text-[25px] font-bold leading-normal text-black dark:text-[#fff]  "
                           />
-                          <LabelComponent
-                            className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 "
-                            label="These are AI tools that we have verified uses to increase productivity "
-                          />
                           {
                             userData?.verifiedAiTools[0] !== "" ? (
-                              <div className="mt-[20px]">
-                                {
-                                  userData?.verifiedAiTools?.length > 0
-                                    ? userData.verifiedAiTools.map((ele: any, index) => (
-                                      <div className=" mr-[16px] inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white mb-2 ">{ele}</div>
-                                    ))
-                                    : ""
-                                }
-                              </div>
+                              <>
+                                <h2 className="text-[16px] font-bold leading-normal text-black dark:text-gray-400 mb-[20px]">
+                                  These are AI tools that we have verified <span>{userData.name}</span> uses to increase productivity
+                                </h2>
+                                <div className="mt-[20px]">
+                                  {
+                                    userData?.verifiedAiTools?.length > 0
+                                      ? userData.verifiedAiTools.map((ele: any, index) => (
+                                        <div className=" mr-[16px] inline-flex rounded-[10px] border bg-white px-4 py-3 text-[14px] font-semibold text-[#000] dark:bg-[#000] dark:text-white mb-2 ">{ele}</div>
+                                      ))
+                                      : ""
+                                  }
+                                </div>
+                              </>
                             ) : (
                               (
                                 <div className="text-center">{Strings.NO_DATA_AVAILABLE}</div>

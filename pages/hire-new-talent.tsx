@@ -1,7 +1,6 @@
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import { Images, Strings } from "@/constants";
 import { useEffect, useState } from "react";
-import Hiretopengineer from '@/components/Hire-Top-Engg';
 import { IRootState } from "../store";
 import Image from "next/image";
 import Link from 'next/link';

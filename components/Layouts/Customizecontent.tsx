@@ -27,7 +27,6 @@ const Customizecontent = ({
   customizecontent: boolean;
   setCustomizecontent: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  // const [customizecontent, setCustomizecontent] = useState(false);
   const [managesavedtests, setManagesavedtests] = useState(false);
   const [managetests, setManagetests] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
@@ -67,10 +66,6 @@ const Customizecontent = ({
   const formats = [
     "bold",
     "italic",
-    // "underline",
-    // "list",
-    // "bullet",
-    // "ordered",
     "color",
     "header",
     "font",
@@ -80,8 +75,6 @@ const Customizecontent = ({
     toolbar: [
       ["bold", "italic", "underline"],
       ["blockquote", "code-block"],
-      // [{ list: "ordered" }],
-      // [{ list: "bullet" }],
       [{ indent: "-1" }, { indent: "+1" }],
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ color: [] }, { background: [] }],
@@ -402,12 +395,6 @@ const Customizecontent = ({
                         placeholder="Enter new text"
                         className="mx-2 my-2 w-full rounded-md border-2 p-3 text-black outline-none"
                       />
-                      {/* <button
-                        className="my-2 flex w-[160px] justify-center rounded-full bg-[#8d3f42] bg-opacity-[20%] p-2 text-sm font-medium text-[#8d3f42]"
-                        onClick={handleSaveClick2}
-                      >
-                        Save
-                      </button> */}
                     </div>
                   ) : (
                     <button className="flex w-[160px] justify-center rounded-full bg-[#8d3f42] bg-opacity-[20%] p-2 text-sm font-medium text-[#8d3f42]">
@@ -439,12 +426,6 @@ const Customizecontent = ({
                               />
                             </span>
                           </p>
-                          {/* <button
-                            className="text-base font-normal text-primary"
-                            onClick={handleSaveClick}
-                          >
-                            Save
-                          </button> */}
                         </div>
                       ) : (
                         <p>

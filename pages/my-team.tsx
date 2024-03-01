@@ -5,7 +5,6 @@ import React from "react";
 import { Tab } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 interface UserData {
   experienceDetails: any;

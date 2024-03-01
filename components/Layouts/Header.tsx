@@ -1,19 +1,15 @@
 import {
-  toggleLocale,
   toggleRTL,
   toggleSidebar,
   toggleTheme,
 } from "../../store/themeConfigSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
 import Dropdown from "../Dropdown";
 import { IRootState } from "../../store";
-import Image from "next/image";
 import { Images } from "@/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const router = useRouter();
@@ -73,44 +69,6 @@ const Header = () => {
   function createMarkup(messages: any) {
     return { __html: messages };
   }
-  //   const [messages, setMessages] = useState([
-  //     {
-  //       id: 1,
-  //       image:
-  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
-  //       title: "Congratulations!",
-  //       message: "Your OS has been updated.",
-  //       time: "1hr",
-  //     },
-  //     {
-  //       id: 2,
-  //       image:
-  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-info-light dark:bg-info text-info dark:text-info-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
-  //       title: "Did you know?",
-  //       message: "You can switch between artboards.",
-  //       time: "2hr",
-  //     },
-  //     {
-  //       id: 3,
-  //       image:
-  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-danger-light dark:bg-danger text-danger dark:text-danger-light"> <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
-  //       title: "Something went wrong!",
-  //       message: "Send Reposrt",
-  //       time: "2days",
-  //     },
-  //     {
-  //       id: 4,
-  //       image:
-  //         '<span class="grid place-content-center w-9 h-9 rounded-full bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
-  //       title: "Warning",
-  //       message: "Your password strength is low.",
-  //       time: "5days",
-  //     },
-  //   ]);
-
-  // const removeMessage = (value: number) => {
-  //   setMessages(messages.filter((user) => user.id !== value));
-  // };
 
   const [notifications, setNotifications] = useState([
     {
@@ -139,10 +97,6 @@ const Header = () => {
     setNotifications(notifications.filter((user) => user.id !== value));
   };
 
-  const [search, setSearch] = useState(false);
-
-  const { t, i18n } = useTranslation();
-
   return (
     <header
       className={`z-40 ${themeConfig.semidark && themeConfig.menu === "horizontal" ? "dark" : ""
@@ -158,18 +112,7 @@ const Header = () => {
 
                 <img className="inline w-[165px] h-[35px] ltr:-ml-1 rtl:-mr-1  " src={Images.REMOTEHIRELOGO} alt="logo" />
               )}
-
-
-
-
-              {/* <span className="hidden align-middle text-2xl  font-semibold  transition-all duration-300 ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light md:inline">VRISTO</span> */}
             </Link>
-            {/* <Image src={Images.REMOTEHIRELOGO} alt='remotehire_logo' width={165} height={40}></Image> */}
-            {/* <img
-              className="inline h-[35px] w-[165px] ltr:-ml-1 rtl:-mr-1 "
-              src={Images.REMOTEHIRELOGODark}
-              alt="logo"
-            /> */}
 
             <button
               type="button"
@@ -295,43 +238,6 @@ const Header = () => {
                   </svg>
                 </button>
               )}
-              {/* {themeConfig.theme === "system" && (
-                <button
-                  className={`${
-                    themeConfig.theme === "system" &&
-                    "flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
-                  }`}
-                  onClick={() => dispatch(toggleTheme("light"))}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3 9C3 6.17157 3 4.75736 3.87868 3.87868C4.75736 3 6.17157 3 9 3H15C17.8284 3 19.2426 3 20.1213 3.87868C21 4.75736 21 6.17157 21 9V14C21 15.8856 21 16.8284 20.4142 17.4142C19.8284 18 18.8856 18 17 18H7C5.11438 18 4.17157 18 3.58579 17.4142C3 16.8284 3 15.8856 3 14V9Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      opacity="0.5"
-                      d="M22 21H2"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      opacity="0.5"
-                      d="M15 15H9"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </button>
-              )} */}
             </div>
 
             <div className="dropdown flex shrink-0">
@@ -358,9 +264,6 @@ const Header = () => {
                       <div className="truncate ltr:pl-4 rtl:pr-4">
                         <h4 className="text-base">
                           John Doe
-                          {/* <span className="rounded bg-success-light px-1 text-xs text-success ltr:ml-2 rtl:ml-2">
-                            Pro
-                          </span> */}
                         </h4>
                         <button
                           type="button"
@@ -401,78 +304,7 @@ const Header = () => {
                       Profile
                     </Link>
                   </li>
-                  {/* <li>
-                    <Link
-                      href="/apps/mailbox"
-                      className="dark:hover:text-white"
-                    >
-                      <svg
-                        className="shrink-0 ltr:mr-2 rtl:ml-2"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          opacity="0.5"
-                          d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        />
-                        <path
-                          d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                      Inbox
-                    </Link>
-                  </li> */}
-                  {/* <li>
-                    <Link
-                      href="/auth/boxed-lockscreen"
-                      className="dark:hover:text-white"
-                    >
-                      <svg
-                        className="shrink-0 ltr:mr-2 rtl:ml-2"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        />
-                        <path
-                          opacity="0.5"
-                          d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        />
-                        <g opacity="0.5">
-                          <path
-                            d="M9 16C9 16.5523 8.55228 17 8 17C7.44772 17 7 16.5523 7 16C7 15.4477 7.44772 15 8 15C8.55228 15 9 15.4477 9 16Z"
-                            fill="currentColor"
-                          />
-                          <path
-                            d="M13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15C12.5523 15 13 15.4477 13 16Z"
-                            fill="currentColor"
-                          />
-                          <path
-                            d="M17 16C17 16.5523 16.5523 17 16 17C15.4477 17 15 16.5523 15 16C15 15.4477 15.4477 15 16 15C16.5523 15 17 15.4477 17 16Z"
-                            fill="currentColor"
-                          />
-                        </g>
-                      </svg>
-                      Lock Screen
-                    </Link>
-                  </li> */}
+                 
                   <li className="border-t border-white-light dark:border-white-light/10">
                     <Link
                       href="/auth/boxed-signin"

@@ -1,30 +1,24 @@
 import "react-datepicker/dist/react-datepicker.css";
-
 import React, { useEffect, useState } from "react";
-
-import DatePicker from "react-datepicker";
-import { LabelComponent } from "../components/label";
 import { Strings } from "../constants";
-import axios from "axios";
+import { LabelComponent } from "./label";
 
-const Filtermodal = ({ isOpen, closeModal }) => {
-  const [userData, setUserData] = useState({});
-  const [loading, setLoading] = useState(true);
+interface Filter {
+  closeModal: () => void;
+  isOpen: any;
+}
+
+const Filtermodal:React.FC<Filter> = ({ isOpen, closeModal }) => {
   const [searchValue, setSearchValue] = useState("");
 
-  const [selectedOption, setSelectedOption] = useState<number>(1);
-  const [defineSkills, setDefineSkills] = useState<boolean>(false);
-  const [clickedNumber, setClickedNumber] = useState(null);
+  const [clickedNumber, setClickedNumber] = useState<number | null>(null);
   const [value, setValue] = useState<number>(0);
   const [isOpenn, setIsOpenn] = useState(false);
-
-  const [customValue, setCustomValue] = useState("");
-  const [showInput, setShowInput] = useState(false);
   const [message, setMessage] = useState("");
   const toggleDropdown = () => {
     setIsOpenn(!isOpenn);
   };
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: { target: { value: string; }; }) => {
     setSearchValue(event.target.value.toLowerCase());
   };
   useEffect(() => {
@@ -39,26 +33,28 @@ const Filtermodal = ({ isOpen, closeModal }) => {
   const initialDate = new Date(initialDateString);
 
   const [selectedDate, setSelectedDate] = useState(initialDate);
-  const handleMessageChange = (e) => {
+  const handleMessageChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setMessage(e.target.value);
   };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: { target: { value: string; }; }) => {
     const newValue = parseInt(event.target.value, 10);
     setValue(newValue);
   };
-  const handleDateChange = (date) => {
+  const handleDateChange = (date: React.SetStateAction<Date>) => {
     setSelectedDate(date);
   };
 
   const gradientBackground = `linear-gradient(to right, #8d3f42 0%, #8d3f42 ${parseInt(
-    (value / 100) * 100
-  )}%, #DEE2E6 ${parseInt((value / 100) * 100)}%, #DEE2E6 100%)`;
+    (Number(value) / 100) * 100 as any
+  )}%, #DEE2E6 ${parseInt((Number(value) / 100) * 100 as any)}%, #DEE2E6 100%)`;
 
-  const updateSliderValue = (value) => {
+  const updateSliderValue = (value: number) => {
     const sliderValue = document.getElementById("slider-value");
-    sliderValue.textContent = `$${value}/h`;
-  };
+    if (sliderValue) {
+        sliderValue.textContent = `$${value}/h`;
+    }
+};
 
   const skillsData = [
     "JavaScript",
@@ -93,7 +89,7 @@ const Filtermodal = ({ isOpen, closeModal }) => {
             <div className="mb-[20px] text-[24px] font-bold text-[#000] dark:text-[white]">
               Filters
             </div>
-            {/* <div className="range-container my-4">
+            <div className="range-container my-4">
               <div className="mb-[14px] text-[16px] font-bold text-[#000] dark:text-[white]">
                 How much raise do you want to give to Mihir?
               </div>
@@ -116,7 +112,7 @@ const Filtermodal = ({ isOpen, closeModal }) => {
               <div id="slider-value" className="slider-value">
                 ${value}/h
               </div>
-            </div> */}
+            </div>
             <div className="">
               <div className="inline-block- relative">
                 <label

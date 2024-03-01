@@ -265,12 +265,6 @@ const Hiretopengineer = () => {
 
       setOptionCounter(optionCounter + 1);
       const setAdditionalOptions = () => [...additionalOptions, newOption];
-
-      // setSelectedOptions(
-      //   (prevSelectedOptions: any) =>
-      //     new Set<unknown>([...prevSelectedOptions, newOption.id])
-      // );
-
       // Update the optionModalData array by creating a new array with the existing data and the new option
       const updatedOptionModalData = [
         ...optionModalData.slice(0, 8),
@@ -329,11 +323,6 @@ const Hiretopengineer = () => {
 
       setOptionCounter1(optionCounter1 + 1);
       const setAdditionalOptions2 = () => [...additionalOptions2, newOption];
-
-      // setSelectedOptions2(
-      //   (prevSelectedOptions: any) =>
-      //     new Set<unknown>([...prevSelectedOptions, newOption.id])
-      // );
 
       // Update the optionModalData array by creating a new array with the existing data and the new option
       const updatedOptionModalData2 = [
@@ -1107,7 +1096,6 @@ const Hiretopengineer = () => {
                       buttonText={data.buttonText}
                       label={data.label}
                       imageSrc={data.imageSrc}
-                      // isSelected={selectedOptions2.has(data.id)}
                       isSelected={
                         data.id === 6
                           ? isOtherSelected2

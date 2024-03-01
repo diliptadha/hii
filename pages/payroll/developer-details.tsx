@@ -392,17 +392,7 @@ export default function DeveloperDetails() {
     }
     return formattedDate;
   }
-
-  // function SalaryDisplay({ salary }: SalaryDisplayProps) {
-  //   const salaryInK =
-  //     salary >= 1000 ? `${(salary / 1000).toFixed(1)}k` : salary;
-  //   return (
-  //     <div className="text-lg font-semibold text-black dark:text-white">
-  //       ${salaryInK}/month
-  //     </div>
-  //   );
-  // }
-
+  
   return loading ? (
     <div>
       <Loader />
