@@ -1,0 +1,28 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - "-t"
+      - "us-central1-docker.pkg.dev/eremote-hire-website-405811/erh-client-portal/erh-client-portal"
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - "us-central1-docker.pkg.dev/eremote-hire-website-405811/erh-client-portal/erh-client-portal"
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    args:
+      - run
+      - deploy
+      - erh-client-portal
+      - "--image"
+      - "us-central1-docker.pkg.dev/eremote-hire-website-405811/erh-client-portal/erh-client-portal"
+      - "--region"
+      - us-central1
+      - "--platform"
+      - $_PLATFORM
+    entrypoint: gcloud
+timeout: 1200s
+images:
+  - "us-central1-docker.pkg.dev/eremote-hire-website-405811/erh-client-portal/erh-client-portal"
+options:
+  logging: CLOUD_LOGGING_ONLY
