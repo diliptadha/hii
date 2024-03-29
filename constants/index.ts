@@ -62,6 +62,7 @@ export const Images = {
   FORWARD_ARROW: "/Images/forward_arrow.svg",
   ONBOARD: "/Images/Onboard.svg",
   Avtar: "/Images/Avtar.png",
+  logo: "/images/ERH_Vector_Logo_New.png",
 };
 export const Strings = {
   BACK: "Back",
@@ -397,7 +398,7 @@ export const Strings = {
   CREATE_YOUR_REQUIREMENT: "Create your first requirement to receive",
   HAND_PICKED: "hand-picked recommendations.",
   NO_DATA_AVAILABLE: "No data available",
-  EDUCATION: 'Education',
+  EDUCATION: "Education",
   TECH_STACKS_USED: "Teck stacks used",
   RESPONSIBILITIES: "Responsibilities",
   PAYROLL: "Payroll",
@@ -425,12 +426,15 @@ export const Strings = {
   GIVE_MORE_BONUS: "Give more bouns",
   THIS_MONTH: "This Month",
   NEXT_MONTH: "Next Month",
-  WEEKLY_SUMMARY_DATA_BEYOND: "Weekly summeries data is only available from Dec 26th,2022 & beyond.",
+  WEEKLY_SUMMARY_DATA_BEYOND:
+    "Weekly summeries data is only available from Dec 26th,2022 & beyond.",
   BENEFITS_SAKSHI: "Benefits Sakshi getting",
-  WE_TAKE_CARE_DEV: " We take care of the developer's benefits so you don't have to.",
+  WE_TAKE_CARE_DEV:
+    " We take care of the developer's benefits so you don't have to.",
   NO_EXTA_FEES: " No extra fees for this.",
   VETTED_TECHNICAL_SKILL: "Vetted Technical Skill",
-  THESE_ARE_SKILL: "These are the skill we have explicity vetted for in the technical interview",
+  THESE_ARE_SKILL:
+    "These are the skill we have explicity vetted for in the technical interview",
   ABOUT_MIHIR: "About Mihir",
   NO_EDUCATION_DET: "No education details available",
   NO_EXP_DET: "No experience details available",
@@ -439,21 +443,44 @@ export const Strings = {
   TECHNICAL_RESULT: "TECHNICAL RESULTS",
   SELF_RATING_INTERMIDIATE: "Self rating intermediate",
   AI_ASSESMENT: "Al assessment:",
-  GPT_PARA: "Roting by Al Date: 02 Aug 2023 The candidate's responses to the interview questions were unprofessional and disrespectful. They did not provide any relevant or meaningful information about event-driven programming in Node.js or how to handle memory leaks. Their lack of interest and knowledge in these areas indicates a low level of expertise in node.js. Based on their responses, the candidate can be rated as Not experienced.",
+  GPT_PARA:
+    "Roting by Al Date: 02 Aug 2023 The candidate's responses to the interview questions were unprofessional and disrespectful. They did not provide any relevant or meaningful information about event-driven programming in Node.js or how to handle memory leaks. Their lack of interest and knowledge in these areas indicates a low level of expertise in node.js. Based on their responses, the candidate can be rated as Not experienced.",
   EREMOTEHIRE: "eRemoteHire",
   POWERED_BY: "Powered by",
   SELF_RATING_BEGIN: "Self rating: beginner",
   RATING_BY_AI: "Rating by Al: Not experienced",
-  RATING_AI_PARA: "The candidate has a beginner level of experience in React.js. They have a basic understanding of state management using useState and useEffect hooks. However, their explanation is not clear and lacks depth. They mention automating state changes using loops or timers, which is not the recommended approach in React.js. The candidate's explanation of the virtual DOM is also lacking clarity and does not demonstrate a strong understanding of the concept. Archive",
-  ANY_TALENT_HIRE: "Any talent you've sourced yourself, use eremotehire COR to handle complience, payroll,benifits and more at a fixed $490/month.",
+  RATING_AI_PARA:
+    "The candidate has a beginner level of experience in React.js. They have a basic understanding of state management using useState and useEffect hooks. However, their explanation is not clear and lacks depth. They mention automating state changes using loops or timers, which is not the recommended approach in React.js. The candidate's explanation of the virtual DOM is also lacking clarity and does not demonstrate a strong understanding of the concept. Archive",
+  ANY_TALENT_HIRE:
+    "Any talent you've sourced yourself, use eremotehire COR to handle complience, payroll,benifits and more at a fixed $490/month.",
   C: "C",
-    MY_TEAM: "My Team",
-   NO_HIRES_MADE :"No hires made yet, click below to get",
-   STARTED: "started",
-   THESE_ARE_RECOMEND: "These are the recommendations based on your requirements",
-    PAID_ON: "Paid On",
-    NO_PAYMENT_FOUND: "No payment history found!",
-    NO_BONUS_FOUND:"No bonus history found!",
-    
+  MY_TEAM: "My Team",
+  NO_HIRES_MADE: "No hires made yet, click below to get",
+  STARTED: "started",
+  THESE_ARE_RECOMEND:
+    "These are the recommendations based on your requirements",
+  PAID_ON: "Paid On",
+  NO_PAYMENT_FOUND: "No payment history found!",
+  NO_BONUS_FOUND: "No bonus history found!",
+  forgot_password: "Forgot Password?",
+  if_you_dont_have:
+    " if you don’t have an account, check your email for an invite",
+  Are_you_a_client: "Are you a client?",
+  Login_here: "Login here",
+  Password_must: " Password must be at least 6 characters",
+  Email_is_invalid: "Email is invalid",
+  Email_is_Required: " Email is Required",
+  Back_to_login: "Back to login",
+  PASSWORD_MUST_BE: "Password must be at least 6 characters",
+  PASSWORDS_DO_NOT_MATCH: "Passwords do not match. Please try again.",
+  LOGTN: "Login",
 
+  PASSWORD: "Password",
+  FORGOT_PASSWORD: "Forgot password",
+  ENTER_YOUR_EMAIL:
+    "Enter your email address and we'll send you a link to reset your password.",
+  YOUR_EMAIL: "Your email",
+  RESET_PASSWORD: "Reset Password",
+  NEW_PASSWORD: "New Password",
+  CONFIRM_NEW_PASSWORD: "Confirm New Password",
 };
