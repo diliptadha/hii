@@ -24,7 +24,7 @@ const LogInForm = () => {
     setShowpassword(!showpassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     if (email.trim() === "" || password.trim() === "") {
       // Set error states for both email and password
@@ -46,13 +46,13 @@ const LogInForm = () => {
     }, 2000);
   };
 
-  const validateEmail = (email) => {
+  const validateEmail = (email: string) => {
     // Regular expression for basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  function PasswordHandle(e) {
+  function PasswordHandle(e: any) {
     setpassword(e.target.value);
     if (e.target.value.trim() === "" || e.target.value.length < 6) {
       setuserPassworderr(true);
@@ -61,7 +61,7 @@ const LogInForm = () => {
     }
   }
 
-  function EmailHandle(e) {
+  function EmailHandle(e: any) {
     const inputEmail = e.target.value;
     setEmail(inputEmail);
 
