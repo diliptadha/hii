@@ -5,7 +5,10 @@ import BlankLayout from "@/components/Layouts/BlankLayout";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 // import Loader from "@/Component/loader";
 
@@ -37,14 +40,34 @@ const LogInForm = () => {
     console.log("Submitting login form...");
     // Simulate loading for 2 seconds
     setLoading(true);
-    setTimeout(() => {
-      // Reset form and navigate to home page
-      setEmail("");
-      setpassword("");
-      setLoading(false);
-      router.push("/"); // Redirect to home page
-    }, 2000);
+    console.log("Email:", email, "Password:", password);
+    const options = {
+      method: "POST",
+      url: "https://api.eremotehire.com/user/login",
+      data: { emailId: email, password: password },
+    };
+
+    axios
+      .request(options)
+      .then((response) => {
+        console.log(response, "response");
+        Cookies.set("token", response.data.signInData.access_token);
+        Cookies.set("userId", response.data.signInData.userData.userId);
+        router.push("/");
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data.message);
+        console.error(error);
+      })
+      .finally(() => setLoading(false));
   };
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      router.push("/");
+    }
+  }, []);
 
   const validateEmail = (email: string) => {
     // Regular expression for basic email validation

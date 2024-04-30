@@ -10,6 +10,7 @@ import { IRootState } from "../../store";
 import { Images } from "@/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const router = useRouter();
@@ -99,24 +100,32 @@ const Header = () => {
 
   return (
     <header
-      className={`z-40 ${themeConfig.semidark && themeConfig.menu === "horizontal" ? "dark" : ""
-        }`}
+      className={`z-40 ${
+        themeConfig.semidark && themeConfig.menu === "horizontal" ? "dark" : ""
+      }`}
     >
       <div className="shadow-sm">
-        <div className="bg-white relative flex w-full items-center px-5 py-2.5 dark:bg-[#000]">
-          <div className="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
+        <div className="relative flex w-full items-center bg-white px-5 py-2.5 dark:bg-[#000]">
+          <div className="horizontal-logo flex items-center justify-between lg:hidden ltr:mr-2 rtl:ml-2">
             <Link href="/" className="main-logo flex shrink-0 items-center">
               {themeConfig.theme === "light" ? (
-                <img className="inline w-[165px] h-[35px] ltr:-ml-1 rtl:-mr-1  " src={Images.REMOTEHIRELOGODark} alt="logo" />
+                <img
+                  className="inline h-[35px] w-[165px] ltr:-ml-1 rtl:-mr-1  "
+                  src={Images.REMOTEHIRELOGODark}
+                  alt="logo"
+                />
               ) : (
-
-                <img className="inline w-[165px] h-[35px] ltr:-ml-1 rtl:-mr-1  " src={Images.REMOTEHIRELOGO} alt="logo" />
+                <img
+                  className="inline h-[35px] w-[165px] ltr:-ml-1 rtl:-mr-1  "
+                  src={Images.REMOTEHIRELOGO}
+                  alt="logo"
+                />
               )}
             </Link>
 
             <button
               type="button"
-              className="collapse-icon flex flex-none rounded-full  p-2   ltr:ml-2 rtl:mr-2 dark:text-white-light   lg:hidden"
+              className="collapse-icon flex flex-none rounded-full  p-2   dark:text-white-light lg:hidden ltr:ml-2   rtl:mr-2"
               onClick={() => dispatch(toggleSidebar())}
             >
               <svg
@@ -136,14 +145,15 @@ const Header = () => {
             </button>
           </div>
 
-          <div className="flex items-center space-x-1.5 ltr:ml-auto rtl:mr-auto rtl:space-x-reverse dark:text-[#d0d2d6] sm:flex-1 ltr:sm:ml-0 sm:rtl:mr-0 lg:space-x-2">
+          <div className="flex items-center space-x-1.5 dark:text-[#d0d2d6] sm:flex-1 lg:space-x-2 ltr:ml-auto ltr:sm:ml-0 rtl:mr-auto rtl:space-x-reverse sm:rtl:mr-0">
             <div className="sm:ltr:mr-auto sm:rtl:ml-auto"></div>
             <div>
               {themeConfig.theme === "light" ? (
                 <button
-                  className={`${themeConfig.theme === "light" &&
+                  className={`${
+                    themeConfig.theme === "light" &&
                     "flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
-                    }`}
+                  }`}
                   onClick={() => dispatch(toggleTheme("dark"))}
                 >
                   <svg
@@ -219,9 +229,10 @@ const Header = () => {
               )}
               {themeConfig.theme === "dark" && (
                 <button
-                  className={`${themeConfig.theme === "dark" &&
+                  className={`${
+                    themeConfig.theme === "dark" &&
                     "flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
-                    }`}
+                  }`}
                   onClick={() => dispatch(toggleTheme("light"))}
                 >
                   <svg
@@ -262,9 +273,7 @@ const Header = () => {
                         alt="userProfile"
                       />
                       <div className="truncate ltr:pl-4 rtl:pr-4">
-                        <h4 className="text-base">
-                          John Doe
-                        </h4>
+                        <h4 className="text-base">John Doe</h4>
                         <button
                           type="button"
                           className="text-black/60 hover:text-[#8D3F42] dark:text-dark-light/60 dark:hover:text-white"
@@ -304,10 +313,14 @@ const Header = () => {
                       Profile
                     </Link>
                   </li>
-                 
+
                   <li className="border-t border-white-light dark:border-white-light/10">
                     <Link
-                      href="/auth/boxed-signin"
+                      href="/login"
+                      onClick={() => {
+                        Cookies.remove("token");
+                        Cookies.remove("userId");
+                      }}
                       className="!py-3 "
                     >
                       <svg

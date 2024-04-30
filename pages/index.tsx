@@ -7,6 +7,7 @@ import { Strings } from "@/constants";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function Index() {
   const router = useRouter();
@@ -18,10 +19,42 @@ export default function Index() {
 
   interface UserData {
     userData: any;
-    softSkillAssessment: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
-    otherTechnicalSkills: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
-    verifiedAiTools: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
-    technicalInterviewNotes: string | number | boolean | readonly string[] | readonly number[] | readonly boolean[] | null | undefined;
+    softSkillAssessment:
+      | string
+      | number
+      | boolean
+      | readonly string[]
+      | readonly number[]
+      | readonly boolean[]
+      | null
+      | undefined;
+    otherTechnicalSkills:
+      | string
+      | number
+      | boolean
+      | readonly string[]
+      | readonly number[]
+      | readonly boolean[]
+      | null
+      | undefined;
+    verifiedAiTools:
+      | string
+      | number
+      | boolean
+      | readonly string[]
+      | readonly number[]
+      | readonly boolean[]
+      | null
+      | undefined;
+    technicalInterviewNotes:
+      | string
+      | number
+      | boolean
+      | readonly string[]
+      | readonly number[]
+      | readonly boolean[]
+      | null
+      | undefined;
     monthlySalary: any;
     vettingResults: any;
     id: number;
@@ -54,11 +87,11 @@ export default function Index() {
   }
 
   interface Managing {
-    profilePicture: any,
-    firstName: any,
-    lastName: any,
-    emailId: any,
-    phoneNo: any
+    profilePicture: any;
+    firstName: any;
+    lastName: any;
+    emailId: any;
+    phoneNo: any;
   }
 
   useEffect(() => {
@@ -67,35 +100,37 @@ export default function Index() {
     }, 500);
 
     const fetchData = async () => {
-
       try {
-        const token = `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`;
+        const token = Cookies.get("token");
+        const userId = Cookies.get("userId");
 
         const [successManagerResponse] = await Promise.all([
-          axios.get(`${process.env.NEXT_PUBLIC_API_URL}devdashboard/getdeveloperManagerData?userId=RH_0000004`, { headers: { 'Authorization': token } }),
+          axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}devdashboard/getdeveloperManagerData?userId=${userId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          ),
         ]);
 
         setManagerData(successManagerResponse?.data?.managerData);
-      }
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
     return () => clearTimeout(timer);
-
   }, []);
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
+        const token = Cookies.get("token");
+
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}myteam/getHiredData?userId=RH_0000012`,
           {
             headers: {
-              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -119,7 +154,6 @@ export default function Index() {
     fetchData();
   }, []);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -127,7 +161,7 @@ export default function Index() {
           `${process.env.NEXT_PUBLIC_API_URL}myteam/getRecommendationData`,
           {
             headers: {
-              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
             },
           }
         );
@@ -190,26 +224,37 @@ export default function Index() {
             />
           </svg>
 
-          <text className="text-black ltr:pl-3 rtl:pr-3 hover:text-[#8D3F42] hover:dark:text-[#8D3F42] dark:text-white">
+          <text className="text-black hover:text-[#8D3F42] dark:text-white hover:dark:text-[#8D3F42] ltr:pl-3 rtl:pr-3">
             {Strings.HIRE_NEW_TALENT}
           </text>
         </a>
       </div>
       <div>
-        <div className="flex w-full xs:flex-col md:flex-row md:gap-[20px] justify-between">
-          <div className="dark:border-gray-700 mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:bg-[#000] xs:w-full lg:w-full xl:max-w-[720px] ">
+        <div className="flex w-full justify-between xs:flex-col md:flex-row md:gap-[20px]">
+          <div className="mb-[20px] flex items-center justify-center space-x-2 rounded-lg border-none bg-white p-6 shadow outline-none dark:border-gray-700 dark:bg-[#000] xs:w-full lg:w-full xl:max-w-[720px] ">
             <div>
               <a href="/my-team">
-                <button className="dark:text-white mb-[15px] text-[14px] font-bold">
+                <button className="mb-[15px] text-[14px] font-bold dark:text-white">
                   {Strings.HIRED_ENGINEERS}
                 </button>
                 <button className="dark:text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 -1 24 18" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 -1 24 18"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    />
                   </svg>
                 </button>
               </a>
-              <p className="text-center text-[20px] font-bold text-black-500 dark:text-white select-none">
+              <p className="text-black-500 select-none text-center text-[20px] font-bold dark:text-white">
                 {hiredDataCount}
               </p>
             </div>
@@ -239,25 +284,58 @@ export default function Index() {
                           </h5>
                         </a>
                         <div className="flex flex-col sm:flex-col xl:flex-row">
-                          <a href={`mailto:${managerData.emailId}`} className="mb-[5px] flex text-[16px] text-gray-500 dark:text-white">
+                          <a
+                            href={`mailto:${managerData.emailId}`}
+                            className="mb-[5px] flex text-[16px] text-gray-500 dark:text-white"
+                          >
                             {themeConfig.theme === "light" ? (
-                              <img className="inline h-[20px] w-[20px] mr-[5px]" src={Images.MSG_WHITE} alt="logo" />
+                              <img
+                                className="mr-[5px] inline h-[20px] w-[20px]"
+                                src={Images.MSG_WHITE}
+                                alt="logo"
+                              />
                             ) : (
-                              <img className="inline h-[20px] w-[20px] mr-[5px]" src={Images.MSG} alt="logo" />
+                              <img
+                                className="mr-[5px] inline h-[20px] w-[20px]"
+                                src={Images.MSG}
+                                alt="logo"
+                              />
                             )}
                             {managerData.emailId}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="ml-[3px] mt-[3px] w-3.5 h-3.5">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="ml-[3px] mt-[3px] h-3.5 w-3.5"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                              />
                             </svg>
                           </a>
                           <strong className="mb-[5px] flex items-center px-[5px] dark:text-white xs:hidden sm:hidden lg:hidden xl:block">
                             |
                           </strong>
-                          <a href={`tel:${managerData.phoneNo}`} className="inline-flex items-center text-[15px] hover:underline dark:text-white">
+                          <a
+                            href={`tel:${managerData.phoneNo}`}
+                            className="inline-flex items-center text-[15px] hover:underline dark:text-white"
+                          >
                             {themeConfig.theme === "light" ? (
-                              <img className="inline h-[18px] w-[18px] mr-[5px]" src={Images.PHONE_WHITE} alt="logo" />
+                              <img
+                                className="mr-[5px] inline h-[18px] w-[18px]"
+                                src={Images.PHONE_WHITE}
+                                alt="logo"
+                              />
                             ) : (
-                              <img className="inline h-[18px] w-[18px] mr-[5px]" src={Images.PHONE} alt="logo" />
+                              <img
+                                className="mr-[5px] inline h-[18px] w-[18px]"
+                                src={Images.PHONE}
+                                alt="logo"
+                              />
                             )}
                             {managerData.phoneNo}
                           </a>
@@ -269,8 +347,19 @@ export default function Index() {
               ) : (
                 <div className="flex items-center justify-center pt-5">
                   <div className="flex flex-col items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[50px] h-[50px]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-[50px] w-[50px]"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+                      />
                     </svg>
                     <h5 className="mb-4 text-xl font-medium">
                       {Strings.NOTHING_FOUND}
@@ -303,38 +392,46 @@ export default function Index() {
                         country: item.userData.country,
                         position: item.userData.designation,
                         monthlySalary: item.userData.hourlyRate,
-                        technicalInterviewNotes: item.userData.technicalInterviewNotes,
+                        technicalInterviewNotes:
+                          item.userData.technicalInterviewNotes,
                         softSkillAssessment: item.userData.softSkillAssessment,
                         otherTechnicalSkills: item.userData.techStack,
                         verifiedAiTools: item.userData.verifiedAiTools,
                         skill: item.vettingResults?.[0]?.skill,
                         skill_two: item.vettingResults?.[1]?.skill,
                         vettingResult: item.vettingResults?.[0].vettingResult,
-                        vettingResult_two: item.vettingResults?.[1].vettingResult,
-                        yearOfExperience: item.vettingResults?.[0].yearOfExperience,
-                        yearOfExperience_two: item.vettingResults?.[1].yearOfExperience,
-                        monthlyPayment: item?.monthlyPayment
+                        vettingResult_two:
+                          item.vettingResults?.[1].vettingResult,
+                        yearOfExperience:
+                          item.vettingResults?.[0].yearOfExperience,
+                        yearOfExperience_two:
+                          item.vettingResults?.[1].yearOfExperience,
+                        monthlyPayment: item?.monthlyPayment,
                       },
                     },
                     "getRecommendation-details"
                   )
                 }
-
-                className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md ">
-                <div className="rounded-full bg-blue-300- p-2-">
-                  <img src={item.userData.profilePicture} alt="profile" className="w-[130px] md:h-[120px] xs:h-[95px] rounded-full" />
+                className="my-6 flex w-full items-center rounded-xl bg-white px-4 py-3 shadow-md   dark:bg-[#000] dark:shadow-md "
+              >
+                <div className="bg-blue-300- p-2- rounded-full">
+                  <img
+                    src={item.userData.profilePicture}
+                    alt="profile"
+                    className="w-[130px] rounded-full xs:h-[95px] md:h-[120px]"
+                  />
                 </div>
                 <div className="w-full pl-2.5">
                   <div className=" flex flex-col items-start">
                     <div className="flex  w-full justify-between pr-3">
-                      <div className="flex items-center space-x-1-">
-                        <text className="text-base font-semibold text-black dark:text-white leading-normal">
+                      <div className="space-x-1- flex items-center">
+                        <text className="text-base font-semibold leading-normal text-black dark:text-white">
                           {item.userData.firstName}
                         </text>
                       </div>
                     </div>
                     <div className=" px-2- py-0.5-">
-                      <text className="text-sm  dark:text-white text-[#000] ">
+                      <text className="text-sm  text-[#000] dark:text-white ">
                         {item.userData.designation}
                       </text>
                     </div>
@@ -369,12 +466,12 @@ export default function Index() {
                       <div>
                         <text className="text-lg  font-bold text-black dark:text-white">
                           {item?.monthlyPayment != null &&
-                            !isNaN(Number(item?.monthlyPayment)) ? (
+                          !isNaN(Number(item?.monthlyPayment)) ? (
                             <>
                               {Number(item?.monthlyPayment) >= 1000
                                 ? `$${(
-                                  Number(item?.monthlyPayment) / 1000
-                                ).toFixed(1)}k`
+                                    Number(item?.monthlyPayment) / 1000
+                                  ).toFixed(1)}k`
                                 : `$${item?.monthlyPayment}`}
                               /month
                             </>
@@ -391,14 +488,26 @@ export default function Index() {
           })
         ) : (
           <>
-            <div className="  flex w-full items-center justify-center h-[70vh]">
-              <div className="flex items-center flex-col">
-                <img src={Images.NOT_FOUND} alt="Payment_logo" className="w-[150px] h-[150px]" />
-                <h1 className="leading-normal text-xl font-bold dark:text-white text-[#000]">{Strings.NO_HANDPICKED}</h1>
-                <p className="leading-normal text-[18px] font-bold dark:text-white text-[#000]">{Strings.RECOMMENDATIONS}</p>
-                <p className="text-[16px] font-bold dark:text-white text-[#000]">{Strings.CREATE_YOUR_REQUIREMENT}</p>
-                <p className="text-[16px] font-bold dark:text-white text-[#000] leading-normal">{Strings.HAND_PICKED}</p>
-                <button className="nav-item grou- mt-[20px] flex items-center rounded-full text-base  bg-white px-8 py-4 shadow-md dark:bg-[#8d3f42]">
+            <div className="  flex h-[70vh] w-full items-center justify-center">
+              <div className="flex flex-col items-center">
+                <img
+                  src={Images.NOT_FOUND}
+                  alt="Payment_logo"
+                  className="h-[150px] w-[150px]"
+                />
+                <h1 className="text-xl font-bold leading-normal text-[#000] dark:text-white">
+                  {Strings.NO_HANDPICKED}
+                </h1>
+                <p className="text-[18px] font-bold leading-normal text-[#000] dark:text-white">
+                  {Strings.RECOMMENDATIONS}
+                </p>
+                <p className="text-[16px] font-bold text-[#000] dark:text-white">
+                  {Strings.CREATE_YOUR_REQUIREMENT}
+                </p>
+                <p className="text-[16px] font-bold leading-normal text-[#000] dark:text-white">
+                  {Strings.HAND_PICKED}
+                </p>
+                <button className="nav-item grou- mt-[20px] flex items-center rounded-full bg-white  px-8 py-4 text-base shadow-md dark:bg-[#8d3f42]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -410,10 +519,11 @@ export default function Index() {
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
 
-                  <text className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#fff] dark:group-hover:text-white-dark">
+                  <text className="text-black dark:text-[#fff] dark:group-hover:text-white-dark ltr:pl-3 rtl:pr-3">
                     {Strings.Hire_New_Talent}
                   </text>
                 </button>
