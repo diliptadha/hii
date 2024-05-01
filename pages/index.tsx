@@ -122,6 +122,13 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) {
+      router.push("/login");
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const token = Cookies.get("token");
