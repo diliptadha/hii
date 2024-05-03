@@ -120,7 +120,7 @@ const LogInForm = () => {
           </button>
           <div className="h-[300px]- w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0 ">
             <div className="md:space-y-6- space-y-2 p-2 sm:p-8  ">
-              <div>{Strings.LOGTN}</div>
+              <div className="text-2xl font-bold">{Strings.LOGTN}</div>
               <form
                 className="md:space-y-6- space-y-2"
                 action="#"
@@ -204,6 +204,17 @@ const LogInForm = () => {
                 </div>
               </form>
             </div>
+          </div>
+          <div className="flex justify-center py-4 text-black">
+            <p>{Strings.Are_you_a_dev} </p>
+            <Link
+              href="https://developer.eremotehire.com/login"
+              target="_blank"
+            >
+              <button className="text-contessa ml-[5px] cursor-pointer underline">
+                {Strings.Login_here}
+              </button>
+            </Link>
           </div>
         </div>
       </section>

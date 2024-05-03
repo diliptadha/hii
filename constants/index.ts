@@ -113,7 +113,7 @@ export const Strings = {
   HAND_PICKED_RECOMMENDATIONS: "Hand picked recommendations",
   HIRED_ENGINEERS: "HIRED ENGINEERS",
   DEVELOPER_NAME: "Mihir Mistry",
-  EMAIL: "eremotehire@gmail.com",
+  EMAIL: "Email",
   CONTACT_NUMBER: "+91 99985 78704",
   DEVELOPERR: "Developer",
   ROLE: "Role ",
@@ -465,7 +465,7 @@ export const Strings = {
   forgot_password: "Forgot Password?",
   if_you_dont_have:
     " if you don’t have an account, check your email for an invite",
-  Are_you_a_client: "Are you a client?",
+  Are_you_a_dev: "Are you a Developer?",
   Login_here: "Login here",
   Password_must: " Password must be at least 6 characters",
   Email_is_invalid: "Email is invalid",
