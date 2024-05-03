@@ -205,6 +205,17 @@ const LogInForm = () => {
               </form>
             </div>
           </div>
+          <div className="flex justify-center py-4 text-black">
+            <p>{Strings.Are_you_a_dev} </p>
+            <Link
+              href="https://developer.eremotehire.com/login"
+              target="_blank"
+            >
+              <button className="text-contessa ml-[5px] cursor-pointer underline">
+                {Strings.Login_here}
+              </button>
+            </Link>
+          </div>
         </div>
       </section>
     </BlankLayout>
