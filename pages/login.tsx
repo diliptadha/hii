@@ -208,7 +208,7 @@ const LogInForm = () => {
           <div className="flex justify-center py-4 text-black">
             <p>{Strings.Are_you_a_dev} </p>
             <Link
-              href="https://developer.eremotehire.com/login"
+              href={process.env.NEXT_PUBLIC_DEVELOPER_URL || "#"}
               target="_blank"
             >
               <button className="text-contessa ml-[5px] cursor-pointer underline">
